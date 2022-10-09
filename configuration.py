@@ -1,7 +1,9 @@
 BASE_URL = "https://dev-webadmin.defigo.no"
 BASE_URL2 = "https://webrtc.defigohome.com"
+HYPER_ADMIN_URL = "https://dev-hwa.defigo.no/"
 
 LOGIN_URL = f"{BASE_URL}/login"
+LOGIN_URL_US = "https://webadmin.getdefigo.com/login"
 CODE_URL = f"{BASE_URL}/auth-code"
 HOME_URL = f"{BASE_URL}/building/"
 MAIN_URL = f"{BASE_URL}/building/list"
@@ -32,3 +34,4 @@ USERNAME = USERNAME_UM
 PASSWORD = PASSWORD_UM
 
 CODE = "1111"
+UNIT = "Dontdeletethisunit"

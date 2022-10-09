@@ -1,75 +1,279 @@
 import time
-from pom.pages.login_page import LoginPage
-from pom.pages.code_page import CodePage
-from pom.pages.mainscreen_page import MainScreen
-from configuration import CODE_URL, MAIN_URL, LOGIN_URL
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
-import allure
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support.ui import WebDriverWait
+from configuration import BASE_URL
+from pom.pages.code_page import CodePage
+from pom.pages.login_page import LoginPage, SELECT_SERVER_US
+from pom.pages.logout_menu import ADD_CARD, Logout, START_LOGOUT_MENU
+from pom.pages.mainscreen_page import MainScreen
+from pom.pages.your_units import Units
+from pom.pages.hwa import Hwa
+from configuration import HYPER_ADMIN_URL
 
 
-class Auth(LoginPage, CodePage):
-    def __init__(self, driver, username, password, code, scenario):
+class Signin(LoginPage, CodePage):
+    def __init__(self, driver, username, password, code):
         super().__init__(driver)
         self.driver = driver
         self.__wait = WebDriverWait(driver, 2, 0.3)
         self.username = username
         self.password = password
-        self.scenario = scenario
         self.code = code
 
-    def log_in(self):
-        self.search_login_fields(self.username, self.password)
+    def login_credentials(self):
+        self.search_login_field(self.username)
+        self.search_password_field(self.password)
         try:
-            self.__wait.until(EC.url_to_be(CODE_URL))
+            self.__wait.until(ec.url_to_be(f"{BASE_URL}/auth-code"))
         except Exception:
             pass
+        return self.driver.current_url
 
-        current_url = self.driver.current_url
-        if self.scenario == 0:
-            with allure.step("Step 1. Username and password entry"):
-                assert CODE_URL == current_url, "Wrong username or password"
-            self.search_code_field(self.code)
-            self.__wait.until(EC.url_changes(CODE_URL))
-            current_url = self.driver.current_url
-            with allure.step("Step 2. Code entry"):
-                assert MAIN_URL[:40] == current_url[:40], "Wrong Code"
-        else:
-            with allure.step("Step 1. Username and password entry"):
-                assert LOGIN_URL == current_url, "Access error"
-            return
+    def login_code(self):
+        self.search_code_field(self.code)
+        try:
+            self.__wait.until(ec.url_changes(f"{BASE_URL}/auth-code"))
+        except Exception:
+            pass
+        return self.driver.current_url
 
-    def hover_building(self):
-        xpath = MainScreen(self.driver).search_building_address()
-        xpath3 ="/html/body/app-root/app-building-host/main/app-unit-host/div/div[2]/app-unit-users-list/div/div/app-unit-users-list-item[3]/div/div[3]/span"
-        xpath3 = self.driver.find_element(By.XPATH, xpath3)
-
-        # xpath3 = self.driver.find_element(By.TAG_NAME, "app-unit-users-list-item")
-        xpath2 = "/html/body/app-root/app-building-host/main/app-unit-host/div/div[2]/app-unit-users-list/div/div/app-unit-users-list-item[2]/div"
-        xpath1 = self.driver.find_element(By.XPATH, xpath)
-        xpath2 = self.driver.find_element(By.XPATH, xpath2)
-        ActionChains(self.driver).move_to_element(xpath1).perform()
-        ActionChains(self.driver).move_to_element(xpath2).perform()
-        ActionChains(self.driver).move_to_element(xpath3).perform()
 
 class Base(LoginPage):
-    def __init__(self, driver, xpath):
+    def __init__(self, driver, xpath, *xpath1):
         super().__init__(driver)
+        self.__wait = WebDriverWait(driver, 2, 0.3)
         self.driver = driver
         self.xpath = xpath
-        self.xpath1 = xpath
+        self.xpath1 = xpath1
 
     def select_popup_lang(self):
         LoginPage(self.driver).search_lang().click()
         hidden_menu = self.driver.find_element(By.XPATH, self.xpath)
         ActionChains(self.driver).move_to_element(hidden_menu).click(hidden_menu).perform()
-        return self.driver.find_element(By.XPATH, self.xpath1)
+        return self.driver.find_element(By.XPATH, self.xpath)
 
     def popup_server(self):
-        xpath1 = LoginPage(self.driver).set_server_US()
         LoginPage(self.driver).change_server_No_Us().click()
         hidden_menu = self.driver.find_element(By.XPATH, self.xpath)
         ActionChains(self.driver).move_to_element(hidden_menu).click(hidden_menu).perform()
-        return self.driver.find_element(By.XPATH, xpath1)
+        return self.driver.find_element(By.XPATH, SELECT_SERVER_US)
+
+    def hover(self):  # hovering building addresses
+        MainScreen(self.driver).press_sorting_button()
+        xpath_elements = self.xpath
+        elements = self.driver.find_elements(By.XPATH, xpath_elements)
+        first_letter_list = []
+        for i in range(len(elements)):
+            if i == 0:
+                xpath = xpath_elements
+            else:
+                xpath = f"{xpath_elements}/following::app-building-list-item[{i}]/div"
+            xpath = self.driver.find_element(By.XPATH, xpath)
+            first_letter_list.append(xpath.text[0])
+            first_letter_list[i] = xpath.text[0]
+            ActionChains(self.driver).move_to_element(xpath).perform()
+        del first_letter_list[0:1]
+        return first_letter_list
+
+    def scrolling(self):  # scrolling building addresse
+        xpath_elements = self.xpath
+        elements = self.driver.find_elements(By.XPATH, xpath_elements)
+        for i in range(len(elements)):
+            if i == 0:
+                xpath = xpath_elements
+            else:
+                xpath = f"{xpath_elements}/following::app-building-list-item[{i}]/div"
+            xpath = self.driver.find_element(By.XPATH, xpath)
+            if i % 5 == 0 or i == len(elements) - 1:
+                ActionChains(self.driver).move_to_element(xpath).perform()
+
+    def hover_popup(self):  # hovering popup
+        i = 0
+        while i < 3:
+            xpath = self.driver.find_element(By.XPATH, self.xpath[i])
+            ActionChains(self.driver).move_to_element(xpath).perform()
+            i = i + 1
+
+    def logout_menu(self):  # switch item in logout menu
+        xpath = self.driver.find_element(By.XPATH, self.xpath)
+        ActionChains(self.driver).move_to_element(xpath).click().perform()
+
+    def switch_to_lang(self):  # switch to lang in logout menu
+        self.logout_menu()
+        xpath = self.xpath1[0]
+        self.driver.find_element(By.XPATH, xpath).click()
+
+    def press_button(self, xpath):
+        self.driver.find_element(By.XPATH, xpath).click()
+
+    def profile_menu(self):
+        MainScreen(self.driver).find_popup().click()
+        self.logout_menu()
+        self.driver.find_element(By.XPATH, self.xpath1[0]).click()
+
+    def add_card(self):
+        self.press_button(ADD_CARD)
+        Logout(self.driver).input_card_number()
+        Logout(self.driver).input_card_name()
+
+    def add_pin_code(self, xpath):
+        self.profile_menu()
+        self.add_card()
+        self.driver.find_element(By.XPATH, xpath).click()
+        Logout(self.driver).enter_pin_code()
+
+    def delete_card(self):
+        Logout(self.driver).delete()
+        Logout(self.driver).remove_button().click()
+
+    def edit_card(self):
+        self.add_card()
+        Logout(self.driver).edit()
+        Logout(self.driver).edit_card_name()
+
+    def units(self):
+        self.profile_menu()
+
+    def mark_unmark_digital_keys(self):
+        self.profile_menu()
+        time.sleep(1)
+        Logout(self.driver).mark_digital_key()
+        time.sleep(1)
+        Logout(self.driver).mark_digital_key()
+
+    def mark_unmark_doorbel_button(self):
+        self.profile_menu()
+        time.sleep(1)
+        Logout(self.driver).mark_doorbell_button()
+        time.sleep(1)
+        Logout(self.driver).mark_doorbell_button()
+
+    def mark_unmark_unit_manager(self):
+        self.profile_menu()
+        time.sleep(1)
+        Logout(self.driver).mark_unit_manager()
+        time.sleep(1)
+        Logout(self.driver).mark_unit_manager()
+
+    def remove_user(self):
+        self.profile_menu()
+        Logout(self.driver).button_remove_user()
+        Logout(self.driver).approve_remove()
+
+    def edit_personal_info(self):
+        self.profile_menu()
+        time.sleep(1)
+        Logout(self.driver).edit_personal_info(self.xpath1)
+
+    def check_tips(self):
+        MainScreen(self.driver).find_popup().click()
+        self.logout_menu()
+        Logout(self.driver).units_tag()
+
+    def check_tips_doorbell_button(self):
+        self.check_tips()
+        xpath = Logout(self.driver).tips_doorbell_button()
+        ActionChains(self.driver).move_to_element(xpath).perform()
+
+    def check_tips_digital_keys(self):
+        self.check_tips()
+        xpath = Logout(self.driver).tips_digital_keys()
+        ActionChains(self.driver).move_to_element(xpath).perform()
+
+    def add_units(self):
+        Logout(self.driver).add_card_button()
+        Logout(self.driver).add_units_button()
+        Logout(self.driver).mark_unit()
+        time.sleep(1)
+        Logout(self.driver).save_unit_button()
+
+    def restore_active_status(self):
+        Hwa(self.driver).signin_hwa()
+        Hwa(self.driver, self.xpath).search_hwa()
+        Hwa(self.driver).delete_rfid_hwa()
+
+    def remove_user_hwa(self):
+        Hwa(self.driver).signin_hwa()
+        Hwa(self.driver, self.xpath).signin_hwa()
+
+    def link_unit(self):
+        Hwa(self.driver).signin_hwa()
+        Hwa(self.driver, self.xpath).search_hwa()
+        building_address = Hwa(self.driver).building_address_um()
+        building = building_address.text
+        building_ui = Hwa(self.driver).building_uid()
+        building_ui = building_ui.text
+        Hwa(self.driver).manage_customers()
+        j = 0
+        for i in Hwa(self.driver).building_address_ba():
+            j = + 1
+            locator = f"//span[@tabindex='0']/following::span[{j}]"
+            if i.text == building:
+                self.driver.find_element(By.XPATH, locator).click()
+                break
+        Hwa(self.driver).apartment_management()
+        j = 0
+        for i in Hwa(self.driver).find_by_uid():
+            if 'First name Last name' in i.text:
+                locator = f"//p[@class='add_user']/following::p[{j}]"
+                self.driver.find_element(By.XPATH, locator).click()
+                break
+            j = j + 1
+        Hwa(self.driver).add_existing_user()
+
+
+class Base2(LoginPage):
+    def __init__(self, driver):
+        super().__init__(driver)
+        self.driver = driver
+
+    def upload_image(self):
+        Units(self.driver).doorbell_tab()
+        Units(self.driver).doorbell()
+        Units(self.driver).press_icon()
+        Units(self.driver).load_image().send_keys("/Users/StyupanVasyl/Downloads/picture.jpeg")
+        Units(self.driver).save_image()
+
+    def delete_image(self):
+        Units(self.driver).doorbell_tab()
+        Units(self.driver).doorbell()
+        Units(self.driver).delete_img()
+
+    def access_tab(self):
+        Units(self.driver).access()
+
+    def configure_ao(self):
+        Units(self.driver).doorbell_tab()
+        Units(self.driver).doorbell()
+        Units(self.driver).use_schedule()
+        Units(self.driver).make_schedule()
+        Units(self.driver).never_allow()
+
+    def change_unit_info(self):
+        Units(self.driver).select_building()
+        Units(self.driver).settings()
+        Units(self.driver).change_unit_name()
+
+    def change_unit_manager_role(self):
+        Units(self.driver).select_building()
+        Units(self.driver).settings()
+        Units(self.driver).change_unit_manager()
+
+    def add_user(self):
+        Units(self.driver).select_building()
+        time.sleep(1)
+        Units(self.driver).select_unit()
+        time.sleep(1)
+        Units(self.driver).add_user()
+        Units(self.driver).fill_user_data()
+
+    def signin_hwa(self):
+        self.driver.get(HYPER_ADMIN_URL)
+        Units(self.driver).signin_hwa()
+
+    def delete_user(self):
+        self.signin_hwa()
+        Units(self.driver).delete_user_hwa()

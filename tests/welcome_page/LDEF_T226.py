@@ -1,7 +1,7 @@
 import allure
-import pytest
 from pom.pages.login_page import LoginPage
 from configuration import CONTACT_URL_EN
+
 
 @allure.title("Contact us")
 def test_case(setup):

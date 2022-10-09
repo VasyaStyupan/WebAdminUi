@@ -1,17 +1,19 @@
 import allure
 import pytest
-from pom.selenium_functions import Auth
+from pom.selenium_functions import Signin
 from configuration import SIMPLE_USER, SIMPLE_PASS, CODE
 
 
 @allure.title("Try to login with credentials of the simple User")
-@pytest.mark.parametrize('username, password, code, scenario', [
-    (SIMPLE_USER, SIMPLE_PASS, CODE, 1)])  # 0 - positive, 1 - negative
-def test_case(setup, username, password, code, scenario):
+@pytest.mark.parametrize('username, password, code', [
+    (SIMPLE_USER, SIMPLE_PASS, CODE)])
+def test_case(setup, username, password, code):
     """
     Check Open Privacy, Terms of use
     """
-    Auth(setup, username, password, code, scenario).log_in()
+    current_url = Signin(setup, username, password, code).login_credentials()
+    assert current_url != 200, "Wrong username or password"
+
 
 
 

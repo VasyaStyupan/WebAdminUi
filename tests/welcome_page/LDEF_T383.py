@@ -1,31 +1,37 @@
 import allure
-from pom.pages.login_page import LoginPage
+from pom.pages.login_page import LoginPage, CHANGE_LANG_TO_NORSK
 from pom.selenium_functions import Base
 from configuration import PRIVACY_URL_NOR, TERMS_URL_NOR, CONTACT_URL_NOR
+import time
+
+"""
+Set language to Norwegian and check Privacy/Terms/Contact
+"""
 
 
 @allure.title("Set language to Norwegian and check Privacy/Terms/Contact")
-def test_case(setup):
-    """
-    Set language to Norwegian and check Privacy/Terms/Contact
-    """
-
-    xpath = LoginPage(setup).change_lang_to_norsk()
-    lang = Base(setup, xpath).select_popup_lang()
+def test_step1(setup):
+    Base(setup, CHANGE_LANG_TO_NORSK).select_popup_lang()
+    time.sleep(1)
     with allure.step("Step 1. Check language switch to Norwegian"):
-        assert lang.text == "Norsk", "Unable to change language"
-
-    LoginPage(setup).search_privacy().click()
+        assert "Personvern" in setup.page_source, "Unable to change language"
+    save_url = setup.current_url
+    LoginPage(setup).search_privacy_nor().click()
     current_url = setup.current_url
     with allure.step("Step 2. Check Privacy page"):
         assert PRIVACY_URL_NOR == current_url, "Error reading Privacy page"
 
-    LoginPage(setup).search_terms().click()
+    setup.get(save_url)
+
+    Base(setup, CHANGE_LANG_TO_NORSK).select_popup_lang()
+    LoginPage(setup).search_terms_nor().click()
     current_url = setup.current_url
-    with allure.step("Step 2. Check Terms of use page"):
+    with allure.step("Step 3. Check Terms of use page"):
         assert TERMS_URL_NOR == current_url, "Error reading Terms of use page"
 
-    LoginPage(setup).search_contact().click()
+    setup.get(save_url)
+
+    LoginPage(setup).search_contact_nor().click()
     current_url = setup.current_url
-    with allure.step("Step 3. Check Contact page"):
+    with allure.step("Step 4. Check Contact page"):
         assert CONTACT_URL_NOR == current_url, "Error reading Contact page"
