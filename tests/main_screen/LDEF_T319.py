@@ -11,7 +11,7 @@ from pom.pages.mainscreen_page import START_MAIN_MENU, MainScreen
 @pytest.mark.parametrize('username, password, code', [
     (USERNAME_HA, PASSWORD_HA, CODE)])
 def test_case(setup, username, password, code):
-    first_letter_arr = None
+    # first_letter_arr = None
     """
     [Main screen] Check sorting by field "Building address"
     """

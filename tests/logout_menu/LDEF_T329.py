@@ -27,7 +27,3 @@ def test_case(setup, username, password, code):
     time.sleep(1)
 
 
-
-
-
-# нажать на edit и прооверить все кнопки и поля (они другие)

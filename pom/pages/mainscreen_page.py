@@ -40,3 +40,7 @@ class MainScreen:
     def map_minus(self):
         locator = ".icon-app-minus"
         self.__wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, locator))).click()
+
+    def check_load_main_page(self):
+        locator = "//div[@class='user-info-dropdown-mobile-button']"
+        self.__wait.until(ec.presence_of_element_located((By.XPATH, locator)))

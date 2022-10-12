@@ -16,7 +16,6 @@ def test_case1(setup, username, password, code, scenario):
     """
     Signin(setup, username, password, code).login_credentials()
     Signin(setup, username, password, code).login_code()
-    time.sleep(1)
     with allure.step("Step 1. Check if the button is available if logged in by hyperadmin"):
         assert "Your buildings" in setup.page_source
 

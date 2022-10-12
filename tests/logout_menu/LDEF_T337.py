@@ -15,7 +15,6 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password, code).login_credentials()
     Signin(setup, username, password, code).login_code()
-    time.sleep(1)
     Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS).profile_menu()
     Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS).add_units()
     time.sleep(1)

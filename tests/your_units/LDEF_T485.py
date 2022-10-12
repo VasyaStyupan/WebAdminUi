@@ -14,8 +14,9 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password, code).login_credentials()
     Signin(setup, username, password, code).login_code()
-    time.sleep(1)
     Base2(setup).upload_image()
+    setup.refresh()
+    image_present = Base2(setup).is_image_present()
     time.sleep(1)
-    # with allure.step("Step 1. Check UX translation with Norsk loc"):
-    #     assert "Velg språk" in setup.page_source, "Switch to Norsk does not work"
+    with allure.step("Step 1. Check for uploaded image"):
+        assert image_present is True, "Image cannot be loaded"

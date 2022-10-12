@@ -16,9 +16,8 @@ def test_case1(setup, username, password, code, scenario):
     """
     Signin(setup, username, password, code).login_credentials()
     Signin(setup, username, password, code).login_code()
-    time.sleep(1)
     with allure.step("Step 1. Check if the button is available if logged in by hyperadmin"):
-        assert "Your units" in setup.page_source
+        assert "Your units" in setup.page_source, "'Your units' is not available if logged in by hyperadmin"
 
 
 @allure.title("'Your units' is available if building admin has unit")
@@ -31,9 +30,8 @@ def test_case2(setup, username, password, code, scenario):
     """
     Signin(setup, username, password, code).login_credentials()
     Signin(setup, username, password, code).login_code()
-    time.sleep(1)
     with allure.step("Step 1. Check if the button is available if logged in by building admin"):
-        assert "Your units" in setup.page_source
+        assert "Your units" in setup.page_source, "'Your units' is not available if logged in by building admin"
 
 
 @allure.title("'Your units' is not available if hyper admin has no units")
@@ -46,9 +44,8 @@ def test_case3(setup, username, password, code, scenario):
     """
     Signin(setup, username, password, code).login_credentials()
     Signin(setup, username, password, code).login_code()
-    time.sleep(1)
     with allure.step("Step 1. Check if the button is not available if  hyperadmin has no units"):
-        assert "Your units" not in setup.page_source
+        assert "Your units" not in setup.page_source, "'Your units' is not available if logged in by hyper admin that has no units"
 
 
 @allure.title("The button is not available if building admin has no units")
@@ -61,6 +58,5 @@ def test_case4(setup, username, password, code):
     """
     Signin(setup, username, password, code).login_credentials()
     Signin(setup, username, password, code).login_code()
-    time.sleep(1)
     with allure.step("Step 1. Check if the button is available if building admin has no units"):
-        assert "Your units" not in setup.page_source
+        assert "Your units" not in setup.page_source, "'Your units' is not available if logged in by building admin that has no units"

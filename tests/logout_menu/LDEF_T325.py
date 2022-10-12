@@ -23,5 +23,6 @@ def test_case(setup, username, password, code):
         assert "Personal info" and "Units" and "Access Cards" and "Reset Password" in setup.page_source, "Required tags are missing"
     with allure.step("Step 2. Check presence of necessary fields"):
         assert "First Name" and "Last Name" and "Phone" and "Username" and "Email" in setup.page_source, "Required fields are missing"
+    with allure.step("Step 3. Check presence of necessary buttons"):
+        assert "Edit Info" and "Reset Password" in setup.page_source, "Required buttons are missing"
 
-# Добавить две кнопки

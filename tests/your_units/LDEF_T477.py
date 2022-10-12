@@ -1,7 +1,8 @@
 import allure
 import pytest
 from pom.selenium_functions import Signin, Base2
-from configuration import USERNAME_BA, PASSWORD_BA, CODE
+from pom.selenium_functions import Hwa, Units
+from configuration import USERNAME_BA, PASSWORD_BA, CODE, USERNAME_UM
 import time
 
 
@@ -14,9 +15,10 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password, code).login_credentials()
     Signin(setup, username, password, code).login_code()
-    time.sleep(1)
     Base2(setup).add_user()
-    time.sleep(1)
-    Base2(setup).delete_user()
-    time.sleep(3)
+    Units(setup).make_unit_manager()
+    Hwa(setup).signin_hwa()
+    Hwa(setup, "JohnDoe@mail.com").search_hwa()
+    Hwa(setup).delete_user_hwa()
+
 

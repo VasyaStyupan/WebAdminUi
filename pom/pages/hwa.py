@@ -43,7 +43,7 @@ class Hwa:
         self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()
 
     def change_rfid_status(self):
-        locator = "//span[text()='Active']"
+        locator = "//span[text()='Disabled']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def delete_rfid_hwa(self):
@@ -73,6 +73,14 @@ class Hwa:
     def building_uid(self):
         locator = "//div[@class='data-item-column__text']"
         return self.driver.find_elements(By.XPATH, locator)[0]
+
+    def firstname_um(self):
+        locator = "//input[@name='fName']"
+        return self.driver.find_element(By.XPATH, locator)
+
+    def lastname_um(self):
+        locator = "//input[@name='lName']"
+        return self.driver.find_element(By.XPATH, locator)
 
     def manage_customers(self):
         locator = "//div[text()='Manage customers']"

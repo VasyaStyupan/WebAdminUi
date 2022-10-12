@@ -25,6 +25,5 @@ def test_case(setup, username, password, code):
     Base(setup, USERNAME_UM).link_unit()
     setup.get(BASE_URL)
     Base(setup, START_LOGOUT_MENU[0], UNITS).profile_menu()
-
     Logout(setup).mark_unit_manager()
     time.sleep(1)

@@ -5,16 +5,17 @@ from configuration import USERNAME_BA, PASSWORD_BA, CODE
 import time
 
 
-@allure.title("Configure 3 options of Automatic opening")
+@allure.title("Check Doorbell Button Layouts")
 @pytest.mark.parametrize('username, password, code', [
     (USERNAME_BA, PASSWORD_BA, CODE)])
 def test_case(setup, username, password, code):
     """
-    [Units/Any unit from the list/Doorbell] Configure 3 options of Automatic opening
+    [Units/Any unit from the list/Doorbell] Check Doorbell Button Layouts
     """
     Signin(setup, username, password, code).login_credentials()
     Signin(setup, username, password, code).login_code()
+    time.sleep(0.5)
     Base2(setup).doorbell_button()
-    Base2(setup).configure_ao()
+    Base2(setup).doorbell_layouts()
     time.sleep(1)
 

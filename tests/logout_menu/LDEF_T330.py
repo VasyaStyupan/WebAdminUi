@@ -18,9 +18,9 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password, code).login_code()
     Base(setup, START_LOGOUT_MENU[0], UNITS).check_tips_doorbell_button()
     with allure.step("Step 1. Check presence of Doorbell button tips"):
-        assert "Uncheck to remove user's doorbell button" in setup.page_source, "Doorbell button tips is missing"
+        assert "Uncheck to remove user's doorbell button" in setup.page_source, "Doorbell button tips are missing"
     Base(setup, START_LOGOUT_MENU[0], UNITS).check_tips_digital_keys()
     with allure.step("Step 2. Check presence of Digital keys tips"):
-        assert "Uncheck to remove user's doorbell button" in setup.page_source, "Doorbell button tips is missing"
+        assert "Uncheck to remove user's doorbell button" in setup.page_source, "Doorbell button tips are missing"
 
 

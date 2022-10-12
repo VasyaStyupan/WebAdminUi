@@ -151,9 +151,4 @@ class Logout:
         locator = "//div[@class='form-radio__label']/following::label[2]"
         return self.__wait.until(ec.presence_of_element_located((By.XPATH, locator))).click()
 
-    # def get_address(self):
-    #     locator = "//button[text()=' Your units ']"
-    #     self.__wait.until(ec.presence_of_element_located((By.XPATH, locator))).click()
-    #     locator = "//div[@class='breadcrumbs__btn']"
-    #     building = self.__wait.until(ec.presence_of_element_located((By.XPATH, locator)))
-    #     return building.text[8:]
+
