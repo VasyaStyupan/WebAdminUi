@@ -46,11 +46,15 @@ class Buildings:
 
     def select_doorbell(self):
         doorbell = self.param[0][0]
-        self.driver.find_element(By.XPATH, f"//span[contains(text(), '{doorbell}')]").click()
+        element = self.driver.find_element(By.XPATH, f"//span[contains(text(), '{doorbell}')]")
+        time.sleep(1)
+        element.click()
 
     def doorbell_button(self):
         locator = "//div[text()=' Doorbell ']"
-        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        time.sleep(1)
+        element.click()
 
     def get_doorbell_name(self):
         locator = "//div[text()=' Doorbell ']"
@@ -134,7 +138,9 @@ class Buildings:
 
     def your_units_button(self):
         locator = "//button[text()=' Your units ']"
-        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        time.sleep(1)
+        element.click()
 
     def building_address(self):
         locator = "//div[@class='breadcrumbs__btn']"
@@ -146,7 +152,6 @@ class Buildings:
     def enter_doorbell_unit_level(self):
         self.your_units_button()
         self.doorbell_button()
-        time.sleep(1)
         self.select_doorbell()
 
 
