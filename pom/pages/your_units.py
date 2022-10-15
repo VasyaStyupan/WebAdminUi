@@ -170,6 +170,7 @@ class Units:
     def view_list_of_users(self):
         locator = "//button[@class='add-user-save-btn']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        time.sleep(1)
         locator = "//div[text()=' Users ']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
