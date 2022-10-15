@@ -3,7 +3,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-from configuration import USERNAME_BA, PASSWORD_BA, CODE
 
 
 class Units:
@@ -71,7 +70,7 @@ class Units:
 
     def select_building(self):
         locator = "//div[@class='table-list-item__coll']"
-        return self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()
+        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def settings(self):
         locator = "//div[@routerlink='settings']"

@@ -93,7 +93,7 @@ class Logout:
 
     def edit_personal_info(self, firstname):
         locator = "//span[text()='Edit Info']"
-        self.driver.find_element(By.XPATH, locator).click()
+        self.__wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, locator))).click()
         time.sleep(1)
         locator = "//input[@placeholder='Enter name']"
         search_field = self.driver.find_element(By.XPATH, locator)

@@ -18,7 +18,7 @@ def test_case(setup, username, password, code):
     Units(setup).select_building()
     time.sleep(1)
     Units(setup).select_unit()
-    time.sleep(1)
+    # time.sleep(1)
     Units(setup).add_user()
     Units(setup).fill_email_data()
     Units(setup).save_button()

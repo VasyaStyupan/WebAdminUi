@@ -5,7 +5,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-from configuration import BASE_URL
+from configuration import BASE_URL, USERNAME_UM, PASSWORD_UM, CODE
 from pom.pages.code_page import CodePage
 from pom.pages.login_page import LoginPage, SELECT_SERVER_US
 from pom.pages.logout_menu import ADD_CARD, Logout, START_LOGOUT_MENU
@@ -19,7 +19,7 @@ class Signin(LoginPage, CodePage):
     def __init__(self, driver, username, password, code):
         super().__init__(driver)
         self.driver = driver
-        self.__wait = WebDriverWait(driver, 2, 0.3)
+        self.__wait = WebDriverWait(self.driver, 2, 0.3)
         self.username = username
         self.password = password
         self.code = code
@@ -249,7 +249,9 @@ class Base2(LoginPage):
         Units(self.driver).doorbell_tab()
         Units(self.driver).doorbell()
         Units(self.driver).press_icon()
+        time.sleep(1)
         Units(self.driver).load_image().send_keys("/Users/StyupanVasyl/Downloads/picture.jpeg")
+        time.sleep(1)
         Units(self.driver).save_image()
 
     def delete_image(self):
@@ -269,11 +271,12 @@ class Base2(LoginPage):
         Units(self.driver).doorbell()
 
     def configure_ao(self):
+        Units(self.driver).never_allow()
+        time.sleep(1)
         Units(self.driver).use_schedule()
         time.sleep(1)
         Units(self.driver).make_schedule()
         time.sleep(1)
-        Units(self.driver).never_allow()
 
     def change_unit_info(self):
         Units(self.driver).select_building()
@@ -290,6 +293,71 @@ class Base2(LoginPage):
         Units(self.driver).select_building()
         time.sleep(1)
         Units(self.driver).select_unit()
+
+    def find_doorbell(self):
+        Buildings(self.driver).your_units_button()
+        address, unit = Buildings(self.driver).building_address()
+        self.driver.find_elements(By.XPATH, f"//div[contains(text(), '{address}')]")[0].click()
+        self.driver.find_elements(By.XPATH, f"//span[contains(text(), '{unit}')]")[0].click()
+        self.driver.find_elements(By.XPATH, "//div[contains(text(), ' Doorbell ')]")[0].click()
+        doorbell = self.driver.find_elements(By.XPATH, "//div[@class='table-list-item__coll']")[0].text
+        self.driver.get(f"{BASE_URL}/building/list")
+        return doorbell, address
+
+    def enter_the_doorbell(self):
+        doorbell, address = Base2(self.driver).find_doorbell()
+        Buildings(self.driver, address).select_building()
+        Buildings(self.driver).doorbell_button()
+        Buildings(self.driver, doorbell).select_doorbell()
+        return doorbell
+
+    def change_doorbell_name(self):
+        doorbell = self.enter_the_doorbell()
+        Buildings(self.driver, "My Doorbell Name").input_doorbell_name()
+        return doorbell
+
+    def enable_search_field(self):
+        self.enter_the_doorbell()
+        Buildings(self.driver).enable_search()
+
+    def remove_buttons(self):
+        self.enter_the_doorbell()
+        Buildings(self.driver).remove_buttons_from_doorbell()
+
+    def uncheck_user_image(self):
+        self.enter_the_doorbell()
+        Buildings(self.driver).uncheck_show_user_image()
+
+    def uncheck_unit_image(self):
+        self.enter_the_doorbell()
+        Buildings(self.driver).uncheck_show_unit_image()
+
+    def forbid_unit_image(self):
+        self.enter_the_doorbell()
+        Buildings(self.driver).forbid_upload_unit_image()
+
+    def check_doorbell_display_conditions(self):
+        self.enter_the_doorbell()
+        Buildings(self.driver).make_unit_image_visible()
+        Buildings(self.driver).make_user_image_visible()
+        Buildings(self.driver).allow_um_enable_ao()
+
+    def select_never_allow(self):
+        doorbell = self.enter_the_doorbell()
+        Buildings(self.driver).never_allow()
+        time.sleep(1)
+        return doorbell
+
+    def select_always_allow(self):
+        doorbell = self.enter_the_doorbell()
+        Buildings(self.driver).always_allow()
+        time.sleep(1)
+        return doorbell
+
+    def select_schedule(self):
+        self.enter_the_doorbell()
+        Buildings(self.driver).schedule()
+        time.sleep(1)
 
     def add_user(self):
         self.enter_the_unit()
