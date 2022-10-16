@@ -46,8 +46,8 @@ class Buildings:
 
     def select_doorbell(self):
         doorbell = self.param[0][0]
-        element = self.driver.find_element(By.XPATH, f"//span[contains(text(), '{doorbell}')]")
-        time.sleep(1)
+        print(doorbell)
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, f"//span[contains(text(), '{doorbell}')]")))
         element.click()
 
     def doorbell_button(self):
@@ -71,7 +71,6 @@ class Buildings:
         doorbell = self.driver.find_element(By.XPATH, locator)
         doorbell.send_keys(Keys.COMMAND, "a")
         doorbell.send_keys(self.param[0])
-        print(self.param[0])
         locator = "//button[text()=' Save ']"
         self.driver.find_element(By.XPATH, locator).click()
 
@@ -154,5 +153,16 @@ class Buildings:
         self.doorbell_button()
         self.select_doorbell()
 
+    def user_image_disabled(self):
+        locator = "//div[text()=' Visible ']"
+        element = self.driver.find_element(By.XPATH, locator)
+        time.sleep(1)
+        element.click()
+
+    def unit_image_disabled(self):
+        locator = "//div[text()=' Visible ']/following::label[1]"
+        element = self.driver.find_element(By.XPATH, locator)
+        time.sleep(1)
+        element.click()
 
 

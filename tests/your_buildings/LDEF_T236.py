@@ -16,7 +16,7 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password, code).login_credentials()
     Signin(setup, username, password, code).login_code()
     doorbell_name = Base2(setup).change_doorbell_name()
-    time.sleep(1)
+    time.sleep(3)
     with allure.step("Step 1. Check if doorbell name is changed"):
         assert doorbell_name in setup.page_source, "Change Doorbell name error"
     Buildings(setup, doorbell_name).input_doorbell_name()

@@ -249,7 +249,6 @@ class Base2(LoginPage):
         Units(self.driver).doorbell_tab()
         Units(self.driver).doorbell()
         Units(self.driver).press_icon()
-        time.sleep(1)
         Units(self.driver).load_image().send_keys("/Users/StyupanVasyl/Downloads/picture.jpeg")
         time.sleep(1)
         Units(self.driver).save_image()
@@ -375,7 +374,10 @@ class Base2(LoginPage):
         Units(self.driver).check_button_visibility()
 
     def doorbell_layouts(self):
-        Units(self.driver).check_button_layouts()
+        i = 0
+        while i < 2:
+            Units(self.driver).check_button_layouts()
+            i = i + 1
 
     def is_image_present(self):
         try:
@@ -393,3 +395,17 @@ class Base2(LoginPage):
         while i < 2:
             Buildings(self.driver).unit_manager_functions()
             i = i + 1
+
+    def check_user_image_disabled(self):
+        try:
+            Buildings(self.driver).user_image_disabled()
+            return False
+        except Exception:
+            return True
+
+    def check_unit_image_disabled(self):
+        try:
+            Buildings(self.driver).unit_image_disabled()
+            return False
+        except Exception:
+            return True

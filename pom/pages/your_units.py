@@ -1,6 +1,5 @@
 import time
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -189,15 +188,10 @@ class Units:
         self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()
         time.sleep(1)
         locator = "//div[text()=' Visible ']"
-        self.driver.find_element(By.XPATH, locator).click()
-        time.sleep(1)
-        locator = "//div[text()=' Hidden ']"
-        self.driver.find_element(By.XPATH, locator).click()
-        locator = "//div[text()=' Visible ']/following::div[6]"
         self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()
         time.sleep(1)
         locator = "//div[text()=' Hidden ']//following::div[6]"
-        self.driver.find_element(By.XPATH, locator).click()
+        self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()
         time.sleep(1)
         locator = "//div[text()=' Visible ']/following::div[6]"
-        self.driver.find_element(By.XPATH, locator).click()
+        self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()

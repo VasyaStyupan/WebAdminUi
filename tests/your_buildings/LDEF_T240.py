@@ -16,6 +16,12 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password, code).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base2(setup).uncheck_unit_image()
-    Buildings(setup).uncheck_show_unit_image()
+    doorbell = Base2(setup).enter_the_doorbell()
+    Buildings(setup, doorbell).enter_doorbell_unit_level()
+    Is_disable = Base2(setup).check_unit_image_disabled()
+    time.sleep(1)
+    with allure.step("Step 1. Check changes doorbell while unchecked 'Show unit image'"):
+        assert Is_disable is True, "Unit image stay active"
+    Base2(setup).uncheck_unit_image()
     time.sleep(1)
 
