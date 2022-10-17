@@ -15,7 +15,7 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password, code).login_credentials()
     Signin(setup, username, password, code).login_code()
     doorbell = Base2(setup).find_doorbell()
-    Buildings(setup, doorbell).enter_doorbell_unit_level()
+    Buildings(setup, doorbell[0]).enter_doorbell_unit_level()
     Base2(setup).configure_ao()
     time.sleep(1)
 

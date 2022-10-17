@@ -16,7 +16,8 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password, code).login_code()
     Base2(setup).upload_image()
     setup.refresh()
+    time.sleep(1)
     image_present = Base2(setup).is_image_present()
     time.sleep(1)
     with allure.step("Step 1. Check for uploaded image"):
-        assert image_present is True, "Image cannot be loaded"
+        assert image_present is True, "Image did not load"

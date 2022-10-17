@@ -45,7 +45,7 @@ class Buildings:
         self.driver.find_element(By.XPATH, f"//span[contains(text(), '{address}')]").click()
 
     def select_doorbell(self):
-        doorbell = self.param[0][0]
+        doorbell = self.param[0]
         print(doorbell)
         element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, f"//span[contains(text(), '{doorbell}')]")))
         element.click()

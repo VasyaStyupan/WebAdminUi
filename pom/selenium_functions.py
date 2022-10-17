@@ -312,6 +312,7 @@ class Base2(LoginPage):
 
     def change_doorbell_name(self):
         doorbell = self.enter_the_doorbell()
+        print(doorbell)
         Buildings(self.driver, "My Doorbell Name").input_doorbell_name()
         return doorbell
 
