@@ -15,8 +15,6 @@ LOGOUT = "//div[text()=' Logout ']"
 ACCESS = "//div[text()=' Access ']"
 ADD_CARD = "//button[text()=' Add card ']"
 ACCESS_CARDS = '//div[text()=" Access Cards "]'
-# STATUS_DISABLED = '//i[@class="icon-app-ok-1"]'
-# STATUS_ACTIVE = "//i[@class='icon-app-ok-1 ng-star-inserted']"
 ADD_PIN_CODE = "//button[text()=' Add or change card PIN code ']"
 ENTER_PIN_FIELD = "//input[@class='form-input ng-pristine ng-valid ng-star-inserted ng-touched']"
 PIN_SAVE_BUTTON = "//button[@class='form-button-save']"

@@ -41,10 +41,10 @@ def test_case2(setup, username, password, code):
     Base2(setup).enter_building_settings()
     Base2(setup).check_change_unit_name_function()
     time.sleep(1)
-    with allure.step("Step 1. Check if 'Settings' tag is misssing"):
+    with allure.step("Step 1. Check if 'Settings' tag is missing"):
         assert "Settings" not in setup.page_source, "'Change unit name' function does not work properly"
     Base2(setup).logout()
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base2(setup).enter_building_settings()
     Base2(setup).check_change_unit_name_function()

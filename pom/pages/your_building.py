@@ -107,8 +107,8 @@ class Buildings:
     def forbid_upload_unit_image(self):
         locator = "//div[text()=' Upload unit image ']"
         element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
-        element.click()
         time.sleep(1)
+        element.click()
 
     def make_unit_image_visible(self):
         locator = "//div[text()=' Make unit image visible ']"
@@ -174,4 +174,3 @@ class Buildings:
     def upload_unit_image(self):
         locator = "//div[text()=' Upload unit image ']"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
-

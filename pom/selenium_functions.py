@@ -232,6 +232,11 @@ class Base(LoginPage):
             j = j + 1
         Hwa(self.driver).add_existing_user()
 
+    def enter_doorbell_um(self):
+        doorbell = self.xpath
+        Buildings(self.driver).doorbell_button()
+        Buildings(self.driver, doorbell).select_doorbell()
+
 
 class Base2(LoginPage):
     def __init__(self, driver):
@@ -338,8 +343,10 @@ class Base2(LoginPage):
         Buildings(self.driver).make_user_image_visible()
 
     def forbid_unit_image(self):
-        self.enter_the_doorbell()
+        doorbell = self.enter_the_doorbell()
         Buildings(self.driver).forbid_upload_unit_image()
+        time.sleep(1)
+        return doorbell
 
     def check_doorbell_display_conditions(self):
         self.enter_the_doorbell()
