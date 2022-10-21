@@ -5,18 +5,19 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-from configuration import BASE_URL, USERNAME_UM, PASSWORD_UM, CODE
+from configuration import BASE_URL, USERNAME_UM, PASSWORD_UM, CODE, LOGIN_URL
 from pom.pages.code_page import CodePage
 from pom.pages.login_page import LoginPage, SELECT_SERVER_US
-from pom.pages.logout_menu import ADD_CARD, Logout, START_LOGOUT_MENU
+from pom.pages.logout_menu import ADD_CARD, Logout, START_LOGOUT_MENU, LOGOUT, UNITS
 from pom.pages.mainscreen_page import MainScreen
 from pom.pages.your_units import Units
 from pom.pages.your_building import Buildings
 from pom.pages.hwa import Hwa
+from pathlib import Path
 
 
 class Signin(LoginPage, CodePage):
-    def __init__(self, driver, username, password, code):
+    def __init__(self, driver, username, password, *code):
         super().__init__(driver)
         self.driver = driver
         self.__wait = WebDriverWait(self.driver, 2, 0.3)
@@ -126,7 +127,7 @@ class Base(LoginPage):
         self.profile_menu()
         self.add_card()
         self.driver.find_element(By.XPATH, xpath).click()
-        Logout(self.driver).enter_pin_code()
+        return Logout(self.driver, "22222222").enter_pin_code()
 
     def delete_card(self):
         Logout(self.driver).delete()
@@ -212,17 +213,9 @@ class Base(LoginPage):
         Hwa(self.driver, self.xpath).search_hwa()
         building_address = Hwa(self.driver).building_address_um()
         building = building_address.text
-        first_name = Hwa(self.driver).firstname_um()
-        first_name = first_name.get_attribute('value')
-        last_name = Hwa(self.driver).lastname_um()
-        last_name = last_name.get_attribute('value')
-        print(first_name, last_name)
-        # building_ui = Hwa(self.driver).building_uid()
-        # j = 0
-        # for i in building_ui:
-        #     j = j + 1
+        uid = Hwa(self.driver).unit_uid().text
         Hwa(self.driver).manage_customers()
-        j = 0
+        # Select Building
         for i in Hwa(self.driver).building_address_ba():
             j = + 1
             locator = f"//span[@tabindex='0']/following::span[{j}]"
@@ -230,9 +223,9 @@ class Base(LoginPage):
                 self.driver.find_element(By.XPATH, locator).click()
                 break
         Hwa(self.driver).apartment_management()
-        j = 0
+        j = 0  # Select Unit
         for i in Hwa(self.driver).find_by_uid():
-            if first_name and last_name in i.text:
+            if i.get_attribute('ng-reflect-model') == uid:
                 locator = f"//p[@class='add_user']/following::p[{j}]"
                 self.driver.find_element(By.XPATH, locator).click()
                 break
@@ -249,7 +242,9 @@ class Base2(LoginPage):
         Units(self.driver).doorbell_tab()
         Units(self.driver).doorbell()
         Units(self.driver).press_icon()
-        Units(self.driver).load_image().send_keys("/Users/StyupanVasyl/Downloads/picture.jpeg")
+        mypath = Path("picture")
+        path = mypath.home().joinpath("WebAdminUi", "picture", "picture.jpeg")
+        Units(self.driver).load_image().send_keys(str(path))
         time.sleep(1)
         Units(self.driver).save_image()
 
@@ -272,9 +267,9 @@ class Base2(LoginPage):
     def configure_ao(self):
         Units(self.driver).never_allow()
         time.sleep(1)
-        Units(self.driver).use_schedule()
+        Units(self.driver).always_allow()
         time.sleep(1)
-        Units(self.driver).make_schedule()
+        Units(self.driver).schedule()
         time.sleep(1)
 
     def change_unit_info(self):
@@ -312,7 +307,6 @@ class Base2(LoginPage):
 
     def change_doorbell_name(self):
         doorbell = self.enter_the_doorbell()
-        print(doorbell)
         Buildings(self.driver, "My Doorbell Name").input_doorbell_name()
         return doorbell
 
@@ -332,12 +326,24 @@ class Base2(LoginPage):
         self.enter_the_doorbell()
         Buildings(self.driver).uncheck_show_unit_image()
 
+    def check_unit_image(self):
+        self.enter_the_doorbell()
+        Buildings(self.driver).uncheck_show_unit_image()
+        Buildings(self.driver).upload_unit_image()
+        Buildings(self.driver).make_unit_image_visible()
+
+    def check_user_image(self):
+        self.enter_the_doorbell()
+        Buildings(self.driver).uncheck_show_user_image()
+        Buildings(self.driver).make_user_image_visible()
+
     def forbid_unit_image(self):
         self.enter_the_doorbell()
         Buildings(self.driver).forbid_upload_unit_image()
 
     def check_doorbell_display_conditions(self):
         self.enter_the_doorbell()
+        Buildings(self.driver).upload_unit_image()
         Buildings(self.driver).make_unit_image_visible()
         Buildings(self.driver).make_user_image_visible()
         Buildings(self.driver).allow_um_enable_ao()
@@ -391,11 +397,32 @@ class Base2(LoginPage):
         Units(self.driver).select_building()
         Buildings(self.driver).settings_tab()
 
-    def check_um_functions(self):
-        i = 0
-        while i < 2:
-            Buildings(self.driver).unit_manager_functions()
-            i = i + 1
+    def logout(self):
+        MainScreen(self.driver).find_popup().click()
+        Base(self.driver, START_LOGOUT_MENU[2], LOGOUT).logout_menu()
+
+    def check_add_user_function(self):
+        Buildings(self.driver).add_user_function()
+        self.logout()
+        Signin(self.driver, USERNAME_UM, PASSWORD_UM, CODE).login_credentials()
+        Signin(self.driver, USERNAME_UM, PASSWORD_UM, CODE).login_code()
+
+    def check_change_unit_name_function(self):
+        Buildings(self.driver).change_unit_name_function()
+        self.logout()
+        Signin(self.driver, USERNAME_UM, PASSWORD_UM, CODE).login_credentials()
+        Signin(self.driver, USERNAME_UM, PASSWORD_UM, CODE).login_code()
+
+    def check_add_role_unit_manager__function(self):
+        Buildings(self.driver).add_role_unit_manager_function()
+        self.logout()
+        Signin(self.driver, USERNAME_UM, PASSWORD_UM, CODE).login_credentials()
+        Signin(self.driver, USERNAME_UM, PASSWORD_UM, CODE).login_code()
+        Units(self.driver).add_user()
+        Units(self.driver).fill_user_data()
+        Units(self.driver).make_unit_manager()
+
+        # Buildings(self.driver).RFID_cards_function()
 
     def check_user_image_disabled(self):
         try:
@@ -410,3 +437,9 @@ class Base2(LoginPage):
             return False
         except Exception:
             return True
+
+    def delete_user(self):
+        Hwa(self.driver).signin_hwa()
+        Hwa(self.driver, "JohnDoe@mail.com").search_hwa()
+        Hwa(self.driver).delete_user_hwa()
+        time.sleep(1)

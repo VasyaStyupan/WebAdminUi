@@ -12,12 +12,11 @@ def test_case(setup, username, password, code):
     """
     [Units/Any unit from the list/Doorbell] Upload unit image
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base2(setup).upload_image()
+    time.sleep(1)
     setup.refresh()
-    time.sleep(1)
     image_present = Base2(setup).is_image_present()
-    time.sleep(1)
     with allure.step("Step 1. Check for uploaded image"):
         assert image_present is True, "Image did not load"

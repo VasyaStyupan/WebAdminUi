@@ -11,7 +11,7 @@ def test_case(setup, username, password, code):
     """
     [Main screen] Hyper admin is logged. Displays List of buildings/ Map/ Search/ Menu
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     current_url = Signin(setup, username, password, code).login_code()
     with allure.step("Step 1. Check if you are on the main page"):
         assert f"{BASE_URL}/building/list" == current_url, "Wrong page"

@@ -14,7 +14,7 @@ def test_case(setup, username, password, code):
     """
     [Menu/Profile/Units] Mark/Unmark option 'Unit Manager'
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base(setup, START_LOGOUT_MENU[0], UNITS).mark_unmark_unit_manager()
     time.sleep(1)

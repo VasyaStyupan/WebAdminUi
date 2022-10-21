@@ -1,5 +1,4 @@
 import time
-
 import pytest
 import allure
 from pom.selenium_functions import Signin, Base
@@ -14,7 +13,7 @@ def test_case(setup, username, password, code):
     """
     [Main screen] Check scrolling for Building addresses
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base(setup, START_MAIN_MENU).scrolling()
     time.sleep(1)

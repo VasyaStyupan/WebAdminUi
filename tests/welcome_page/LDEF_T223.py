@@ -19,7 +19,7 @@ def test_case(setup, username, password, code, scenario):
     """
     [Welcome page] Enter correct/incorrect Authentication Code
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     time.sleep(1)
     if scenario == 0:

@@ -14,7 +14,7 @@ def test_case(setup, username, password, code):
     """
     [Menu/Profile/Units] Check tips for 'Doorbell button' and 'Digital Keys'
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base(setup, START_LOGOUT_MENU[0], UNITS).check_tips_doorbell_button()
     with allure.step("Step 1. Check presence of Doorbell button tips"):

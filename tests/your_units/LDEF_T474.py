@@ -12,11 +12,13 @@ def test_case(setup, username, password, code):
     """
     [Units/Any unit from the list] View the tab Users
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base2(setup).enter_the_unit()
     time.sleep(1)
-    with allure.step("Step 1. Check presence of necessary tags"):
+    with allure.step("Step 1. Check presence of necessary tags and buttons"):
         assert "Users" and "Access" and "Doorbell" and "Settings" in setup.page_source, "Required tags  are missing"
-    with allure.step("Step 2. Check 'Add user' button' presence"):
-        assert "Add user" in setup.page_source, "User not created"
+        assert "Email" and "Username" and "First Name" and "Last Name" and "Phone" in setup.page_source, "Required tags  are missing"
+        assert "Add user" in setup.page_source, "Button is missing"
+
+

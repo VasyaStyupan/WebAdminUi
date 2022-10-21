@@ -2,7 +2,8 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as chrome_options
 from selenium.webdriver.chrome.service import Service
-from configuration import BASE_URL, HYPER_ADMIN_URL
+from configuration import BASE_URL
+from pathlib import Path
 
 
 @pytest.fixture
@@ -19,7 +20,9 @@ def get_chrome_options():
 def get_webdriver(get_chrome_options):
     options = get_chrome_options
     # ser = Service('/Users/driver/chromedriver')
-    ser = Service('/Users/StyupanVasyl/WebAdminUi/webdriver/chromedriver')
+    mypath = Path("chromedriver")
+    path = mypath.home().joinpath("WebAdminUi", "webdriver", "chromedriver")
+    ser = Service(str(path))
     driver = webdriver.Chrome(service=ser, options=options)
     return driver
 
@@ -34,4 +37,3 @@ def setup(request, get_webdriver):
     driver.get(url)
     yield driver
     driver.quit()
-

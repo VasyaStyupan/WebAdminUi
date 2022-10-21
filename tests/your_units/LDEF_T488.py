@@ -12,7 +12,7 @@ def test_case(setup, username, password, code):
     """
     [Units/Any unit from the list/Settings] Change Unit Information
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base2(setup).change_unit_info()
     Units(setup, 'Myunit').change_unit_name()

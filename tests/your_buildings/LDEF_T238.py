@@ -13,7 +13,7 @@ def test_case(setup, username, password, code):
     """
     [Building/Doorbell/Doorbell name] Remove all button from doorbell
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base2(setup).remove_buttons()
     Buildings(setup).remove_buttons_from_doorbell()

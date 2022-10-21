@@ -27,11 +27,13 @@ USERNAME_UO = "owner@te.st"
 PASSWORD_UO = "Qwerty123"
 USERNAME_UM = "manager@te.st"
 PASSWORD_UM = "Qwerty123"
+EMAIL_UM = "new@email.com"
 SIMPLE_USER = "simple_user"
 SIMPLE_PASS = "Qwerty123"
 
 USERNAME = USERNAME_UM
 PASSWORD = PASSWORD_UM
+EMAIL = EMAIL_UM
 
 CODE = "1111"
 UNIT = "Dontdeletethisunit"

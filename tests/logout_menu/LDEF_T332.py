@@ -12,9 +12,9 @@ from pom.selenium_functions import Base
     (USERNAME_BA, PASSWORD_BA, CODE)])
 def test_case(setup, username, password, code):
     """
-    [Menu/Profile/Units] Mark/Unmark option 'Doorbell button' and check on the doorbell
+    [Menu/Profile/Units] Mark/Unmarked option 'Doorbell button' and check on the doorbell
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base(setup, START_LOGOUT_MENU[0], UNITS).mark_unmark_doorbel_button()
     time.sleep(1)

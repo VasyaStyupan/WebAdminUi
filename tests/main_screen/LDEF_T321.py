@@ -12,7 +12,7 @@ def test_case(setup, username, password, code):
     """
     Check Hovers for strings of Buildings
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base(setup, START_MAIN_MENU).hover()
 

@@ -18,6 +18,8 @@ def test_case(setup, username, password, code):
     doorbell = Base2(setup).select_always_allow()
     Buildings(setup, doorbell).enter_doorbell_unit_level()
     Buildings(setup).never_allow()
+    time.sleep(2)
+    Buildings(setup).always_allow()
     time.sleep(1)
 
 

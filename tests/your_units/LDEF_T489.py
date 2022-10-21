@@ -13,7 +13,7 @@ def test_case(setup, username, password, code):
     """
     [Units/Any unit from the list/Settings] Change unit owner
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base2(setup).change_unit_info()
     first_name, last_name = Units(setup, USERNAME_BA).change_unit_owner()

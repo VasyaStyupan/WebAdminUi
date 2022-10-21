@@ -14,7 +14,7 @@ def test_case(setup, username, password, code):
     """
     [Main screen] Check the Menu: Profile/Language/Logout (with Hovers)
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     MainScreen(setup).find_popup().click()
     Base(setup, START_LOGOUT_MENU).hover_popup()

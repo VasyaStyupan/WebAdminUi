@@ -15,16 +15,19 @@ class Buildings:
         locator = "//div[text()=' Settings ']"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
-    def unit_manager_functions(self):
+    def add_user_function(self):
         locator = "//div[text()=' Add a user ']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
-        time.sleep(1)
+
+    def change_unit_name_function(self):
         locator = "//div[text()=' Change unit name ']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
-        time.sleep(1)
+
+    def add_role_unit_manager_function(self):
         locator = "//div[text()=' Add the role of unit manager to another user ']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
-        time.sleep(1)
+
+    def RFID_cards_function(self):
         locator = "//div[text()=' Administrate users RFID cards ']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
@@ -69,10 +72,13 @@ class Buildings:
     def input_doorbell_name(self):
         locator = "//input[@placeholder='Doorbell name']"
         doorbell = self.driver.find_element(By.XPATH, locator)
+        doorbell.click()
+        doorbell.send_keys(Keys.HOME)
+        time.sleep(1)
         doorbell.send_keys(Keys.COMMAND, "a")
         doorbell.send_keys(self.param[0])
         locator = "//button[text()=' Save ']"
-        self.driver.find_element(By.XPATH, locator).click()
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def enable_search(self):
         locator = "//div[text()=' Enable search field ']"
@@ -101,8 +107,8 @@ class Buildings:
     def forbid_upload_unit_image(self):
         locator = "//div[text()=' Upload unit image ']"
         element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
-        time.sleep(1)
         element.click()
+        time.sleep(1)
 
     def make_unit_image_visible(self):
         locator = "//div[text()=' Make unit image visible ']"
@@ -165,4 +171,7 @@ class Buildings:
         time.sleep(1)
         element.click()
 
+    def upload_unit_image(self):
+        locator = "//div[text()=' Upload unit image ']"
+        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 

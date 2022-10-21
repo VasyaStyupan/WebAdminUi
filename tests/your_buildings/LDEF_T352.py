@@ -22,6 +22,7 @@ def test_case(setup, username, password, code):
         assert "Automatic opening is not allowed in this building." in setup.page_source, "Error choosing 'Never allow' option"
     setup.get(f"{BASE_URL}/building/list")
     Base2(setup).select_schedule()
+    time.sleep(1)
 
 
 

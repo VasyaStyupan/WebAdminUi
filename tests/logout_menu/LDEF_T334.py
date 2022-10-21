@@ -1,12 +1,10 @@
 import time
-
 import allure
 import pytest
 from pom.selenium_functions import Signin
 from configuration import USERNAME_BA, PASSWORD_BA, CODE, USERNAME_UM, BASE_URL
 from pom.pages.logout_menu import UNITS, START_LOGOUT_MENU, Logout
 from pom.selenium_functions import Base
-from pom.selenium_functions import Hwa
 
 
 @allure.title("Remove user")
@@ -16,7 +14,7 @@ def test_case(setup, username, password, code):
     """
     [Menu/Profile/Units] Remove user
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base(setup, START_LOGOUT_MENU[0], UNITS).remove_user()
     time.sleep(1)

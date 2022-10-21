@@ -13,9 +13,9 @@ from pom.selenium_functions import Base
     (USERNAME_BA, PASSWORD_BA, CODE)])
 def test_case(setup, username, password, code):
     """
-    [Menu/Profile/Units] Mark/Unmark option 'Digital Keys' and check opening the door from app
+    [Menu/Profile/Units] Mark/Unmarked option 'Digital Keys' and check opening the door from app
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base(setup, START_LOGOUT_MENU[0], UNITS).mark_unmark_digital_keys()
     time.sleep(1)

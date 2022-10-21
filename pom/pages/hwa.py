@@ -70,16 +70,8 @@ class Hwa:
         locator = "//div[@class='data-item-column__link']"
         return self.driver.find_elements(By.XPATH, locator)[0]
 
-    def building_uid(self):
+    def unit_uid(self):
         locator = "//div[@class='data-item-column__text']"
-        return self.driver.find_elements(By.XPATH, locator)[0]
-
-    def firstname_um(self):
-        locator = "//input[@name='fName']"
-        return self.driver.find_element(By.XPATH, locator)
-
-    def lastname_um(self):
-        locator = "//input[@name='lName']"
         return self.driver.find_element(By.XPATH, locator)
 
     def manage_customers(self):
@@ -87,16 +79,16 @@ class Hwa:
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def find_by_uid(self):
-        locator = "//div[@class='table_body_item']"
+        locator = "//input[@name='uid']"
         return self.driver.find_elements(By.XPATH, locator)
 
     def add_existing_user(self):
         locator = "//span[text()=' Add an existing user here ']"
         self.driver.find_elements(By.XPATH, locator)[0].click()
-        locator = "//div[@class='ng-input']"
-        search = self.driver.find_elements(By.XPATH, locator)[1]
-        search.click()
-        locator = "//input[@role='combobox']/following::input[10]"
+        locator = "//div[@class='existing-user-container visible']"
+        select_user = self.driver.find_element(By.XPATH, locator)
+        select_user.click()
+        locator = "//div[@class='ng-input']/following::input[11]"
         search = self.driver.find_element(By.XPATH, locator)
         search.send_keys(USERNAME_BA)
         time.sleep(1)

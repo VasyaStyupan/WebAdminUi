@@ -14,7 +14,7 @@ def test_case1(setup, username, password, code, scenario):
     """
     Check if the button is available if logged in by hyperadmin
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     with allure.step("Step 1. Check if the button is available if logged in by hyperadmin"):
         assert "Your buildings" in setup.page_source
@@ -28,7 +28,7 @@ def test_case2(setup, username, password, code, scenario):
     """
     Check if the button is available if logged in by hyperadmin
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     time.sleep(1)
     with allure.step("Step 1. Check if the button is available if logged in by building manager"):
@@ -43,9 +43,8 @@ def test_case3(setup, username, password, code, scenario):
     """
     Check if the button is not available if logged in by unit owner
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
-    # time.sleep(1)
     with allure.step("Step 1. Check if the button is not available if logged in by unit owner"):
         assert "Your buildings" not in setup.page_source
 
@@ -58,7 +57,7 @@ def test_case4(setup, username, password, code, scenario):
     """
     Check if the button is not available if logged in by unit manager
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     time.sleep(1)
     with allure.step("Step 1. Check if the button is not available if logged in by unit manager"):

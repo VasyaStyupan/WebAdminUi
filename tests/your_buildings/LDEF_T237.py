@@ -13,7 +13,7 @@ def test_case(setup, username, password, code):
     """
     [Building/Doorbell/Doorbell name] Check changes doorbell while unchecked 'Enable search field'
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base2(setup).enable_search_field()
     Buildings(setup).enable_search()

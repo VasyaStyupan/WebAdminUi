@@ -13,7 +13,7 @@ def test_case(setup, username, password, code):
     """
     [Building/Settings] Changing list of floors
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base2(setup).enter_building_settings()
     time.sleep(1)

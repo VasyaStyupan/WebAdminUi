@@ -15,7 +15,7 @@ def test_case(setup, username, password, code):
     """
     [Menu/Language] Check UX translation with Svenska loc
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     MainScreen(setup).find_popup().click()
     Base(setup, START_LOGOUT_MENU[1], SWEDISH).switch_to_lang()

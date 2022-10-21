@@ -16,7 +16,7 @@ def test_case(setup, username, password, code, search_word):
     """
     [Main screen/ Searching] View Search Result screen  (No result)
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     MainScreen(setup, search_word).search_bar()
     with allure.step("Step 1. Check if no results"):

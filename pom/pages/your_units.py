@@ -59,6 +59,14 @@ class Units:
         locator = "//div[text()=' Never allow ']"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
+    def always_allow(self):
+        locator = "//div[@class='form-radio__label']/following::label[1]"
+        return self.driver.find_element(By.XPATH, locator).click()
+
+    def schedule(self):
+        locator = "//div[@class='form-radio__label']/following::label[2]"
+        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+
     def use_schedule(self):
         locator = "//div[text()=' Use the schedule defined for this building ']"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
@@ -126,7 +134,7 @@ class Units:
 
     def save_button(self):
         locator = "//button[@class='add-user-save-btn']"
-        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()
 
     def fill_user_data(self):
         locator = "//input[@placeholder='Email']"
@@ -154,6 +162,7 @@ class Units:
     def make_unit_manager(self):
         locator = "//div[text()=' Make this user a unit manager ']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        time.sleep(1)
         self.save_button()
 
     def mark_doorbell_digital_keys(self):

@@ -18,6 +18,5 @@ def test_case(setup, username, password, code):
     Base2(setup).forbid_unit_image()
     setup.refresh()
     Buildings(setup).forbid_upload_unit_image()
-    time.sleep(1)
 
 

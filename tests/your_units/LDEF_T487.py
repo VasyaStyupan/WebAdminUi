@@ -12,7 +12,7 @@ def test_case(setup, username, password, code):
     """
     [Units/Any unit from the list/Doorbell] Configure 3 options of Automatic opening
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     doorbell = Base2(setup).find_doorbell()
     Buildings(setup, doorbell[0]).enter_doorbell_unit_level()

@@ -5,11 +5,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 
 LOGOUT_MENU = '//div[@class="user-info-dropdown-mobile-button"]'
+# LOGOUT_MENU = '//div[@class="cdk-overlay-pane"]'
 START_LOGOUT_MENU = "//*[text()=' Profile ']", "//*[text()=' Language ']", "//*[text()=' Logout ']"
 NORWEGIAN = "//div[text()=' Norsk ']"
 SWEDISH = "//div[text()=' Svenska ']"
 PERSONAL_INFO = "//div[text()=' Personal Info ']"
 UNITS = "//div[text()=' Units ']"
+LOGOUT = "//div[text()=' Logout ']"
 ACCESS = "//div[text()=' Access ']"
 ADD_CARD = "//button[text()=' Add card ']"
 ACCESS_CARDS = '//div[text()=" Access Cards "]'
@@ -50,10 +52,13 @@ class Logout:
         return self.__wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, locator))).click()
 
     def enter_pin_code(self):
+        pin_code = self.word
         locator = "//input[@type='password']"
-        self.driver.find_element(By.XPATH, locator).send_keys("222222")
+        self.driver.find_element(By.XPATH, locator).send_keys(pin_code)
         locator = "//button[text()=' Save ']"
-        return self.driver.find_element(By.XPATH, locator).click()
+        time.sleep(1)
+        self.driver.find_element(By.XPATH, locator).click()
+        return pin_code
 
     def delete(self):
         locator = "//*[text()=' Delete ']"
@@ -115,15 +120,12 @@ class Logout:
         return self.driver.find_element(By.XPATH, locator).click()
 
     def tips_doorbell_button(self):
-        locator = "div.question-mark"
-        return self.driver.find_element(By.CSS_SELECTOR, locator)
+        locator = "//div[@class='question-mark']"
+        return self.driver.find_element(By.XPATH, locator)
 
     def tips_digital_keys(self):
-        locator = "body > app-root > app-building-host > main > app-profile > app-user-profile > div > " \
-                  "div.user-profile-wrapper > div.user-profile-tabs-content > app-profile-ownership > " \
-                  "div.profile-ownership.profile-ownership--hide-building-colum > " \
-                  "div.profile-ownership-header.ownership-grid > div:nth-child(5) > span > div > svg > path"
-        return self.driver.find_element(By.CSS_SELECTOR, locator)
+        locator = "//div[@class='question-mark']/following::div[2]"
+        return self.driver.find_element(By.XPATH, locator)
 
     def add_card_button(self):
         locator = "//button[text()=' Add card ']"
@@ -150,5 +152,3 @@ class Logout:
     def switch_to_swedish(self):
         locator = "//div[@class='form-radio__label']/following::label[2]"
         return self.__wait.until(ec.presence_of_element_located((By.XPATH, locator))).click()
-
-

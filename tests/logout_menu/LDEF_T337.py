@@ -2,7 +2,7 @@ import allure
 import pytest
 from pom.selenium_functions import Signin, Base
 from configuration import USERNAME_HA, PASSWORD_HA, CODE
-from pom.pages.logout_menu import ACCESS_CARDS, START_LOGOUT_MENU, Logout
+from pom.pages.logout_menu import ACCESS_CARDS, START_LOGOUT_MENU
 import time
 
 
@@ -13,7 +13,7 @@ def test_case(setup, username, password, code):
     """
     [Menu/Profile/Access cards] Add units. Choose Units (one/multiple) from the list
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS).profile_menu()
     Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS).add_units()

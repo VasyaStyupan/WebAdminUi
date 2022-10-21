@@ -14,7 +14,7 @@ def test_case(setup, username, password, code):
     """
     [Menu/Profile] View the screen Units
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     MainScreen(setup).find_popup().click()
     Base(setup, START_LOGOUT_MENU[0], UNITS).logout_menu()
@@ -24,6 +24,6 @@ def test_case(setup, username, password, code):
         assert "Personal info" and "Units" and "Access Cards" and "Reset Password" in setup.page_source, "Required tags  are missing"
     with allure.step("Step 2. Check presence of next tags"):
         assert "Buildings" and "Units" and "Unit manager" and "Doorbell button" and "Digital keys" and "Remove user" in setup.page_source, "Required fields  are missing"
-    time.sleep(1)
+
 
 

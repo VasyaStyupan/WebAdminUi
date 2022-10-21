@@ -5,13 +5,13 @@ from configuration import SIMPLE_USER, SIMPLE_PASS, CODE
 
 
 @allure.title("Try to login with credentials of the simple User")
-@pytest.mark.parametrize('username, password, code', [
-    (SIMPLE_USER, SIMPLE_PASS, CODE)])
-def test_case(setup, username, password, code):
+@pytest.mark.parametrize('username, password', [
+    (SIMPLE_USER, SIMPLE_PASS)])
+def test_case(setup, username, password):
     """
     Check Open Privacy, Terms of use
     """
-    current_url = Signin(setup, username, password, code).login_credentials()
+    current_url = Signin(setup, username, password).login_credentials()
     assert current_url != 200, "Wrong username or password"
 
 

@@ -11,7 +11,7 @@ def test_case(setup, username, password, code):
     """
     [Main screen] View the Main screen when BA is logged
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     with allure.step("Step 1. Check if user can see 'Building manager', 'Your buildings', 'Building address','Units',"
                      " 'Doors', 'Users' "):

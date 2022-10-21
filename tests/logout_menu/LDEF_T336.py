@@ -13,7 +13,7 @@ def test_case(setup, username, password, code):
     """
     [Menu/Profile/Access cards] Add card
     """
-    Signin(setup, username, password, code).login_credentials()
+    Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS).profile_menu()
     Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS).add_card()
