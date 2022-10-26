@@ -248,7 +248,7 @@ class Base2(LoginPage):
         Units(self.driver).doorbell()
         Units(self.driver).press_icon()
         mypath = Path("picture")
-        path = mypath.home().joinpath("WebAdminUi", "picture", "picture.jpeg")
+        path = mypath.home().joinpath("PycharmProjects", "WebAdminUi", "picture", "picture.jpeg")
         Units(self.driver).load_image().send_keys(str(path))
         time.sleep(1)
         Units(self.driver).save_image()
@@ -368,9 +368,10 @@ class Base2(LoginPage):
         return doorbell
 
     def select_schedule(self):
-        self.enter_the_doorbell()
+        doorbell = self.enter_the_doorbell()
         Buildings(self.driver).schedule()
         time.sleep(1)
+        return doorbell
 
     def add_user(self):
         self.enter_the_unit()
@@ -450,3 +451,19 @@ class Base2(LoginPage):
         Hwa(self.driver, "JohnDoe@mail.com").search_hwa()
         Hwa(self.driver).delete_user_hwa()
         time.sleep(1)
+
+    def set_schedule_and_day(self):
+        doorbell = self.select_schedule()
+        Buildings(self.driver).set_up_custom_days()
+        Buildings(self.driver).choose_day()
+        Buildings(self.driver).ao_on()
+        Buildings(self.driver).save_day()
+        self.driver.refresh()
+        Buildings(self.driver, doorbell).enter_doorbell_unit_level()
+
+
+
+
+
+
+

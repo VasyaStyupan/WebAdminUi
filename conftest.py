@@ -19,9 +19,9 @@ def get_chrome_options():
 @pytest.fixture
 def get_webdriver(get_chrome_options):
     options = get_chrome_options
-    # ser = Service('/Users/driver/chromedriver')
+    # ser = Service('/Users/webdriver/chromedriver')
     mypath = Path("chromedriver")
-    path = mypath.home().joinpath("WebAdminUi", "webdriver", "chromedriver")
+    path = mypath.home().joinpath("PycharmProjects", "WebAdminUi", "webdriver", "chromedriver")
     ser = Service(str(path))
     driver = webdriver.Chrome(service=ser, options=options)
     return driver

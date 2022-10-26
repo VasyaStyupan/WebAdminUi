@@ -66,7 +66,8 @@ def test_case3(setup, username, password, code):
     Base2(setup).check_add_role_unit_manager__function()
     time.sleep(1)
     with allure.step("Step 1. Check if massage 'You don`t have admin permissions' is present"):
-        assert "You don't have admin permissions" in setup.page_source, "'Error while adding unit manager role to another user"
+        assert "You don't have admin permissions" in setup.page_source, "'Error while adding unit manager role to " \
+                                                                        "another user "
     time.sleep(2)
     Base2(setup).logout()
     Signin(setup, username, password, code).login_credentials()

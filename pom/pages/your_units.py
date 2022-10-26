@@ -31,7 +31,6 @@ class Units:
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def choose_delete(self):
-        locator = "div.image-label__image "
         locator = "//div[@class='image-label__image'] "
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
 
@@ -147,6 +146,10 @@ class Units:
         locator = "//input[@placeholder='Phone']"
         phone_field = self.driver.find_element(By.XPATH, locator)
         phone_field.send_keys("0123456789")
+        locator = "//div[text()=' Language ']/following::input[8]"
+        language = self.driver.find_element(By.XPATH, locator).click()
+        locator = "//span[text()='English']"
+        english = self.driver.find_element(By.XPATH, locator).click()
         locator = "//input[@placeholder='First name']"
         firstname_field = self.driver.find_element(By.XPATH, locator)
         firstname_field.send_keys("John")
