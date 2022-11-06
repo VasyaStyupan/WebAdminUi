@@ -28,11 +28,10 @@ def test_case(setup, username, password, code):
     Hwa(setup).change_rfid_status()
     time.sleep(1)
     setup.get(BASE_URL)
-    setup.refresh()
     Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS).profile_menu()
     Logout(setup).mark_status_card()
-    setup.refresh()
     Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS).profile_menu()
+    time.sleep(1)
     with allure.step("Step 2. Check if card is Active"):
         assert "Active" in setup.page_source, "Can`t change card status"
     Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS).delete_card()

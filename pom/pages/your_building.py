@@ -89,12 +89,8 @@ class Buildings:
         # self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def check_family_mode(self):
-        i = 0
-        while i < 3:
-            locator = "//div[text()=' Off ']"
-            self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
-            time.sleep(1)
-            i += 1
+        locator = "//div[text()=' Off ']"
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def checkbox_recovery_after_selection(self):
         locator = "//i[@class='icon-app-ok-1']"  # remove all buttons from doorbell
