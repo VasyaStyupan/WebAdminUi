@@ -1,3 +1,5 @@
+import time
+
 import allure
 import pytest
 from pom.selenium_functions import Signin
@@ -17,4 +19,4 @@ def test_case(setup, username, password, code):
         assert f"{BASE_URL}/building/list" == current_url, "Wrong page"
         assert "Building address" and "Units" and "Doors" and "Users" in setup.page_source, "Wrong page"
 
-
+    time.sleep(3)

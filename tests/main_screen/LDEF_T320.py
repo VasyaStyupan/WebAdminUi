@@ -1,9 +1,9 @@
 import time
 import pytest
 import allure
-from pom.selenium_functions import Signin, Base
+from pom.selenium_functions import Signin, Base, Base2
 from configuration import CODE, USERNAME_HA, PASSWORD_HA
-from pom.pages.mainscreen_page import START_MAIN_MENU
+from pom.pages.mainscreen_page import START_MAIN_MENU, START_MAIN_MENU_FOLLOWING
 
 
 @allure.title("Check scrolling for Building addresses")

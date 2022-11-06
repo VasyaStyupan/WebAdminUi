@@ -3,7 +3,7 @@ import pytest
 from pom.selenium_functions import Signin, Base
 from configuration import USERNAME, PASSWORD, CODE
 from pom.pages.mainscreen_page import MainScreen, START_LOGOUT_MENU
-from pom.pages.logout_menu import NORWEGIAN, SWEDISH
+from pom.pages.logout_menu import NORWEGIAN
 import time
 
 

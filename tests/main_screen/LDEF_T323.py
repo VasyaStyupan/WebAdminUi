@@ -6,7 +6,7 @@ from configuration import PASSWORD_HA, PASSWORD_UO, PASSWORD_UM, PASSWORD_BA, CO
 import time
 
 
-@allure.title("The button is available if logged in by hyperadmin")
+@allure.title("The button is available if logged in by hyper-admin")
 @pytest.mark.parametrize('username, password, code, scenario', [
     (USERNAME_HA, PASSWORD_HA, CODE, 0),
 ])

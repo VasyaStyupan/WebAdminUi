@@ -5,7 +5,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 
 LOGOUT_MENU = '//div[@class="user-info-dropdown-mobile-button"]'
-# LOGOUT_MENU = '//div[@class="cdk-overlay-pane"]'
 START_LOGOUT_MENU = "//*[text()=' Profile ']", "//*[text()=' Language ']", "//*[text()=' Logout ']"
 NORWEGIAN = "//div[text()=' Norsk ']"
 SWEDISH = "//div[text()=' Svenska ']"
@@ -13,9 +12,7 @@ PERSONAL_INFO = "//div[text()=' Personal Info ']"
 UNITS = "//div[text()=' Units ']"
 LOGOUT = "//div[text()=' Logout ']"
 ACCESS = "//div[text()=' Access ']"
-ADD_CARD = "//button[text()=' Add card ']"
 ACCESS_CARDS = '//div[text()=" Access Cards "]'
-ADD_PIN_CODE = "//button[text()=' Add or change card PIN code ']"
 ENTER_PIN_FIELD = "//input[@class='form-input ng-pristine ng-valid ng-star-inserted ng-touched']"
 PIN_SAVE_BUTTON = "//button[@class='form-button-save']"
 
@@ -25,6 +22,20 @@ class Logout:
         self.driver = driver
         self.word = search_word
         self.__wait = WebDriverWait(driver, 15, 0.5)
+
+    def access_cards(self):
+        locator = '//div[text()=" Access Cards "]'
+        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+
+    def access_tag(self):
+        locator = "//div[text()=' Access ']"
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        time.sleep(1)
+        element.click()
+
+    def add_card(self):
+        locator = "//button[text()=' Add card ']"
+        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def find_popup(self):
         xpath = LOGOUT_MENU
@@ -72,7 +83,7 @@ class Logout:
 
     def mark_digital_key(self):
         locator = "//label[@class='form-checkbox-holder']//following::i[3]"
-        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def mark_doorbell_button(self):
         locator = "//label[@class='form-checkbox-holder']//following::i[2]"
@@ -80,7 +91,7 @@ class Logout:
 
     def mark_unit_manager(self):
         locator = "//label[@class='form-checkbox-holder']//following::i[1]"
-        return self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()
+        return self.__wait.until(ec.presence_of_element_located((By.XPATH, locator))).click()
 
     def mark_status_card(self):
         locator = "i.icon-app-ok-1"
@@ -94,9 +105,10 @@ class Logout:
         locator = "button.remove-dialog-accept-btn"
         return self.__wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, locator))).click()
 
-    def edit_personal_info(self, firstname):
+    def edit_personal_info(self):
+        firstname = self.word
         locator = "//span[text()='Edit Info']"
-        self.__wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, locator))).click()
+        self.__wait.until(ec.presence_of_element_located((By.XPATH, locator))).click()
         time.sleep(1)
         locator = "//input[@placeholder='Enter name']"
         search_field = self.driver.find_element(By.XPATH, locator)
@@ -107,14 +119,10 @@ class Logout:
 
     def edit_info(self):
         locator = "//span[text()='Edit Info']"
-        return self.driver.find_element(By.XPATH, locator).click()
+        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def units_tag(self):
         locator = "//div[text()=' Units ']"
-        return self.driver.find_element(By.XPATH, locator).click()
-
-    def access_tag(self):
-        locator = "//div[text()=' Access ']"
         return self.driver.find_element(By.XPATH, locator).click()
 
     def tips_doorbell_button(self):
@@ -150,3 +158,8 @@ class Logout:
     def switch_to_swedish(self):
         locator = "//div[@class='form-radio__label']/following::label[2]"
         return self.__wait.until(ec.presence_of_element_located((By.XPATH, locator))).click()
+
+    def add_pin_code(self):
+        locator = "//button[text()=' Add or change card PIN code ']"
+        return self.__wait.until(ec.presence_of_element_located((By.XPATH, locator))).click()
+

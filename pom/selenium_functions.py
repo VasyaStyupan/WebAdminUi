@@ -1,5 +1,4 @@
 import time
-from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
@@ -8,7 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from configuration import BASE_URL, USERNAME_UM, PASSWORD_UM, CODE, LOGIN_URL
 from pom.pages.code_page import CodePage
 from pom.pages.login_page import LoginPage, SELECT_SERVER_US
-from pom.pages.logout_menu import ADD_CARD, Logout, START_LOGOUT_MENU, LOGOUT, UNITS
+from pom.pages.logout_menu import Logout, START_LOGOUT_MENU, LOGOUT, UNITS
 from pom.pages.mainscreen_page import MainScreen
 from pom.pages.your_units import Units
 from pom.pages.your_building import Buildings
@@ -52,82 +51,38 @@ class Base(LoginPage):
         self.driver = driver
         self.xpath = xpath
         self.xpath1 = xpath1
+        self.xpath2 = xpath1
 
-    def select_popup_lang(self):
-        LoginPage(self.driver).search_lang().click()
-        hidden_menu = self.driver.find_element(By.XPATH, self.xpath)
-        ActionChains(self.driver).move_to_element(hidden_menu).click(hidden_menu).perform()
-        return self.driver.find_element(By.XPATH, self.xpath)
-
-    def popup_server(self):
-        LoginPage(self.driver).change_server_No_Us().click()
-        hidden_menu = self.driver.find_element(By.XPATH, self.xpath)
-        ActionChains(self.driver).move_to_element(hidden_menu).click(hidden_menu).perform()
-        return self.driver.find_element(By.XPATH, SELECT_SERVER_US)
-
-    def hover(self):  # hovering building addresses
-        MainScreen(self.driver).press_sorting_button()
-        xpath_elements = self.xpath
-        elements = self.driver.find_elements(By.XPATH, xpath_elements)
-        first_letter_list = []
-        for i in range(len(elements)):
-            if i == 0:
-                xpath = xpath_elements
-            else:
-                xpath = f"{xpath_elements}/following::app-building-list-item[{i}]/div"
-            xpath = self.driver.find_element(By.XPATH, xpath)
-            first_letter_list.append(xpath.text[0])
-            first_letter_list[i] = xpath.text[0]
-            ActionChains(self.driver).move_to_element(xpath).perform()
-        del first_letter_list[0:1]
-        return first_letter_list
-
-    def scrolling(self):  # scrolling building addresse
-        xpath_elements = self.xpath
-        elements = self.driver.find_elements(By.XPATH, xpath_elements)
-        for i in range(len(elements)):
-            if i == 0:
-                xpath = xpath_elements
-            else:
-                xpath = f"{xpath_elements}/following::app-building-list-item[{i}]/div"
-            xpath = self.driver.find_element(By.XPATH, xpath)
-            if i % 5 == 0 or i == len(elements) - 1:
-                ActionChains(self.driver).move_to_element(xpath).perform()
-
-    def hover_popup(self):  # hovering popup
-        i = 0
-        while i < 3:
-            xpath = self.driver.find_element(By.XPATH, self.xpath[i])
-            ActionChains(self.driver).move_to_element(xpath).perform()
-            i = i + 1
-
-    def logout_menu(self):  # switch item in logout menu
-        xpath = self.driver.find_element(By.XPATH, self.xpath)
-        ActionChains(self.driver).move_to_element(xpath).click().perform()
-
-    def switch_to_lang(self):  # switch to lang in logout menu
-        self.logout_menu()
-        xpath = self.xpath1[0]
-        self.driver.find_element(By.XPATH, xpath).click()
-
-    def press_button(self, xpath):
-        self.driver.find_element(By.XPATH, xpath).click()
-
-    def profile_menu(self):
-        MainScreen(self.driver).find_popup().click()
-        self.logout_menu()
-        self.driver.find_element(By.XPATH, self.xpath1[0]).click()
+    def add_units(self):
+        Logout(self.driver).add_card_button()
+        Logout(self.driver).add_units_button()
+        Logout(self.driver).mark_unit()
+        Logout(self.driver).save_unit_button()
 
     def add_card(self):
-        self.press_button(ADD_CARD)
+        Logout(self.driver).add_card()
         Logout(self.driver).input_card_number()
         Logout(self.driver).input_card_name()
 
-    def add_pin_code(self, xpath):
-        self.profile_menu()
+    def add_pin_code(self):
         self.add_card()
-        self.driver.find_element(By.XPATH, xpath).click()
+        Logout(self.driver).add_pin_code()
         return Logout(self.driver, "22222222").enter_pin_code()
+
+    def check_tips(self):
+        MainScreen(self.driver).find_popup().click()
+        self.logout_menu()
+        Logout(self.driver).units_tag()
+
+    def check_tips_doorbell_button(self):
+        self.check_tips()
+        xpath = Logout(self.driver).tips_doorbell_button()
+        ActionChains(self.driver).move_to_element(xpath).perform()
+
+    def check_tips_digital_keys(self):
+        self.check_tips()
+        xpath = Logout(self.driver).tips_digital_keys()
+        ActionChains(self.driver).move_to_element(xpath).perform()
 
     def delete_card(self):
         Logout(self.driver).delete()
@@ -138,8 +93,73 @@ class Base(LoginPage):
         Logout(self.driver).edit()
         Logout(self.driver).edit_card_name()
 
-    def units(self):
+    def edit_personal_info(self):
         self.profile_menu()
+        time.sleep(1)
+        Logout(self.driver).edit_personal_info()
+
+    def enter_doorbell_um(self):
+        doorbell = self.xpath
+        Buildings(self.driver).doorbell_button()
+        Buildings(self.driver, doorbell).select_doorbell()
+
+    def hover(self):  # hovering and sorting
+        self.__wait.until(ec.presence_of_element_located((By.XPATH, self.xpath1[1]))).click()
+        if len(self.xpath1) == 2:
+            index = 0
+        else:
+            index = self.xpath1[2]
+        xpath_elements = self.xpath
+        elements = self.driver.find_elements(By.XPATH, xpath_elements)
+        items_list = []
+        for i in range(len(elements)):
+            if i == 0:
+                xpath = xpath_elements
+            elif i > 7:
+                break
+            else:
+                xpath = f"{xpath_elements}{self.xpath1[0]}[{i}]/div"
+            xpath = self.driver.find_element(By.XPATH, xpath)
+            items_list.append(xpath.text.split()[index])
+            ActionChains(self.driver).move_to_element(xpath).perform()
+        del items_list[0:10]
+        return items_list
+
+    def hover_popup(self):  # hovering popup
+        i = 0
+        while i < 3:
+            xpath = self.driver.find_element(By.XPATH, self.xpath[i])
+            ActionChains(self.driver).move_to_element(xpath).perform()
+            i = i + 1
+
+    def logout_menu(self):  # switch item in logout menu
+        locator = self.driver.find_element(By.XPATH, self.xpath)
+        ActionChains(self.driver).move_to_element(locator).click().perform()
+
+    def link_unit(self):
+        Hwa(self.driver).signin_hwa()
+        Hwa(self.driver, self.xpath).search_hwa()
+        building_address = Hwa(self.driver).building_address_um()
+        building = building_address.text
+        uid = Hwa(self.driver).unit_uid().text
+        Hwa(self.driver).manage_customers()
+
+        # Select Building
+        for i in Hwa(self.driver).building_address_ba():
+            j = + 1
+            locator = f"//span[@tabindex='0']/following::span[{j}]"
+            if i.text == building:
+                self.driver.find_element(By.XPATH, locator).click()
+                break
+        Hwa(self.driver).apartment_management()
+        j = 0  # Select Unit
+        for i in Hwa(self.driver).find_by_uid():
+            if i.get_attribute('ng-reflect-model') == uid:
+                locator = f"//p[@class='add_user']/following::p[{j}]"
+                self.driver.find_element(By.XPATH, locator).click()
+                break
+            j = j + 1
+        Hwa(self.driver).add_existing_user()
 
     def mark_unmark_digital_keys(self):
         self.profile_menu()
@@ -167,37 +187,24 @@ class Base(LoginPage):
         time.sleep(1)
         Logout(self.driver).mark_unit_manager()
 
+    def popup_server(self):
+        LoginPage(self.driver).change_server_No_Us().click()
+        hidden_menu = self.driver.find_element(By.XPATH, self.xpath)
+        ActionChains(self.driver).move_to_element(hidden_menu).click(hidden_menu).perform()
+        return self.driver.find_element(By.XPATH, SELECT_SERVER_US)
+
+    def press_button(self, xpath):
+        self.driver.find_element(By.XPATH, xpath).click()
+
+    def profile_menu(self):
+        MainScreen(self.driver).find_popup().click()
+        self.logout_menu()
+        self.driver.find_element(By.XPATH, self.xpath1[0]).click()
+
     def remove_user(self):
         self.profile_menu()
         Logout(self.driver).button_remove_user()
         Logout(self.driver).approve_remove()
-
-    def edit_personal_info(self):
-        self.profile_menu()
-        time.sleep(1)
-        Logout(self.driver).edit_personal_info(self.xpath1)
-
-    def check_tips(self):
-        MainScreen(self.driver).find_popup().click()
-        self.logout_menu()
-        Logout(self.driver).units_tag()
-
-    def check_tips_doorbell_button(self):
-        self.check_tips()
-        xpath = Logout(self.driver).tips_doorbell_button()
-        ActionChains(self.driver).move_to_element(xpath).perform()
-
-    def check_tips_digital_keys(self):
-        self.check_tips()
-        xpath = Logout(self.driver).tips_digital_keys()
-        ActionChains(self.driver).move_to_element(xpath).perform()
-
-    def add_units(self):
-        Logout(self.driver).add_card_button()
-        Logout(self.driver).add_units_button()
-        Logout(self.driver).mark_unit()
-        # time.sleep(1)
-        Logout(self.driver).save_unit_button()
 
     def restore_active_status(self):
         Hwa(self.driver).signin_hwa()
@@ -208,34 +215,32 @@ class Base(LoginPage):
         Hwa(self.driver).signin_hwa()
         Hwa(self.driver, self.xpath).signin_hwa()
 
-    def link_unit(self):
-        Hwa(self.driver).signin_hwa()
-        Hwa(self.driver, self.xpath).search_hwa()
-        building_address = Hwa(self.driver).building_address_um()
-        building = building_address.text
-        uid = Hwa(self.driver).unit_uid().text
-        Hwa(self.driver).manage_customers()
-        # Select Building
-        for i in Hwa(self.driver).building_address_ba():
-            j = + 1
-            locator = f"//span[@tabindex='0']/following::span[{j}]"
-            if i.text == building:
-                self.driver.find_element(By.XPATH, locator).click()
-                break
-        Hwa(self.driver).apartment_management()
-        j = 0  # Select Unit
-        for i in Hwa(self.driver).find_by_uid():
-            if i.get_attribute('ng-reflect-model') == uid:
-                locator = f"//p[@class='add_user']/following::p[{j}]"
-                self.driver.find_element(By.XPATH, locator).click()
-                break
-            j = j + 1
-        Hwa(self.driver).add_existing_user()
+    def select_popup_lang(self):
+        LoginPage(self.driver).search_lang().click()
+        hidden_menu = self.driver.find_element(By.XPATH, self.xpath)
+        ActionChains(self.driver).move_to_element(hidden_menu).click(hidden_menu).perform()
+        return self.driver.find_element(By.XPATH, self.xpath)
 
-    def enter_doorbell_um(self):
-        doorbell = self.xpath
-        Buildings(self.driver).doorbell_button()
-        Buildings(self.driver, doorbell).select_doorbell()
+    def scrolling(self):  # scrolling building addresses
+        xpath_elements = self.xpath
+        elements = self.driver.find_elements(By.XPATH, xpath_elements)
+        for i in range(len(elements)):
+            if i == 0:
+                xpath = xpath_elements
+            else:
+                xpath = f"{xpath_elements}/following::app-building-list-item[{i}]/div"
+
+            if i % 5 == 0 or i < len(elements):
+                xpath = self.driver.find_element(By.XPATH, xpath)
+                ActionChains(self.driver).move_to_element(xpath).perform()
+
+    def switch_to_lang(self):  # switch to lang in logout menu
+        self.logout_menu()
+        xpath = self.xpath1[0]
+        self.driver.find_element(By.XPATH, xpath).click()
+
+    def units(self):
+        self.profile_menu()
 
 
 class Base2(LoginPage):
@@ -243,41 +248,43 @@ class Base2(LoginPage):
         super().__init__(driver)
         self.driver = driver
 
-    def upload_image(self):
-        Units(self.driver).doorbell_tab()
-        Units(self.driver).doorbell()
-        Units(self.driver).press_icon()
-        mypath = Path("picture")
-        path = mypath.home().joinpath("PycharmProjects", "WebAdminUi", "picture", "picture.jpeg")
-        Units(self.driver).load_image().send_keys(str(path))
-        time.sleep(1)
-        Units(self.driver).save_image()
-
-    def delete_image(self):
-        Units(self.driver).doorbell_tab()
-        Units(self.driver).doorbell()
-        time.sleep(1)
-        xpath = Units(self.driver).choose_delete()
-        ActionChains(self.driver).move_to_element(xpath).perform()
-        xpath = Units(self.driver).delete_img()
-        ActionChains(self.driver).move_to_element(xpath).click().perform()
-        Units(self.driver).accept_delete()
-
     def access_tab(self):
         Units(self.driver).access()
 
-    def doorbell_tab(self):
-        Units(self.driver).doorbell()
+    def add_user(self):
+        Units(self.driver).add_user()
+        Units(self.driver).fill_user_data_first_part()
+        Units(self.driver).fill_user_data_phone()
+        Units(self.driver).fill_user_data_second_part()
 
-    def configure_ao(self):
-        Units(self.driver).never_allow()
-        time.sleep(1)
-        Units(self.driver).always_allow()
-        time.sleep(1)
-        Units(self.driver).schedule()
-        time.sleep(1)
+    def add_user_without_phone(self):
+        Units(self.driver).add_user()
+        Units(self.driver).fill_user_data_first_part()
+        Units(self.driver).fill_user_data_second_part()
+
+    def add_user_phone_with_spaces(self):
+        Units(self.driver).add_user()
+        Units(self.driver).fill_user_data_first_part()
+        Units(self.driver).fill_user_data_phone_with_spaces()
+        Units(self.driver).fill_user_data_second_part()
+
+    def add_user_with_only_email(self):
+        Units(self.driver).add_user()
+        Units(self.driver).fill_email_data()
+        Units(self.driver).fill_lang()
+
+    def block_RFID_cards(self):
+        i = 0
+        while i < 3:
+            Buildings(self.driver).block_adding_RFID_cards()
+            time.sleep(1)
+            i += 1
+        Buildings(self.driver).pin_code_is_mandatory()
 
     def change_unit_info(self):
+        Units(self.driver).settings()
+
+    def change_unit_info_ba(self):
         Units(self.driver).select_building()
         time.sleep(1)
         Units(self.driver).select_unit()
@@ -288,64 +295,9 @@ class Base2(LoginPage):
         Units(self.driver).settings()
         Units(self.driver).change_unit_manager()
 
-    def enter_the_unit(self):
-        Units(self.driver).select_building()
-        time.sleep(1)
-        Units(self.driver).select_unit()
-
-    def find_doorbell(self):
-        Buildings(self.driver).your_units_button()
-        address, unit = Buildings(self.driver).building_address()
-        self.driver.find_elements(By.XPATH, f"//div[contains(text(), '{address}')]")[0].click()
-        self.driver.find_elements(By.XPATH, f"//span[contains(text(), '{unit}')]")[0].click()
-        self.driver.find_elements(By.XPATH, "//div[contains(text(), ' Doorbell ')]")[0].click()
-        doorbell = self.driver.find_elements(By.XPATH, "//div[@class='table-list-item__coll']")[0].text
-        self.driver.get(f"{BASE_URL}/building/list")
-        return doorbell, address
-
-    def enter_the_doorbell(self):
-        doorbell, address = Base2(self.driver).find_doorbell()
-        Buildings(self.driver, address).select_building()
-        Buildings(self.driver).doorbell_button()
-        Buildings(self.driver, doorbell).select_doorbell()
-        return doorbell
-
     def change_doorbell_name(self):
         doorbell = self.enter_the_doorbell()
         Buildings(self.driver, "My Doorbell Name").input_doorbell_name()
-        return doorbell
-
-    def enable_search_field(self):
-        self.enter_the_doorbell()
-        Buildings(self.driver).enable_search()
-
-    def remove_buttons(self):
-        self.enter_the_doorbell()
-        Buildings(self.driver).remove_buttons_from_doorbell()
-
-    def uncheck_user_image(self):
-        self.enter_the_doorbell()
-        Buildings(self.driver).uncheck_show_user_image()
-
-    def uncheck_unit_image(self):
-        self.enter_the_doorbell()
-        Buildings(self.driver).uncheck_show_unit_image()
-
-    def check_unit_image(self):
-        self.enter_the_doorbell()
-        Buildings(self.driver).uncheck_show_unit_image()
-        Buildings(self.driver).upload_unit_image()
-        Buildings(self.driver).make_unit_image_visible()
-
-    def check_user_image(self):
-        self.enter_the_doorbell()
-        Buildings(self.driver).uncheck_show_user_image()
-        Buildings(self.driver).make_user_image_visible()
-
-    def forbid_unit_image(self):
-        doorbell = self.enter_the_doorbell()
-        Buildings(self.driver).forbid_upload_unit_image()
-        time.sleep(1)
         return doorbell
 
     def check_doorbell_display_conditions(self):
@@ -354,60 +306,6 @@ class Base2(LoginPage):
         Buildings(self.driver).make_unit_image_visible()
         Buildings(self.driver).make_user_image_visible()
         Buildings(self.driver).allow_um_enable_ao()
-
-    def select_never_allow(self):
-        doorbell = self.enter_the_doorbell()
-        Buildings(self.driver).never_allow()
-        time.sleep(1)
-        return doorbell
-
-    def select_always_allow(self):
-        doorbell = self.enter_the_doorbell()
-        Buildings(self.driver).always_allow()
-        time.sleep(1)
-        return doorbell
-
-    def select_schedule(self):
-        doorbell = self.enter_the_doorbell()
-        Buildings(self.driver).schedule()
-        time.sleep(1)
-        return doorbell
-
-    def add_user(self):
-        self.enter_the_unit()
-        Units(self.driver).add_user()
-        Units(self.driver).fill_user_data()
-
-    def doorbell_button(self):
-        Units(self.driver).select_building()
-        time.sleep(1)
-        Units(self.driver).select_unit()
-        Units(self.driver).doorbell_button()
-        Units(self.driver).doorbell_item()
-
-    def doorbell_visibility(self):
-        Units(self.driver).check_button_visibility()
-
-    def doorbell_layouts(self):
-        i = 0
-        while i < 2:
-            Units(self.driver).check_button_layouts()
-            i = i + 1
-
-    def is_image_present(self):
-        try:
-            Units(self.driver).check_image_visibility()
-            return True
-        except NoSuchElementException:
-            return False
-
-    def enter_building_settings(self):
-        Units(self.driver).select_building()
-        Buildings(self.driver).settings_tab()
-
-    def logout(self):
-        MainScreen(self.driver).find_popup().click()
-        Base(self.driver, START_LOGOUT_MENU[2], LOGOUT).logout_menu()
 
     def check_add_user_function(self):
         Buildings(self.driver).add_user_function()
@@ -427,10 +325,28 @@ class Base2(LoginPage):
         Signin(self.driver, USERNAME_UM, PASSWORD_UM, CODE).login_credentials()
         Signin(self.driver, USERNAME_UM, PASSWORD_UM, CODE).login_code()
         Units(self.driver).add_user()
-        Units(self.driver).fill_user_data()
+        Units(self.driver).fill_user_data_first_part()
+        Units(self.driver).fill_user_data_phone()
+        Units(self.driver).fill_user_data_second_part()
         Units(self.driver).make_unit_manager()
 
         # Buildings(self.driver).RFID_cards_function()
+
+    def check_user_image(self):
+        self.enter_the_doorbell()
+        Buildings(self.driver).uncheck_show_user_image()
+        Buildings(self.driver).make_user_image_visible()
+        Buildings(self.driver).uncheck_show_unit_image()
+        Buildings(self.driver).make_unit_image_visible()
+        Buildings(self.driver).upload_unit_image()
+
+    def check_unit_image(self):
+        self.enter_the_doorbell()
+        Buildings(self.driver).uncheck_show_unit_image()
+        Buildings(self.driver).upload_unit_image()
+        Buildings(self.driver).make_unit_image_visible()
+        Buildings(self.driver).uncheck_show_user_image()
+        Buildings(self.driver).make_user_image_visible()
 
     def check_user_image_disabled(self):
         try:
@@ -446,11 +362,134 @@ class Base2(LoginPage):
         except Exception:
             return True
 
+    def checkbox_recovery(self):
+        self.enter_the_doorbell()
+        Buildings(self.driver).checkbox_recovery_after_selection()
+
+    def check_volume(self):
+        move = ActionChains(self.driver)
+        thumb = Buildings(self.driver).volume_thumb()
+        move.click_and_hold(thumb).move_by_offset(100, 0).release().perform()
+        move.click_and_hold(thumb).move_by_offset(10, 0).release().perform()
+
+    def configure_ao(self):
+        i = 0
+        while i < 2:
+            Units(self.driver).never_allow()
+            time.sleep(1)
+            Units(self.driver).always_allow()
+            time.sleep(1)
+            Units(self.driver).schedule()
+            time.sleep(1)
+            i += 1
+
+    def delete_image(self):
+        Units(self.driver).doorbell_tab()
+        Units(self.driver).doorbell()
+        time.sleep(1)
+        xpath = Units(self.driver).choose_delete()
+        ActionChains(self.driver).move_to_element(xpath).perform()
+        xpath = Units(self.driver).delete_img()
+        ActionChains(self.driver).move_to_element(xpath).click().perform()
+        Units(self.driver).accept_delete()
+
+    def doorbell_tab(self):
+        Units(self.driver).doorbell()
+
+    def doorbell_button(self):
+        Units(self.driver).select_building()
+        time.sleep(1)
+        Units(self.driver).select_unit()
+        Units(self.driver).doorbell_button()
+        Units(self.driver).doorbell_item()
+
+    def doorbell_visibility(self):
+        Units(self.driver).check_button_visibility()
+
+    def doorbell_layouts(self):
+        i = 0
+        while i < 2:
+            Units(self.driver).check_button_layouts()
+            i = i + 1
+
     def delete_user(self):
         Hwa(self.driver).signin_hwa()
         Hwa(self.driver, "JohnDoe@mail.com").search_hwa()
         Hwa(self.driver).delete_user_hwa()
         time.sleep(1)
+
+    def enter_the_unit(self):
+        Units(self.driver).select_building()
+        time.sleep(1)
+        Units(self.driver).select_unit()
+
+    def enter_the_user(self):
+        self.enter_the_unit()
+        Units(self.driver).select_user()
+
+    def enter_the_doorbell(self):
+        doorbell, address = Base2(self.driver).find_doorbell()
+        Buildings(self.driver, address).select_building()
+        Buildings(self.driver).doorbell_button()
+        Buildings(self.driver, doorbell).select_doorbell()
+        return doorbell
+
+    def enable_search_field(self):
+        self.enter_the_doorbell()
+        Buildings(self.driver).enable_search()
+
+    def enter_building_settings(self):
+        Units(self.driver).select_building()
+        Buildings(self.driver).settings_tab()
+
+    def find_doorbell(self):
+        Buildings(self.driver).your_units_button()
+        address, unit = Buildings(self.driver).building_address()
+        self.driver.find_elements(By.XPATH, f"//div[contains(text(), '{address}')]")[0].click()
+        self.driver.find_elements(By.XPATH, f"//span[contains(text(), '{unit}')]")[0].click()
+        self.driver.find_elements(By.XPATH, "//div[contains(text(), ' Doorbell ')]")[0].click()
+        doorbell = self.driver.find_elements(By.XPATH, "//div[@class='table-list-item__coll']")[0].text
+        self.driver.get(f"{BASE_URL}/building/list")
+        return doorbell, address
+
+    def forbid_unit_image(self):
+        doorbell = self.enter_the_doorbell()
+        Buildings(self.driver).forbid_upload_unit_image()
+        time.sleep(1)
+        return doorbell
+
+    def is_image_present(self):
+        try:
+            Units(self.driver).check_image_visibility()
+            return True
+        except NoSuchElementException:
+            return False
+
+    def logout(self):
+        MainScreen(self.driver).find_popup().click()
+        Base(self.driver, START_LOGOUT_MENU[2], LOGOUT).logout_menu()
+
+    def remove_buttons(self):
+        self.enter_the_doorbell()
+        Buildings(self.driver).remove_buttons_from_doorbell()
+
+    def select_never_allow(self):
+        doorbell = self.enter_the_doorbell()
+        Buildings(self.driver).never_allow()
+        time.sleep(1)
+        return doorbell
+
+    def select_always_allow(self):
+        doorbell = self.enter_the_doorbell()
+        Buildings(self.driver).always_allow()
+        time.sleep(1)
+        return doorbell
+
+    def select_schedule(self):
+        doorbell = self.enter_the_doorbell()
+        Buildings(self.driver).schedule()
+        time.sleep(1)
+        return doorbell
 
     def set_schedule_and_day(self):
         doorbell = self.select_schedule()
@@ -461,9 +500,20 @@ class Base2(LoginPage):
         self.driver.refresh()
         Buildings(self.driver, doorbell).enter_doorbell_unit_level()
 
+    def upload_image(self):
+        Units(self.driver).doorbell_tab()
+        Units(self.driver).doorbell()
+        Units(self.driver).press_icon()
+        mypath = Path("picture")
+        path = mypath.home().joinpath("PycharmProjects", "WebAdminUi", "picture", "picture.jpeg")
+        Units(self.driver).load_image().send_keys(str(path))
+        time.sleep(1)
+        Units(self.driver).save_image()
 
+    def uncheck_user_image(self):
+        self.enter_the_doorbell()
+        Buildings(self.driver).uncheck_show_user_image()
 
-
-
-
-
+    def uncheck_unit_image(self):
+        self.enter_the_doorbell()
+        Buildings(self.driver).uncheck_show_unit_image()

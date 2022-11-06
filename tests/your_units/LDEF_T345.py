@@ -1,6 +1,6 @@
 import allure
 import pytest
-from pom.selenium_functions import Signin, Base2
+from pom.selenium_functions import Signin
 from configuration import USERNAME, PASSWORD, CODE
 import time
 

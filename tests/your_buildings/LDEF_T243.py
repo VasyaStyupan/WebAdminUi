@@ -18,9 +18,9 @@ def test_case(setup, username, password, code):
     Buildings(setup).your_units_button()
     address, unit = Buildings(setup).building_address()
     Units(setup).settings()
-    Units(setup, 'Myunit').change_unit_name()
+    Buildings(setup, 'Myunit').change_unit_name()
     time.sleep(1)
     with allure.step("Step 1. Check for change Unit name"):
         assert 'Myunit' in setup.page_source, "Name change error"
-    Units(setup, unit).change_unit_name()
+    Buildings(setup, unit).change_unit_name()
     time.sleep(1)

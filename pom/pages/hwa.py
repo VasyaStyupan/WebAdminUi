@@ -95,3 +95,8 @@ class Hwa:
         search.send_keys(Keys.RETURN)
         locator = "//button[text()=' Add ']"
         self.driver.find_element(By.XPATH, locator).click()
+
+    def logout_hwa(self):
+        locator = "//div[@class='admin_name']"
+        self.driver.find_element(By.XPATH, locator).click()
+        self.driver.find_element(By.CLASS_NAME, 'logout').click()

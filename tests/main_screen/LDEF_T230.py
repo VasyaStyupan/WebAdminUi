@@ -6,7 +6,7 @@ from configuration import USERNAME_HA, PASSWORD_HA, CODE
 from pom.pages.mainscreen_page import MainScreen
 
 
-@allure.title("Map. Сheck the possibility to approximate/distance.")
+@allure.title("Map. Check the possibility to approximate/distance.")
 @pytest.mark.parametrize('username, password, code', [
     (USERNAME_HA, PASSWORD_HA, CODE)])
 def test_case(setup, username, password, code):

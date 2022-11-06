@@ -3,15 +3,15 @@ import allure
 import pytest
 from pom.selenium_functions import Signin
 from pom.pages.mainscreen_page import MainScreen
-from configuration import USERNAME_HA, PASSWORD_HA, CODE, SIMPLE_USER, UNIT
+from configuration import USERNAME_BA, PASSWORD_BA, CODE, SIMPLE_USER, UNIT
 
 
 @allure.title("Check the function of the search field")
 @pytest.mark.parametrize('username, password, code, search_word', [
-    (USERNAME_HA, PASSWORD_HA, CODE, SIMPLE_USER),
-    (USERNAME_HA, PASSWORD_HA, CODE, SIMPLE_USER[:3]),
-    (USERNAME_HA, PASSWORD_HA, CODE, UNIT),
-    (USERNAME_HA, PASSWORD_HA, CODE, UNIT[:3]),
+    (USERNAME_BA, PASSWORD_BA, CODE, SIMPLE_USER),
+    (USERNAME_BA, PASSWORD_BA, CODE, SIMPLE_USER[:3]),
+    (USERNAME_BA, PASSWORD_BA, CODE, UNIT),
+    (USERNAME_BA, PASSWORD_BA, CODE, UNIT[:3]),
 ])
 def test_case(setup, username, password, code, search_word):
     """

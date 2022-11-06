@@ -7,6 +7,7 @@ from pom.pages.hwa import Hwa
 import time
 
 
+# @pytest.mark.skip
 @allure.title("Change status of RFID in HA and check displaying changes in CWA")
 @pytest.mark.parametrize('username, password, code', [
     (USERNAME_BA, PASSWORD_BA, CODE)])
@@ -27,6 +28,7 @@ def test_case(setup, username, password, code):
     Hwa(setup).change_rfid_status()
     time.sleep(1)
     setup.get(BASE_URL)
+    setup.refresh()
     Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS).profile_menu()
     Logout(setup).mark_status_card()
     setup.refresh()

@@ -7,6 +7,7 @@ from pom.pages.logout_menu import UNITS, START_LOGOUT_MENU, Logout
 from pom.pages.mainscreen_page import MainScreen
 
 
+@pytest.mark.skip
 @allure.title("Personal Info. Edit personal data")
 @pytest.mark.parametrize('username, password, code', [
     (USERNAME_BA, PASSWORD_BA, CODE)])
