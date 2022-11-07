@@ -1,4 +1,6 @@
 import time
+import random
+import string
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
@@ -194,7 +196,8 @@ class Units:
         self.driver.find_element(By.XPATH, locator).click()
         locator = "//input[@placeholder='Phone']"
         phone_field = self.driver.find_element(By.XPATH, locator)
-        phone_field.send_keys("01234567890")
+        phone_number = ''.join(random.sample(string.digits, 10))
+        phone_field.send_keys(phone_number)
 
     def fill_user_data_phone_with_spaces(self):
         locator = "//div[@class='form-select-input-holder main-color']"

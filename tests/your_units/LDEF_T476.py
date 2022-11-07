@@ -19,6 +19,6 @@ def test_case(setup, username, password, code):
     Units(setup).save_button()
     time.sleep(1)
     with allure.step("Step 1. Check adding user"):
-        assert "JohnDoe" in setup.page_source, "Error adding user"
-
+        assert "JohnDoe@mail.com" in setup.page_source, "User not created"
+    Base2(setup).delete_user()
 

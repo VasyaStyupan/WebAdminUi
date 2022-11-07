@@ -19,5 +19,7 @@ def test_case(setup, username, password, code):
     Base2(setup).add_user_without_phone()
     Units(setup).save_button()
     time.sleep(1)
-    Base2(setup).delete_user()
-    time.sleep(1)
+    with allure.step("Step 1. Check adding user"):
+        assert "must have required property 'phone'" in setup.page_source, "User not created"
+    # Base2(setup).delete_user()
+    # time.sleep(1)

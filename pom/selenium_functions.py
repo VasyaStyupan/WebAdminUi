@@ -271,6 +271,7 @@ class Base2(LoginPage):
     def add_user_with_only_email(self):
         Units(self.driver).add_user()
         Units(self.driver).fill_email_data()
+        Units(self.driver).fill_user_data_phone()
         Units(self.driver).fill_lang()
 
     def block_RFID_cards(self):
