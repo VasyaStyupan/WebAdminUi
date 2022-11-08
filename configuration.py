@@ -36,4 +36,5 @@ PASSWORD = PASSWORD_UM
 EMAIL = EMAIL_UM
 CODE = "1111"
 UNIT = "Dontdeletethisunit"
+UID = 'fortest'
 
