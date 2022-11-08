@@ -1,8 +1,8 @@
 import allure
 import pytest
 from pom.selenium_functions import Signin, Base2
-from pom.selenium_functions import Units, Buildings
-from configuration import USERNAME_BA, PASSWORD_BA, CODE
+from pom.selenium_functions import Units
+from configuration import USERNAME_BA, PASSWORD_BA, CODE, UNIT
 import time
 
 
@@ -15,7 +15,7 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
-    Buildings(setup).your_units_button()
+    Base2(setup).select_your_units()
     Base2(setup).add_user()
     Units(setup).make_unit_manager()
     Base2(setup).delete_user()

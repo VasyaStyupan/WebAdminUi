@@ -17,9 +17,9 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password, code).login_code()
     Base2(setup).enter_the_unit()
     Base2(setup).add_user_without_phone()
+    current_url = setup.current_url
     Units(setup).save_button()
     time.sleep(1)
-    with allure.step("Step 1. Check adding user"):
-        assert "must have required property 'phone'" in setup.page_source, "User not created"
-    # Base2(setup).delete_user()
-    # time.sleep(1)
+    with allure.step("Step 1. Check adding user without providing phone number"):
+        assert current_url == setup.current_url, "Error. User must not be added"
+

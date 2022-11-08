@@ -4,10 +4,10 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-from configuration import BASE_URL, USERNAME_UM, PASSWORD_UM, CODE, LOGIN_URL
+from configuration import BASE_URL, USERNAME_UM, PASSWORD_UM, CODE, UNIT
 from pom.pages.code_page import CodePage
 from pom.pages.login_page import LoginPage, SELECT_SERVER_US
-from pom.pages.logout_menu import Logout, START_LOGOUT_MENU, LOGOUT, UNITS
+from pom.pages.logout_menu import Logout, START_LOGOUT_MENU, LOGOUT
 from pom.pages.mainscreen_page import MainScreen
 from pom.pages.your_units import Units
 from pom.pages.your_building import Buildings
@@ -61,6 +61,7 @@ class Base(LoginPage):
 
     def add_card(self):
         Logout(self.driver).add_card()
+        self.check_if_units_more_then_one()
         Logout(self.driver).input_card_number()
         Logout(self.driver).input_card_name()
 
@@ -68,6 +69,15 @@ class Base(LoginPage):
         self.add_card()
         Logout(self.driver).add_pin_code()
         return Logout(self.driver, "22222222").enter_pin_code()
+
+    def check_if_units_more_then_one(self):
+        if 'Add units' in self.driver.page_source:
+            self.__wait.until(
+                ec.element_to_be_clickable((By.XPATH, f"//button[contains(text(), 'Add units')]"))).click()
+            time.sleep(1)
+            self.__wait.until(ec.element_to_be_clickable((By.XPATH, "//div[@class='form-checkbox__label']"))).click()
+            self.__wait.until(
+                ec.element_to_be_clickable((By.XPATH, "//button[text()=' Save ']/following::button[2]"))).click()
 
     def check_tips(self):
         MainScreen(self.driver).find_popup().click()
@@ -143,7 +153,6 @@ class Base(LoginPage):
         building = building_address.text
         uid = Hwa(self.driver).unit_uid().text
         Hwa(self.driver).manage_customers()
-
         # Select Building
         for i in Hwa(self.driver).building_address_ba():
             j = + 1
@@ -163,17 +172,19 @@ class Base(LoginPage):
 
     def mark_unmark_digital_keys(self):
         self.profile_menu()
-        time.sleep(1)
-        Logout(self.driver).mark_digital_key()
-        time.sleep(1)
-        Logout(self.driver).mark_digital_key()
+        i = 0
+        while i < 3:
+            Logout(self.driver).mark_digital_key()
+            time.sleep(1)
+            i += 1
 
     def mark_unmark_doorbel_button(self):
         self.profile_menu()
-        time.sleep(1)
-        Logout(self.driver).mark_doorbell_button()
-        time.sleep(1)
-        Logout(self.driver).mark_doorbell_button()
+        i = 0
+        while i < 3:
+            Logout(self.driver).mark_doorbell_button()
+            time.sleep(1)
+            i += 1
 
     def mark_unmark_unit_manager(self):
         self.profile_menu()
@@ -220,6 +231,9 @@ class Base(LoginPage):
         hidden_menu = self.driver.find_element(By.XPATH, self.xpath)
         ActionChains(self.driver).move_to_element(hidden_menu).click(hidden_menu).perform()
         return self.driver.find_element(By.XPATH, self.xpath)
+
+    def select_unit(self):
+        self.driver.find_element(By.XPATH, f"//span[contains(text(), '{self.xpath}')]").click()
 
     def scrolling(self):  # scrolling building addresses
         xpath_elements = self.xpath
@@ -491,6 +505,11 @@ class Base2(LoginPage):
         Buildings(self.driver).schedule()
         time.sleep(1)
         return doorbell
+
+    def select_your_units(self):
+        Buildings(self.driver).your_units_button()
+        if "Users" and "Access" and 'Doorbell' not in self.driver.page_source:
+            Base(self.driver, UNIT).select_unit()
 
     def set_schedule_and_day(self):
         doorbell = self.select_schedule()

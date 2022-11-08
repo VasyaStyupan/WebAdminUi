@@ -71,7 +71,7 @@ class Hwa:
         return self.driver.find_elements(By.XPATH, locator)[0]
 
     def unit_uid(self):
-        locator = "//div[@class='data-item-column__text']"
+        locator = "//div[@class='data-item-column__text']/following::div[6]"
         return self.driver.find_element(By.XPATH, locator)
 
     def manage_customers(self):
