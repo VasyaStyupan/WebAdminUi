@@ -300,8 +300,8 @@ class Buildings:
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def upload_unit_image(self):
-        # locator = "//div[text()=' Upload unit image ']"
-        locator = "//label[@class='form-checkbox-holder']/following::label[17]"
+        locator = "//div[text()=' Upload unit image ']"
+        # locator = "//label[@class='form-checkbox-holder']/following::label[17]"
         return self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()
 
     def use_schedule_defined_for_this_building(self):

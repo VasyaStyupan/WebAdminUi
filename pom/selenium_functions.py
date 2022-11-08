@@ -317,9 +317,13 @@ class Base2(LoginPage):
 
     def check_doorbell_display_conditions(self):
         self.enter_the_doorbell()
+        time.sleep(1)
         Buildings(self.driver).upload_unit_image()
+        time.sleep(1)
         Buildings(self.driver).make_unit_image_visible()
+        time.sleep(1)
         Buildings(self.driver).make_user_image_visible()
+        time.sleep(1)
         Buildings(self.driver).allow_um_enable_ao()
 
     def check_add_user_function(self):
