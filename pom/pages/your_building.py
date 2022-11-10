@@ -8,8 +8,9 @@ FIRST_LINE = ["//app-units-list-item", "//app-users-list-item", "//app-access-li
 FIRST_LINE_FOLLOWING = ["/following::app-units-list-item", "/following::app-users-list-item",
                         "/following::app-access-list-item", "/following::app-doorbells-list-item"]
 TAGS = ("//div[text()=' Units ']", "//div[text()=' Users ']", "//div[text()=' Access ']", "//div[text()=' Doorbell ']")
-SUBMENU_TAGS = [("//span[text()=' GID ']", "//span[text()=' UID ']", "//span[text()=' Unit name ']",
-                 "//span[text()=' Floor ']", "//span[text()=' Number of users ']"),
+SUBMENU_TAGS = [("//span[text()=' GID ']", "//span[text()=' UID ']", "//span[text()=' Unit name ']", "//span[text()=' Floor ']"),
+                 # "//span[text()=' Number of users ']"),
+
                 ("//span[text()=' Username ']", "//span[text()=' First Name ']"),
                 # ("//span[text()=' Username ']", "//span[text()=' First Name ']", "//span[text()=' Last Name ']"
                 # "//span[text()=' Email ']", "//span[text()=' Phone ']"),
@@ -83,10 +84,6 @@ class Buildings:
         input_floors.send_keys(Keys.COMMAND, "a")
         input_floors.send_keys(floors_number)
         input_floors.send_keys(Keys.RETURN)
-        # locator = "//button[text()=' List of floors ']"
-        # self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
-        # locator = "//button[@class='close-btn']"
-        # self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def change_time(self):
         locator = "//div[@class='time-picker']/following::input[39]"

@@ -21,7 +21,7 @@ def test_case(setup, username, password, code):
     Buildings(setup).set_up_custom_days()
     Buildings(setup).choose_day()
     Buildings(setup).ao_on_unit_level()
-    Buildings(setup).change_time()
+    # Buildings(setup).change_time()
     Buildings(setup).save_day()
     time.sleep(1)
     with allure.step("Step 1. Check on the Unit level message 'Automatic opening is not allowed on this day.'"):

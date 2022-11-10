@@ -16,7 +16,7 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password, code).login_code()
     with allure.step("Step 1. Check presence of necessary users and tags"):
         assert username  in setup.page_source, "Required users  are missing"
-        assert "Your units" and "Access" and "Doorbell" in setup.page_source, "Required tags are missing"
+        assert "Users" and "Your units" and "Access" and "Doorbell" in setup.page_source, "Required tags are missing"
 
 
-# Добавить Users
+

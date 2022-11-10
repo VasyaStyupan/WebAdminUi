@@ -22,7 +22,7 @@ def test_case(setup, username, password, code):
     Units(setup).save_button()
     time.sleep(1)
     with allure.step("Step 1. Check adding user"):
-        assert "JohnDoe" in setup.page_source, "Error user not created"
+        assert "JohnDoe" in setup.page_source, "Error adding user"
     Buildings(setup).users_tag()
     time.sleep(1)
     with allure.step("Step 2. Check presence of necessary tags and buttons"):

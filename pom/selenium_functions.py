@@ -4,7 +4,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-from configuration import BASE_URL, USERNAME_UM, PASSWORD_UM, CODE, UNIT, UID
+from configuration import BASE_URL, USERNAME_UM, PASSWORD_UM, CODE, UNIT, UID, BUILDING
 from pom.pages.code_page import CodePage
 from pom.pages.login_page import LoginPage, SELECT_SERVER_US
 from pom.pages.logout_menu import Logout, START_LOGOUT_MENU, LOGOUT
@@ -60,10 +60,13 @@ class Base(LoginPage):
         Logout(self.driver).save_unit_button()
 
     def add_card(self):
-        Logout(self.driver).add_card()
-        self.check_if_units_more_then_one()
-        Logout(self.driver).input_card_number()
-        Logout(self.driver).input_card_name()
+        try:
+            Logout(self.driver).add_card()
+            self.check_if_units_more_then_one()
+            Logout(self.driver).input_card_number()
+            Logout(self.driver).input_card_name()
+        except Exception:
+            return
 
     def add_pin_code(self):
         self.add_card()
@@ -150,16 +153,10 @@ class Base(LoginPage):
         Hwa(self.driver).signin_hwa()
         Hwa(self.driver, self.xpath).search_hwa()
         building_address = Hwa(self.driver).building_address_um()
-        building = building_address.text
+        # building = building_address.text
         # uid = Hwa(self.driver).unit_uid().text
         Hwa(self.driver).manage_customers()
-        # Select Building
-        for i in Hwa(self.driver).building_address_ba():
-            j = + 1
-            locator = f"//span[@tabindex='0']/following::span[{j}]"
-            if i.text == building:
-                self.driver.find_element(By.XPATH, locator).click()
-                break
+        self.driver.find_element(By.XPATH, f"//span[contains(text(), '{BUILDING}')]").click()  # select building
         Hwa(self.driver).apartment_management()
         j = 0  # Select Unit
         for i in Hwa(self.driver).find_by_uid():
