@@ -55,6 +55,7 @@ class Hwa:
     def delete_user_hwa(self):
         locator = "//button[text()=' Delete user ']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        time.sleep(1)
         locator = "//button[@class='delete']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 

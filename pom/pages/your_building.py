@@ -88,6 +88,25 @@ class Buildings:
         # locator = "//button[@class='close-btn']"
         # self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
+    def change_time(self):
+        locator = "//div[@class='time-picker']/following::input[39]"
+        start_time = self.driver.find_element(By.XPATH, locator)
+        start_time.clear()
+        start_time.send_keys('01:00')
+
+    def change_unit_name(self):
+        unit = self.param
+        locator = "//button[text()=' Edit Info ']"
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        time.sleep(1)
+        locator = "//input[@placeholder='Enter name']/following::input"
+        unit_name = self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator)))
+        unit_name.clear()
+        unit_name.send_keys(unit)
+        time.sleep(1)
+        locator = "//button[text()=' Save ']"
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+
     def check_family_mode(self):
         locator = "//div[text()=' Off ']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
@@ -129,25 +148,6 @@ class Buildings:
     def close_custom_days(self):
         locator = "span[text()='Close']"
         return self.driver.find_element(By.XPATH, locator)
-
-    def change_time(self):
-        locator = "//div[@class='time-picker']/following::input[39]"
-        start_time = self.driver.find_element(By.XPATH, locator)
-        start_time.clear()
-        start_time.send_keys('01:00')
-
-    def change_unit_name(self):
-        unit = self.param
-        locator = "//button[text()=' Edit Info ']"
-        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
-        time.sleep(1)
-        locator = "//input[@placeholder='Enter name']/following::input"
-        unit_name = self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator)))
-        unit_name.clear()
-        unit_name.send_keys(unit)
-        time.sleep(1)
-        locator = "//button[text()=' Save ']"
-        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def choose_day(self):
         locator = "//div[@class='calendar-day doorbell-disabled-day ng-star-inserted']/following::div[1]"
@@ -210,27 +210,22 @@ class Buildings:
         locator = "//button[@class='remove-user-btn ng-star-inserted']"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
-    def select_building(self):
-        address = self.param[0]
-        self.driver.find_element(By.XPATH, f"//span[contains(text(), '{address}')]").click()
+    def select_any_doorbell(self):
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, "//div[@class='table-list-item']")))
+        time.sleep(1)
+        element.click()
 
     def select_any_building(self):
         locator = "//div[@class='table-list-item__coll']"
         return self.driver.find_elements(By.XPATH, locator)[0].click()
 
-    def select_user(self):
-        user = self.param[0]
-        self.driver.find_element(By.XPATH, f"//span[contains(text(), '{user}')]").click()
+    def select_building(self):
+        address = self.param[0]
+        self.driver.find_element(By.XPATH, f"//span[contains(text(), '{address}')]").click()
 
     def select_doorbell(self):
         doorbell = self.param[0]
         element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, f"//span[contains(text(), '{doorbell}')]")))
-        time.sleep(1)
-        element.click()
-
-    def select_any_doorbell(self):
-        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, "//div[@class='table-list-item']")))
-        time.sleep(1)
         element.click()
 
     def select_tag(self):
@@ -239,6 +234,10 @@ class Buildings:
     def settings_tab(self):
         locator = "//div[text()=' Settings ']"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+
+    def select_user(self):
+        user = self.param[0]
+        self.driver.find_element(By.XPATH, f"//span[contains(text(), '{user}')]").click()
 
     def schedule(self):
         locator = "//div[text()=' Schedule ']"
@@ -301,8 +300,7 @@ class Buildings:
 
     def upload_unit_image(self):
         locator = "//div[text()=' Upload unit image ']"
-        # locator = "//label[@class='form-checkbox-holder']/following::label[17]"
-        return self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def use_schedule_defined_for_this_building(self):
         locator = "//div[text()=' Use the schedule defined for this building ']"

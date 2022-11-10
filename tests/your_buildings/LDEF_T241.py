@@ -1,7 +1,7 @@
 import allure
 import pytest
 from pom.selenium_functions import Signin, Base, Base2
-from configuration import USERNAME_BA, PASSWORD_BA, CODE, USERNAME_UM, PASSWORD_UM
+from configuration import USERNAME_BA, PASSWORD_BA, CODE, USERNAME_UM, PASSWORD_UM, LOGIN_URL
 import time
 
 
@@ -15,7 +15,7 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     doorbell = Base2(setup).forbid_unit_image()
-    time.sleep(2)
+    time.sleep(3)
     Base2(setup).logout()
     Signin(setup, USERNAME_UM, PASSWORD_UM).login_credentials()
     Signin(setup, USERNAME_UM, PASSWORD_UM, code).login_code()
@@ -23,11 +23,11 @@ def test_case(setup, username, password, code):
     time.sleep(1)
     with allure.step("Step 1. Check forbidding for unit manager to upload unit image"):
         assert "This image will be displayed" not in setup.page_source, "Error forbidding to upload unit image"
-    time.sleep(1)
     Base2(setup).logout()
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base2(setup).forbid_unit_image()
-    # Base2(setup).checkbox_recovery()
+    time.sleep(3)
+    Base2(setup).checkbox_recovery()
 
 

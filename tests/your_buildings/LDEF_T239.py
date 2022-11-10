@@ -24,7 +24,6 @@ def test_case(setup, username, password, code):
     time.sleep(1)
     with allure.step("Step 1. Check changes doorbell while unchecked 'Show user image'"):
         assert Is_disable is True, "Error while unchecked 'Show user image'"
-    # Base2(setup).check_user_image()
     Base2(setup).checkbox_recovery()
     time.sleep(1)
 

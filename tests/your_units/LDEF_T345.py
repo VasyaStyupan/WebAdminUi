@@ -19,3 +19,4 @@ def test_case(setup, username, password, code):
         assert "Your units" and "Access" and "Doorbell" in setup.page_source, "Required tags are missing"
 
 
+# Добавить Users

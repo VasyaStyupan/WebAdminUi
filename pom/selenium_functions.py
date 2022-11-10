@@ -80,7 +80,7 @@ class Base(LoginPage):
                 ec.element_to_be_clickable((By.XPATH, "//button[text()=' Save ']/following::button[2]"))).click()
 
     def check_tips(self):
-        MainScreen(self.driver).find_popup().click()
+        MainScreen(self.driver).find_popup()
         self.logout_menu()
         Logout(self.driver).units_tag()
 
@@ -208,7 +208,7 @@ class Base(LoginPage):
         self.driver.find_element(By.XPATH, xpath).click()
 
     def profile_menu(self):
-        MainScreen(self.driver).find_popup().click()
+        MainScreen(self.driver).find_popup()
         self.logout_menu()
         self.driver.find_element(By.XPATH, self.xpath1[0]).click()
 
@@ -485,7 +485,7 @@ class Base2(LoginPage):
             return False
 
     def logout(self):
-        MainScreen(self.driver).find_popup().click()
+        MainScreen(self.driver).find_popup()
         Base(self.driver, START_LOGOUT_MENU[2], LOGOUT).logout_menu()
 
     def remove_buttons(self):

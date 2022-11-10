@@ -31,7 +31,7 @@ class MainScreen:
 
     def find_popup(self):
         xpath = LOGOUT_MENU
-        return self.__wait.until(ec.presence_of_element_located((By.XPATH, xpath)))
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, xpath))).click()
 
     def press_sorting_button(self):
         locator = "//span[text()=' Building address ']"
