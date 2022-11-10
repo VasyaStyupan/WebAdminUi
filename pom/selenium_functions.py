@@ -530,6 +530,7 @@ class Base2(LoginPage):
         Units(self.driver).load_image().send_keys(str(path))
         time.sleep(1)
         Units(self.driver).save_image()
+        time.sleep(1)
 
     def uncheck_user_image(self):
         self.enter_the_doorbell()

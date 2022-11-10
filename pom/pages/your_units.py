@@ -37,7 +37,7 @@ class Units:
         return self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()
 
     def check_image_visibility(self):
-        return self.driver.find_element(By.TAG_NAME, "img")
+        return self.__wait.until(ec.presence_of_element_located((By.TAG_NAME, "img")))
 
     def check_button_layouts(self):
         locator = "//div[text()=' Hidden ']"

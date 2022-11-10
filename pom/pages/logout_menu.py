@@ -37,28 +37,29 @@ class Logout:
         locator = "//button[text()=' Add card ']"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
-    def find_popup(self):
-        xpath = LOGOUT_MENU
-        return self.driver.find_element(By.XPATH, xpath)
+    def add_pin_code(self):
+        locator = "//button[text()=' Add or change card PIN code ']"
+        return self.__wait.until(ec.presence_of_element_located((By.XPATH, locator))).click()
 
-    def input_card_number(self):
-        locator = '//input[@placeholder="Enter card number"]'
-        return self.__wait.until(ec.presence_of_element_located((By.XPATH, locator))).send_keys("86987707097")
+    def add_card_button(self):
+        locator = "//button[text()=' Add card ']"
+        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
-    def input_card_name(self):
-        locator = '//input[@placeholder="Enter card name"]'
-        input_field = self.__wait.until(ec.presence_of_element_located((By.XPATH, locator)))
-        input_field.send_keys("CardName")
-        locator = "button.form-button-save"
+    def add_units_button(self):
+        locator = "//button[text()=' Add units ']"
+        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+
+    def approve_remove(self):
+        locator = "button.remove-dialog-accept-btn"
         return self.__wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, locator))).click()
 
-    def edit_card_name(self):
-        locator = '//input[@placeholder="Enter card name"]'
-        input_field = self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator)))
-        input_field.send_keys(Keys.COMMAND, "a")
-        input_field.send_keys("MyCard")
-        locator = "button.form-button-save"
+    def button_remove_user(self):
+        locator = "button.remove-user-btn"
         return self.__wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, locator))).click()
+
+    def delete(self):
+        locator = "//*[text()=' Delete ']"
+        return self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()
 
     def enter_pin_code(self):
         pin_code = self.word
@@ -69,40 +70,16 @@ class Logout:
         self.driver.find_element(By.XPATH, locator).click()
         return pin_code
 
-    def delete(self):
-        locator = "//*[text()=' Delete ']"
-        return self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()
-
-    def remove_button(self):
-        locator = "//button[@class='remove-dialog-accept-btn']"
-        return self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator)))
-
     def edit(self):
         locator = "//*[text()=' Edit ']"
         return self.driver.find_element(By.XPATH, locator).click()
 
-    def mark_digital_key(self):
-        locator = "//label[@class='form-checkbox-holder']//following::i[3]"
-        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
-
-    def mark_doorbell_button(self):
-        locator = "//label[@class='form-checkbox-holder']//following::i[2]"
-        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
-
-    def mark_unit_manager(self):
-        locator = "//label[@class='form-checkbox-holder']//following::i[1]"
-        return self.__wait.until(ec.presence_of_element_located((By.XPATH, locator))).click()
-
-    def mark_status_card(self):
-        locator = "i.icon-app-ok-1"
-        return self.__wait.until(ec.visibility_of_element_located((By.CSS_SELECTOR, locator))).click()
-
-    def button_remove_user(self):
-        locator = "button.remove-user-btn"
-        return self.__wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, locator))).click()
-
-    def approve_remove(self):
-        locator = "button.remove-dialog-accept-btn"
+    def edit_card_name(self):
+        locator = '//input[@placeholder="Enter card name"]'
+        input_field = self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator)))
+        input_field.send_keys(Keys.COMMAND, "a")
+        input_field.send_keys("MyCard")
+        locator = "button.form-button-save"
         return self.__wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, locator))).click()
 
     def edit_personal_info(self):
@@ -121,31 +98,49 @@ class Logout:
         locator = "//span[text()='Edit Info']"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
-    def units_tag(self):
-        locator = "//div[text()=' Units ']"
-        return self.driver.find_element(By.XPATH, locator).click()
+    def find_popup(self):
+        xpath = LOGOUT_MENU
+        return self.driver.find_element(By.XPATH, xpath)
 
-    def tips_doorbell_button(self):
-        locator = "//div[@class='question-mark']"
-        return self.driver.find_element(By.XPATH, locator)
+    def input_card_number(self):
+        locator = '//input[@placeholder="Enter card number"]'
+        return self.__wait.until(ec.presence_of_element_located((By.XPATH, locator))).send_keys("86987707097")
 
-    def tips_digital_keys(self):
-        locator = "//div[@class='question-mark']/following::div[2]"
-        return self.driver.find_element(By.XPATH, locator)
+    def input_card_name(self):
+        locator = '//input[@placeholder="Enter card name"]'
+        input_field = self.__wait.until(ec.presence_of_element_located((By.XPATH, locator)))
+        input_field.send_keys("CardName")
+        locator = "button.form-button-save"
+        return self.__wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, locator))).click()
 
-    def add_card_button(self):
-        locator = "//button[text()=' Add card ']"
+    def mark_digital_key(self):
+        locator = "//label[@class='form-checkbox-holder']//following::i[3]"
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+
+    def mark_doorbell_button(self):
+        locator = "//label[@class='form-checkbox-holder']//following::i[2]"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
-    def add_units_button(self):
-        locator = "//button[text()=' Add units ']"
-        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+    def mark_unit_manager(self):
+        locator = "//label[@class='form-checkbox-holder']//following::i[1]"
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        element.click()
+        if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
+            element.click()
+
+    def mark_status_card(self):
+        locator = "i.icon-app-ok-1"
+        return self.__wait.until(ec.visibility_of_element_located((By.CSS_SELECTOR, locator))).click()
 
     def mark_unit(self):
         locator = "//div[@class='form-checkbox']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
         locator = "//div[@class='form-checkbox']/following::i"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+
+    def remove_button(self):
+        locator = "//button[@class='remove-dialog-accept-btn']"
+        return self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator)))
 
     def save_unit_button(self):
         locator = "//button[@class='save-btn']"
@@ -159,7 +154,14 @@ class Logout:
         locator = "//div[@class='form-radio__label']/following::label[2]"
         return self.__wait.until(ec.presence_of_element_located((By.XPATH, locator))).click()
 
-    def add_pin_code(self):
-        locator = "//button[text()=' Add or change card PIN code ']"
-        return self.__wait.until(ec.presence_of_element_located((By.XPATH, locator))).click()
+    def tips_doorbell_button(self):
+        locator = "//div[@class='question-mark']"
+        return self.driver.find_element(By.XPATH, locator)
 
+    def tips_digital_keys(self):
+        locator = "//div[@class='question-mark']/following::div[2]"
+        return self.driver.find_element(By.XPATH, locator)
+
+    def units_tag(self):
+        locator = "//div[text()=' Units ']"
+        return self.driver.find_element(By.XPATH, locator).click()

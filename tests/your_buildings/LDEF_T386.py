@@ -20,11 +20,10 @@ def test_case(setup, username, password, code):
     Base2(setup).upload_image()
     setup.refresh()
     image_present = Base2(setup).is_image_present()
+    time.sleep(1)
     with allure.step("Step 1. Check for uploaded image"):
         assert image_present is True, "Image did not load"
     Buildings(setup).your_units_button()
     Base2(setup).delete_image()
     time.sleep(1)
-    image_present = Base2(setup).is_image_present()
-    with allure.step("Step 2. Check for deleting image"):
-        assert image_present is False, "Image cannot be deleted"
+
