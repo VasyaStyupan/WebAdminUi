@@ -399,6 +399,13 @@ class Base2(LoginPage):
             time.sleep(1)
             i += 1
 
+    def doorbell_button(self):
+        Units(self.driver).select_building()
+        time.sleep(1)
+        Units(self.driver).select_unit()
+        Units(self.driver).doorbell_button()
+        Units(self.driver).doorbell_item()
+
     def delete_image(self):
         Units(self.driver).doorbell_tab()
         Units(self.driver).doorbell()
@@ -409,15 +416,14 @@ class Base2(LoginPage):
         ActionChains(self.driver).move_to_element(xpath).click().perform()
         Units(self.driver).accept_delete()
 
+    def delete_user(self):
+        Hwa(self.driver).signin_hwa()
+        Hwa(self.driver, "JohnDoe@mail.com").search_hwa()
+        Hwa(self.driver).delete_user_hwa()
+        time.sleep(1)
+
     def doorbell_tab(self):
         Units(self.driver).doorbell()
-
-    def doorbell_button(self):
-        Units(self.driver).select_building()
-        time.sleep(1)
-        Units(self.driver).select_unit()
-        Units(self.driver).doorbell_button()
-        Units(self.driver).doorbell_item()
 
     def doorbell_visibility(self):
         Units(self.driver).check_button_visibility()
@@ -427,12 +433,6 @@ class Base2(LoginPage):
         while i < 2:
             Units(self.driver).check_button_layouts()
             i = i + 1
-
-    def delete_user(self):
-        Hwa(self.driver).signin_hwa()
-        Hwa(self.driver, "JohnDoe@mail.com").search_hwa()
-        Hwa(self.driver).delete_user_hwa()
-        time.sleep(1)
 
     def enter_the_unit(self):
         Units(self.driver).select_building()
