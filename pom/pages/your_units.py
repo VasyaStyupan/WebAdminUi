@@ -11,10 +11,10 @@ class Units:
     def __init__(self, driver, *word):
         self.driver = driver
         self.word = word
-        self.__wait = WebDriverWait(driver, 15, 0.3)
+        self.__wait = WebDriverWait(driver, 10, 0.3)
 
     def accept_delete(self):
-        locator = "//button[@class='remove-dialog-accept-btn']"
+        locator = "//button[text()='Delete']"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def access(self):
@@ -37,7 +37,8 @@ class Units:
         return self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()
 
     def check_image_visibility(self):
-        return self.__wait.until(ec.presence_of_element_located((By.TAG_NAME, "img")))
+        locator = "//div[@class='image-label__image']"
+        return self.driver.find_element(By.XPATH, locator)
 
     def check_button_layouts(self):
         locator = "//div[text()=' Hidden ']"
@@ -181,11 +182,8 @@ class Units:
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def save_button(self):
-        try:
-            locator = "//button[@class='add-user-save-btn']"
-            self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()
-        except Exception:
-            return
+        locator = "//button[@class='add-user-save-btn']"
+        self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()
 
     def fill_user_data_first_part(self):
         locator = "//input[@placeholder='Email']"
