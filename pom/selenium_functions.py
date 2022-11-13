@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from configuration import BASE_URL, USERNAME_UM, PASSWORD_UM, CODE, UNIT, UID, BUILDING
 from pom.pages.code_page import CodePage
 from pom.pages.login_page import LoginPage, SELECT_SERVER_US
-from pom.pages.logout_menu import Logout, START_LOGOUT_MENU, LOGOUT
+from pom.pages.logout_menu import Logout, START_LOGOUT_MENU, LOGOUT, ACCESS_CARDS
 from pom.pages.mainscreen_page import MainScreen
 from pom.pages.your_units import Units
 from pom.pages.your_building import Buildings
@@ -60,13 +60,10 @@ class Base(LoginPage):
         Logout(self.driver).save_unit_button()
 
     def add_card(self):
-        try:
-            Logout(self.driver).add_card()
-            self.check_if_units_more_then_one()
-            Logout(self.driver).input_card_number()
-            Logout(self.driver).input_card_name()
-        except Exception:
-            return
+        Logout(self.driver).add_card()
+        self.check_if_units_more_then_one()
+        Logout(self.driver).input_card_number()
+        Logout(self.driver).input_card_name()
 
     def add_pin_code(self):
         self.add_card()
@@ -380,6 +377,7 @@ class Base2(LoginPage):
 
     def checkbox_recovery(self):
         self.enter_the_doorbell()
+        time.sleep(1)
         Buildings(self.driver).checkbox_recovery_after_selection()
 
     def check_volume(self):

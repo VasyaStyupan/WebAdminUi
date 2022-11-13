@@ -153,6 +153,10 @@ class Units:
         locator = "//div[@class='image-label']"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
+    def save_button(self):
+        locator = "//button[@class='add-user-save-btn']"
+        self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()
+
     def save_image(self):
         locator = "//button[text()='Save']"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
@@ -180,10 +184,6 @@ class Units:
     def select_simple_user(self):
         locator = f"//span[contains(text(), '{SIMPLE_USER}')]"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
-
-    def save_button(self):
-        locator = "//button[@class='add-user-save-btn']"
-        self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()
 
     def fill_user_data_first_part(self):
         locator = "//input[@placeholder='Email']"

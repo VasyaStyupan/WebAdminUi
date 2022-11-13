@@ -22,8 +22,9 @@ def test_case(setup, username, password, code):
     Base2(setup).add_user()
     Units(setup).save_button()
     time.sleep(1)
-    with allure.step("Step 1. Check adding user"):
-        assert "JohnDoe" in setup.page_source, "Error adding user"
+    if "email must be unique" not in setup.page_source:
+        with allure.step("Step 1. Check adding user"):
+            assert "JohnDoe" in setup.page_source, "Error adding user"
     Buildings(setup).users_tag()
     Buildings(setup, 'JohnDoe@mail.com').select_user()
     time.sleep(1)

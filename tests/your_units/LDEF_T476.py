@@ -16,7 +16,6 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base2(setup).add_user_with_only_email()
-    time.sleep(5)
     Units(setup).save_button()
     time.sleep(1)
     with allure.step("Step 1. Check adding user"):

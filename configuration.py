@@ -1,5 +1,5 @@
-server = 2  # 1 - DEV, 2 - STAGE
-if server == 1:
+server = 1  # 1 - DEV, 2 - STAGE
+if server == 2:
     BASE_URL = "https://dev-webadmin.defigo.no"
     BASE_URL2 = "https://webrtc.defigohome.com"
     HYPER_ADMIN_URL = "https://dev-hwa.defigo.no/"

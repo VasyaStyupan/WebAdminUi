@@ -73,6 +73,10 @@ class Buildings:
         locator = "//div[text()=' Block adding RFID cards ']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
+    def cancel(self):
+        locator = "//span[text()='Cancel']"
+        return self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()
+
     def change_unit_name_function(self):
         locator = "//div[text()=' Change unit name ']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
