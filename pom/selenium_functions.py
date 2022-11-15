@@ -1,4 +1,5 @@
 import time
+import re
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
@@ -114,14 +115,16 @@ class Base(LoginPage):
         Buildings(self.driver, doorbell).select_doorbell()
 
     def hover(self):  # hovering and sorting
+        items_list = []
+        sort_list = []
         self.__wait.until(ec.presence_of_element_located((By.XPATH, self.xpath1[1]))).click()
+        time.sleep(1)
         if len(self.xpath1) == 2:
             index = 0
         else:
             index = self.xpath1[2]
         xpath_elements = self.xpath
         elements = self.driver.find_elements(By.XPATH, xpath_elements)
-        items_list = []
         for i in range(len(elements)):
             if i == 0:
                 xpath = xpath_elements
@@ -130,10 +133,13 @@ class Base(LoginPage):
             else:
                 xpath = f"{xpath_elements}{self.xpath1[0]}[{i}]/div"
             xpath = self.driver.find_element(By.XPATH, xpath)
-            items_list.append(xpath.text.split()[index])
+            item = re.sub("\n", ',', xpath.text)
+            item = item.split(',')
+            items_list.append(item[index])
+            sort_list.append(item[index][0])
             ActionChains(self.driver).move_to_element(xpath).perform()
         del items_list[0:10]
-        return items_list
+        return sort_list
 
     def hover_popup(self):  # hovering popup
         i = 0
@@ -249,6 +255,10 @@ class Base(LoginPage):
 
     def units(self):
         self.profile_menu()
+
+    def update_pin_code(self):
+        Logout(self.driver).add_pin_code()
+        return Logout(self.driver, "111111111").enter_pin_code()
 
 
 class Base2(LoginPage):

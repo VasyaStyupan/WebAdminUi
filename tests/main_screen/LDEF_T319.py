@@ -18,9 +18,9 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password, code).login_code()
     items_list = Base(setup, START_MAIN_MENU, START_MAIN_MENU_FOLLOWING, BUILDING_ADDRESS_TAG).hover()
     with allure.step("Step 1. Check if reverse sort by field 'Building address' working"):
-        assert items_list == sorted(items_list, key=lambda c: c.upper(), reverse=True), "Reverse sort is not working"
+        assert items_list == sorted(items_list, key=str.upper, reverse=True), "Reverse sort is not working"
     items_list = Base(setup, START_MAIN_MENU, START_MAIN_MENU_FOLLOWING, BUILDING_ADDRESS_TAG).hover()
     with allure.step("Step 2. Check if sort by field 'Building address' working"):
-        assert items_list == sorted(items_list, key=lambda c: c.upper()), "Sort is not working"
+        assert items_list == sorted(items_list, key=str.upper), "Sort is not working"
 
 

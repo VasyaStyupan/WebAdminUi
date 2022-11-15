@@ -1,3 +1,5 @@
+from operator import itemgetter
+
 import allure
 import pytest
 from pom.selenium_functions import Signin, Base, Units
@@ -24,10 +26,9 @@ def test_case(setup, username, password, code):
             items_list = Base(setup, FIRST_LINE[tag], FIRST_LINE_FOLLOWING[tag], SUBMENU_TAGS[tag][index],
                               index).hover()
             with allure.step("Step 1. Check if reverse sort by field 'Building address' working"):
-                assert items_list == sorted(items_list, key=lambda c: c.upper(),
+                assert items_list == sorted(items_list, key=str.upper,
                                             reverse=True), "Reverse sort is not working"
             items_list = Base(setup, FIRST_LINE[tag], FIRST_LINE_FOLLOWING[tag], SUBMENU_TAGS[tag][index],
                               index).hover()
             with allure.step("Step 2. Check if sort by field 'Building address' working"):
-                assert items_list == sorted(items_list, key=lambda c: c.upper()), "Sort is not working"
-
+                assert items_list == sorted(items_list, key=str.upper), "Sort is not working"

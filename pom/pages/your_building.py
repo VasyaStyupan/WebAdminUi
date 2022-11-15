@@ -8,13 +8,13 @@ FIRST_LINE = ["//app-units-list-item", "//app-users-list-item", "//app-access-li
 FIRST_LINE_FOLLOWING = ["/following::app-units-list-item", "/following::app-users-list-item",
                         "/following::app-access-list-item", "/following::app-doorbells-list-item"]
 TAGS = ("//div[text()=' Units ']", "//div[text()=' Users ']", "//div[text()=' Access ']", "//div[text()=' Doorbell ']")
-SUBMENU_TAGS = [("//span[text()=' GID ']", "//span[text()=' UID ']", "//span[text()=' Unit name ']", "//span[text()=' Floor ']"),
-                 # "//span[text()=' Number of users ']"),
-
-                ("//span[text()=' Username ']", "//span[text()=' First Name ']"),
-                # ("//span[text()=' Username ']", "//span[text()=' First Name ']", "//span[text()=' Last Name ']"
-                # "//span[text()=' Email ']", "//span[text()=' Phone ']"),
-                ("//span[text()=' Door Name ']",), ("//span[text()=' Doorbell Name ']",)]
+SUBMENU_TAGS = [
+    ("//span[text()=' GID ']", "//span[text()=' UID ']", "//span[text()=' Unit name ']", "//span[text()=' Floor ']",
+     "//span[text()=' Number of users ']"),
+    ("//span[text()=' Username ']",),
+    # ("//span[text()=' Username ']", "//span[text()=' First Name ']", "//span[text()=' Last Name ']",
+    #  "//span[text()=' Email ']", "//span[text()=' Phone ']"),
+    ("//span[text()=' Door Name ']",), ("//span[text()=' Doorbell Name ']",)]
 
 
 class Buildings:
