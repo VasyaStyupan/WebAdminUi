@@ -1,4 +1,4 @@
-server = 1  # 1 - DEV, 2 - STAGE
+server = 2  # 1 - DEV, 2 - STAGE
 if server == 1:
     BASE_URL = "https://dev-webadmin.defigo.no"
     BASE_URL2 = "https://webrtc.defigohome.com"
