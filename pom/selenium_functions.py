@@ -170,6 +170,14 @@ class Base(LoginPage):
             j = j + 1
         Hwa(self.driver).add_existing_user()
 
+    def mark_unmark_unit_manager(self):
+        self.profile_menu()
+        i = 0
+        while i < 3:
+            Logout(self.driver).mark_unit_manager()
+            time.sleep(1)
+            i += 1
+
     def mark_unmark_digital_keys(self):
         self.profile_menu()
         i = 0
@@ -186,17 +194,12 @@ class Base(LoginPage):
             time.sleep(1)
             i += 1
 
-    def mark_unmark_unit_manager(self):
-        self.profile_menu()
-        time.sleep(1)
-        Logout(self.driver).mark_unit_manager()
-        time.sleep(1)
-        Logout(self.driver).mark_unit_manager()
-
     def mark_unit_manager(self):
         self.profile_menu()
         time.sleep(1)
         Logout(self.driver).mark_unit_manager()
+        time.sleep(1)
+        Logout(self.driver).check_unit_manager_active()
 
     def popup_server(self):
         LoginPage(self.driver).change_server_No_Us().click()

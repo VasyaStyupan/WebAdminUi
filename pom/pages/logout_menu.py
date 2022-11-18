@@ -57,6 +57,12 @@ class Logout:
         locator = "button.remove-user-btn"
         return self.__wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, locator))).click()
 
+    def check_unit_manager_active(self):
+        locator = "//i[@class='icon-app-ok-1 ng-star-inserted']"
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
+            element.click()
+
     def delete(self):
         locator = "//*[text()=' Delete ']"
         return self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()
@@ -125,8 +131,6 @@ class Logout:
         locator = "//label[@class='form-checkbox-holder']//following::i[1]"
         element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
         element.click()
-        if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
-            element.click()
 
     def mark_status_card(self):
         locator = "i.icon-app-ok-1"

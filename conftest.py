@@ -11,7 +11,7 @@ def get_chrome_options():
     options = chrome_options()
     options.add_argument('chrome')  # Use headless if you do not need a browser UI
     # options.add_argument('headless')
-    options.add_argument('--start-maximized')
+    # options.add_argument('--start-maximized')
     options.add_argument('--window-size=1650,900')
     # options.add_argument('--window-size=900,700')
     return options
@@ -20,7 +20,7 @@ def get_chrome_options():
 @pytest.fixture
 def get_webdriver(get_chrome_options):
     options = get_chrome_options
-    # ser = Service('/Users/webdriver/chromedriver')
+    # ser = Service('/Users/driver/chromedriver')
     mypath = Path("chromedriver")
     path = mypath.home().joinpath("PycharmProjects", "WebAdminUi", "webdriver", "chromedriver")
     ser = Service(str(path))
