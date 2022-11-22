@@ -1,6 +1,6 @@
 #################################
 # Select server (set 1 or 2)
-server = 1  # 1 - DEV, 2 - STAGE
+server = 2  # 1 - DEV, 2 - STAGE
 ##################################
 if server == 1:
     BASE_URL = "https://dev-webadmin.defigo.no"

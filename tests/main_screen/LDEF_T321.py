@@ -2,7 +2,7 @@ import pytest
 import allure
 from pom.selenium_functions import Signin, Base
 from configuration import CODE, USERNAME_HA, PASSWORD_HA
-from pom.pages.mainscreen_page import START_MAIN_MENU, START_MAIN_MENU_FOLLOWING, BUILDING_ADDRESS_TAG
+from pom.pages.mainscreen_page import START_MAIN_MENU, BUILDING_ADDRESS_TAG
 
 
 @allure.title("Check Hovers for strings of Buildings")
@@ -14,5 +14,5 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
-    Base(setup, START_MAIN_MENU, START_MAIN_MENU_FOLLOWING, BUILDING_ADDRESS_TAG).hover()
-
+    Base(setup, START_MAIN_MENU, BUILDING_ADDRESS_TAG, 0).hover()
+    Base(setup, START_MAIN_MENU, BUILDING_ADDRESS_TAG, 0).hover()

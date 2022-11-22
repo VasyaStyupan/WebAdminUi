@@ -6,10 +6,8 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
 START_LOGOUT_MENU = "//*[text()=' Profile ']", "//*[text()=' Language ']", "//*[text()=' Logout ']"
-START_MAIN_MENU = "//app-building-list-item/div[@class='table-list-item']"
+START_MAIN_MENU = "//app-building-list-item"
 START_MAIN_MENU_FOLLOWING = "/following::app-building-list-item"
-# START_MAIN_MENU = "//div[@class='table-list-item__coll']"
-# START_MAIN_MENU_FOLLOWING = "/following::app-building-list-item"
 BUILDING_ADDRESS_TAG = "//span[text()=' Building address ']"
 
 

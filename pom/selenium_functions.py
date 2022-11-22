@@ -115,30 +115,22 @@ class Base(LoginPage):
         Buildings(self.driver, doorbell).select_doorbell()
 
     def hover(self):  # hovering and sorting
-        items_list = []
         sort_list = []
-        self.__wait.until(ec.presence_of_element_located((By.XPATH, self.xpath1[1]))).click()
+        self.__wait.until(ec.presence_of_element_located((By.XPATH, self.xpath1[0]))).click()
         time.sleep(1)
-        if len(self.xpath1) == 2:
-            index = 0
-        else:
-            index = self.xpath1[2]
+        sub_tag = self.xpath1[1] + 1
         xpath_elements = self.xpath
         elements = self.driver.find_elements(By.XPATH, xpath_elements)
-        for i in range(len(elements)):
-            if i == 0:
-                xpath = xpath_elements
-            elif i > 7:
+        for i in range(1, len(elements) + 1):
+            if i > 8:
                 break
             else:
-                xpath = f"{xpath_elements}{self.xpath1[0]}[{i}]/div"
+                xpath = f"{xpath_elements}[{i}]"
+            element = self.driver.find_element(By.XPATH, f"{xpath}/child::div/child::div[{sub_tag}]")
             xpath = self.driver.find_element(By.XPATH, xpath)
-            item = re.sub("\n", ',', xpath.text)
-            item = item.split(',')
-            items_list.append(item[index])
-            sort_list.append(item[index][0])
+            if element.text != "":
+                sort_list.append(element.text[0])
             ActionChains(self.driver).move_to_element(xpath).perform()
-        del items_list[0:10]
         return sort_list
 
     def hover_popup(self):  # hovering popup
