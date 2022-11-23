@@ -6,6 +6,7 @@ from configuration import USERNAME_BA, PASSWORD_BA, CODE, USERNAME_UO, BASE_URL
 import time
 
 
+@pytest.mark.skip
 @allure.title("Change unit owner")
 @pytest.mark.parametrize('username, password, code', [
     (USERNAME_BA, PASSWORD_BA, CODE)])
