@@ -180,9 +180,16 @@ class Buildings:
         time.sleep(1)
         element.click()
 
-    def find_user(self):
-        locator = f"//span[contains(text(), 'JohnDoe')]"
-        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+    def delete_user_from_unit(self):
+        xpath = "//app-unit-users-list-item"
+        item_list = self.driver.find_elements(By.XPATH, xpath)
+        for i in range(1, len(item_list)):
+            element = self.driver.find_element(By.XPATH, f"{xpath}[{i}]/child::div/child::div[2]")
+            if element.text == "JohnDoe@mail.com":
+                self.driver.find_element(By.XPATH, f"{xpath}[{i}]/child::div/child::div[10]").click()
+                time.sleep(1)
+                self.driver.find_element(By.XPATH, "//button[text()='Yes, remove']").click()
+                return
 
     def get_doorbell_name(self):
         locator = "//div[text()=' Doorbell ']"

@@ -1,9 +1,9 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as ec
 
 SELECT_SERVER_US = "//div[text()='US']"
+SELECT_SERVER_EU = "//div[text()='Europe']"
 CHANGE_LANG_TO_NORSK = "//div[text()='Norsk']"
 CHANGE_LANG_TO_SVENSKA = "//div[text()='Svenska']"
 CHANGE_LANG_TO_ENGLISH = "//div[text()='English']"
@@ -14,6 +14,18 @@ class LoginPage:
     def __init__(self, driver):
         self.driver = driver
         self.__wait = WebDriverWait(driver, 15, 0.3)
+
+    def search_contact(self):
+        return self.driver.find_element(By.XPATH, "//*[text()='Contact us']")
+
+    def search_contact_nor(self):
+        return self.driver.find_element(By.XPATH, "//*[text()='Kontakt oss']")
+
+    def change_server_No_Us(self):
+        return self.driver.find_element(By.XPATH, "//span[text()='Europe']")
+
+    def change_server_Us_No(self):
+        return self.driver.find_element(By.XPATH, "//span[text()='US']")
 
     def search_login_field(self, username):
         locator = "//*[@placeholder='Username']"
@@ -36,15 +48,6 @@ class LoginPage:
 
     def search_terms_nor(self):
         return self.driver.find_element(By.XPATH, "//*[text()=' Vilkår ']")
-
-    def search_contact(self):
-        return self.driver.find_element(By.XPATH, "//*[text()='Contact us']")
-
-    def search_contact_nor(self):
-        return self.driver.find_element(By.XPATH, "//*[text()='Kontakt oss']")
-
-    def change_server_No_Us(self):
-        return self.driver.find_element(By.XPATH, "//span[text()='Europe']")
 
     def search_lang(self):
         return self.driver.find_element(By.XPATH, "//i[@class='icon-app-down-open']")

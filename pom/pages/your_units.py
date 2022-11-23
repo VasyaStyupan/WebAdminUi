@@ -4,7 +4,7 @@ import string
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-from configuration import USERNAME_BA, SIMPLE_USER
+from configuration import USERNAME_BA, SIMPLE_USER, UID, BUILDING, server
 
 
 class Units:
@@ -166,15 +166,15 @@ class Units:
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def select_building(self):
-        locator = "//div[@class='table-list-item__coll']"
+        locator = f"//span[contains(text(), '{BUILDING}')]"
+        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+
+    def select_unit(self):
+        locator = f"//span[contains(text(), '{UID}')]"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def settings(self):
         locator = "//div[@routerlink='settings']"
-        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
-
-    def select_unit(self):
-        locator = "//div[@class='table-list-item__coll']"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def select_user(self):
@@ -193,7 +193,10 @@ class Units:
     def fill_user_data_phone(self):
         locator = "//div[@class='form-select-input-holder main-color']"
         self.driver.find_element(By.XPATH, locator).click()
-        locator = "//span[text()='+46']"
+        if server == 3:
+            locator = "//span[text()='+1']"
+        else:
+            locator = "//span[text()='+46']"
         self.driver.find_element(By.XPATH, locator).click()
         locator = "//input[@placeholder='Phone']"
         phone_field = self.driver.find_element(By.XPATH, locator)
@@ -210,10 +213,11 @@ class Units:
         phone_field.send_keys(" 01234567890 ")
 
     def fill_user_data_second_part(self):
+
         locator = "//div[text()=' Language ']/following::input[8]"
-        language = self.driver.find_element(By.XPATH, locator).click()
+        self.driver.find_element(By.XPATH, locator).click()
         locator = "//span[text()='English']"
-        english = self.driver.find_element(By.XPATH, locator).click()
+        self.driver.find_element(By.XPATH, locator).click()
         locator = "//input[@placeholder='First name']"
         firstname_field = self.driver.find_element(By.XPATH, locator)
         firstname_field.send_keys("John")

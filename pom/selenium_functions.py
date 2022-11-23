@@ -5,9 +5,9 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-from configuration import BASE_URL, USERNAME_UM, PASSWORD_UM, CODE, UNIT, UID, BUILDING
+from configuration import BASE_URL, USERNAME_UM, PASSWORD_UM, CODE, UNIT, UID, BUILDING, server
 from pom.pages.code_page import CodePage
-from pom.pages.login_page import LoginPage, SELECT_SERVER_US
+from pom.pages.login_page import LoginPage, SELECT_SERVER_US, SELECT_SERVER_EU
 from pom.pages.logout_menu import Logout, START_LOGOUT_MENU, LOGOUT, ACCESS_CARDS
 from pom.pages.mainscreen_page import MainScreen
 from pom.pages.your_units import Units
@@ -129,7 +129,7 @@ class Base(LoginPage):
             element = self.driver.find_element(By.XPATH, f"{xpath}/child::div/child::div[{sub_tag}]")
             xpath = self.driver.find_element(By.XPATH, xpath)
             if element.text != "":
-                sort_list.append(element.text[0])
+                sort_list.append(element.text)
             ActionChains(self.driver).move_to_element(xpath).perform()
         return sort_list
 
@@ -194,10 +194,16 @@ class Base(LoginPage):
         Logout(self.driver).check_unit_manager_active()
 
     def popup_server(self):
-        LoginPage(self.driver).change_server_No_Us().click()
+        if server == 3:
+            LoginPage(self.driver).change_server_Us_No().click()
+        else:
+            LoginPage(self.driver).change_server_No_Us().click()
         hidden_menu = self.driver.find_element(By.XPATH, self.xpath)
         ActionChains(self.driver).move_to_element(hidden_menu).click(hidden_menu).perform()
-        return self.driver.find_element(By.XPATH, SELECT_SERVER_US)
+        if server == 3:
+            self.driver.find_element(By.XPATH, SELECT_SERVER_EU)
+        else:
+            self.driver.find_element(By.XPATH, SELECT_SERVER_US)
 
     def press_button(self, xpath):
         self.driver.find_element(By.XPATH, xpath).click()
@@ -422,6 +428,7 @@ class Base2(LoginPage):
     def delete_user(self):
         Hwa(self.driver).signin_hwa()
         Hwa(self.driver, "JohnDoe@mail.com").search_hwa()
+        time.sleep(1)
         Hwa(self.driver).delete_user_hwa()
         time.sleep(1)
 

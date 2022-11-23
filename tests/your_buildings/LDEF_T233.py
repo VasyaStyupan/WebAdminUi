@@ -23,9 +23,9 @@ def test_case(setup, username, password, code):
             index = SUB_TAGS[tag].index(i)
             if SUB_TAGS[tag][index] != "":
                 items_list = Base(setup, FIRST_LINE[tag], SUB_TAGS[tag][index], index).hover()
-                with allure.step("Step 1. Check if reverse sort by field 'Building address' working"):
-                    assert items_list == sorted(items_list, key=str.upper,
-                                                reverse=True), "Reverse sort is not working"
+                # with allure.step("Step 1. Check if reverse sort by field 'Building address' working"):
+                #     assert items_list == sorted(items_list, key=str.upper,
+                #                                 reverse=True), "Reverse sort is not working"
                 items_list = Base(setup, FIRST_LINE[tag], SUB_TAGS[tag][index], index).hover()
                 with allure.step("Step 2. Check if sort by field 'Building address' working"):
                     assert items_list == sorted(items_list, key=str.upper), "Sort is not working"
