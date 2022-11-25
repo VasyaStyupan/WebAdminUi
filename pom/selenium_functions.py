@@ -114,25 +114,6 @@ class Base(LoginPage):
         Buildings(self.driver).doorbell_button()
         Buildings(self.driver, doorbell).select_doorbell()
 
-    def hover(self):  # hovering and sorting
-        sort_list = []
-        self.__wait.until(ec.presence_of_element_located((By.XPATH, self.xpath1[0]))).click()
-        time.sleep(1)
-        sub_tag = self.xpath1[1] + 1
-        xpath_elements = self.xpath
-        elements = self.driver.find_elements(By.XPATH, xpath_elements)
-        for i in range(1, len(elements) + 1):
-            if i > 8:
-                break
-            else:
-                xpath = f"{xpath_elements}[{i}]"
-            element = self.driver.find_element(By.XPATH, f"{xpath}/child::div/child::div[{sub_tag}]")
-            xpath = self.driver.find_element(By.XPATH, xpath)
-            if element.text != "":
-                sort_list.append(element.text)
-            ActionChains(self.driver).move_to_element(xpath).perform()
-        return sort_list
-
     def hover_popup(self):  # hovering popup
         i = 0
         while i < 3:
@@ -243,11 +224,35 @@ class Base(LoginPage):
             if i == 0:
                 xpath = xpath_elements
             else:
-                xpath = f"{xpath_elements}/following::app-building-list-item[{i}]/div"
-
+                xpath = f"{xpath_elements}[{i}]"
             if i % 5 == 0 or i < len(elements):
                 xpath = self.driver.find_element(By.XPATH, xpath)
                 ActionChains(self.driver).move_to_element(xpath).perform()
+
+    def sorting(self):  # hovering and sorting
+        sort_list = []
+        self.__wait.until(ec.presence_of_element_located((By.XPATH, self.xpath1[0]))).click()
+        time.sleep(1)
+        sub_tag = self.xpath1[1] + 1
+        xpath_elements = self.xpath
+        elements = self.driver.find_elements(By.XPATH, xpath_elements)
+        for i in range(1, len(elements)):
+            # if i > 8:
+            #     break
+            # else:
+            xpath = f"{xpath_elements}[{i}]"
+            element = self.driver.find_element(By.XPATH, f"{xpath}/child::div/child::div[{sub_tag}]")
+            item = self.driver.find_element(By.XPATH, xpath)
+            if element.text != "":
+                # if self.xpath1[0] == "//span[text()=' GID ']":
+                if 'GID' and 'Number of users' in self.xpath1[0] is True:
+                    sort_list.append(len(element.text))
+                elif self.xpath == "//app-building-list-item":
+                    sort_list.append(element.text[0])
+                else:
+                    sort_list.append(element.text)
+                    # ActionChains(self.driver).move_to_element(item).perform()
+        return sort_list
 
     def switch_to_lang(self):  # switch to lang in logout menu
         self.logout_menu()

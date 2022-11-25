@@ -16,10 +16,10 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
-    items_list = Base(setup, START_MAIN_MENU, BUILDING_ADDRESS_TAG, 0).hover()
-    # with allure.step("Step 1. Check if reverse sort by field 'Building address' working"):
-    #     assert items_list == sorted(items_list, key=str.upper, reverse=True), "Reverse sort is not working"
-    items_list = Base(setup, START_MAIN_MENU, BUILDING_ADDRESS_TAG, 0).hover()
+    items_list = Base(setup, START_MAIN_MENU, BUILDING_ADDRESS_TAG, 0).sorting()
+    with allure.step("Step 1. Check if reverse sort by field 'Building address' working"):
+        assert items_list == sorted(items_list, key=str.upper, reverse=True), "Reverse sort is not working"
+    items_list = Base(setup, START_MAIN_MENU, BUILDING_ADDRESS_TAG, 0).sorting()
     with allure.step("Step 2. Check if sort by field 'Building address' working"):
         assert items_list == sorted(items_list, key=str.upper), "Sort is not working"
 
