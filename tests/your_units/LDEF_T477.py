@@ -2,7 +2,7 @@ import allure
 import pytest
 from pom.selenium_functions import Signin, Base2
 from pom.selenium_functions import Units
-from configuration import USERNAME_BA, PASSWORD_BA, CODE, UNIT
+from configuration import USERNAME_BA, PASSWORD_BA, CODE
 import time
 
 
@@ -18,5 +18,6 @@ def test_case(setup, username, password, code):
     Base2(setup).select_your_units()
     Base2(setup).add_user()
     Units(setup).make_unit_manager()
+    time.sleep(1)
     Base2(setup).delete_user()
 

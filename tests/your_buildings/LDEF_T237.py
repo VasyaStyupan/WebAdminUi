@@ -16,6 +16,7 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base2(setup).enable_search_field()
+    time.sleep(1)
     Base2(setup).checkbox_recovery()
     time.sleep(1)
 

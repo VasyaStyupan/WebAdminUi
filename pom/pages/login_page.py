@@ -7,6 +7,7 @@ SELECT_SERVER_EU = "//div[text()='Europe']"
 CHANGE_LANG_TO_NORSK = "//div[text()='Norsk']"
 CHANGE_LANG_TO_SVENSKA = "//div[text()='Svenska']"
 CHANGE_LANG_TO_ENGLISH = "//div[text()='English']"
+CHANGE_LANG_TO_DEUTSCH = "//div[text()='Deutsch']"
 
 
 class LoginPage:

@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
+from configuration import BUILDING, BROWSER, DOORBELL
 
 FIRST_LINE = ["//app-units-list-item", "//app-users-list-item", "//app-access-list-item", "//app-doorbells-list-item"]
 TAGS = ("//div[text()=' Units ']", "//div[text()=' Users ']", "//div[text()=' Access ']", "//div[text()=' Doorbell ']")
@@ -83,6 +84,7 @@ class Buildings:
         locator = "//input[@placeholder='Enter number']"
         input_floors = self.__wait.until(ec.presence_of_element_located((By.XPATH, locator)))
         input_floors.send_keys(Keys.COMMAND, "a")
+        input_floors.send_keys(Keys.DELETE)
         input_floors.send_keys(floors_number)
         input_floors.send_keys(Keys.RETURN)
 
@@ -148,7 +150,7 @@ class Buildings:
         return self.driver.find_element(By.XPATH, locator)
 
     def choose_day(self):
-        locator = "//div[@class='calendar-day doorbell-disabled-day ng-star-inserted']/following::div[1]"
+        locator = "//div[@class='calendar-day__time-range']/following::div[1]"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def choose_another_day(self):
@@ -201,6 +203,25 @@ class Buildings:
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
         return doorbell_name
 
+    def input_doorbell_name(self):
+        locator = "//input[@placeholder='Doorbell name']"
+        doorbell = self.driver.find_element(By.XPATH, locator)
+        doorbell.click()
+        if BROWSER == 1:
+            doorbell.send_keys(Keys.HOME)
+            time.sleep(1)
+            doorbell.send_keys(Keys.COMMAND, "a")
+        else:
+            doorbell.send_keys(Keys.COMMAND, "a")
+            doorbell.send_keys(Keys.DELETE)
+        time.sleep(1)
+        doorbell.send_keys(self.param[0])
+        locator = "//button[text()=' Save ']"
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        time.sleep(1)
+        element.click()
+        time.sleep(1)
+
     def RFID_cards_function(self):
         locator = "//div[text()=' Administrate users RFID cards ']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
@@ -215,6 +236,10 @@ class Buildings:
         locator = "//button[@class='remove-user-btn ng-star-inserted']"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
+    def save_day(self):
+        locator = "//button[text()='Save']"
+        self.driver.find_element(By.XPATH, locator).click()
+
     def select_any_doorbell(self):
         element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, "//div[@class='table-list-item']")))
         time.sleep(1)
@@ -225,16 +250,17 @@ class Buildings:
         return self.driver.find_elements(By.XPATH, locator)[0].click()
 
     def select_building(self):
-        address = self.param[0]
-        self.driver.find_element(By.XPATH, f"//span[contains(text(), '{address}')]").click()
+        # address = self.param[0]
+        self.driver.find_element(By.XPATH, f"//span[contains(text(), '{BUILDING}')]").click()
 
     def select_doorbell(self):
-        doorbell = self.param[0]
-        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, f"//span[contains(text(), '{doorbell}')]")))
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, f"//span[contains(text(), '{DOORBELL}')]")))
         element.click()
 
     def select_tag(self):
-        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, self.param[0]))).click()
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, self.param[0])))
+        time.sleep(1)
+        element.click()
 
     def settings_tab(self):
         locator = "//div[text()=' Settings ']"
@@ -251,21 +277,6 @@ class Buildings:
     def set_up_custom_days(self):
         locator = "//button[text()=' Set Up Custom Days ']"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
-
-    def save_day(self):
-        locator = "//button[text()='Save']"
-        return self.driver.find_element(By.XPATH, locator).click()
-
-    def input_doorbell_name(self):
-        locator = "//input[@placeholder='Doorbell name']"
-        doorbell = self.driver.find_element(By.XPATH, locator)
-        doorbell.click()
-        doorbell.send_keys(Keys.HOME)
-        time.sleep(1)
-        doorbell.send_keys(Keys.COMMAND, "a")
-        doorbell.send_keys(self.param[0])
-        locator = "//button[text()=' Save ']"
-        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def make_unit_image_visible(self):
         locator = "//div[text()=' Make unit image visible ']"
@@ -313,11 +324,15 @@ class Buildings:
 
     def uncheck_show_user_image(self):
         locator = "//div[text()=' Show user image ']"
-        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        time.sleep(1)
+        element.click()
 
     def uncheck_show_unit_image(self):
         locator = "//div[text()=' Show unit image ']"
-        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        time.sleep(1)
+        element.click()
 
     def users_tag(self):
         locator = "//div[text()=' Users ']"

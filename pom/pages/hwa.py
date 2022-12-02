@@ -18,6 +18,7 @@ class Hwa:
         locator = "//input[@placeholder='Email']"
         user_name = self.driver.find_element(By.XPATH, locator)
         user_name.send_keys(USERNAME_HA)
+        time.sleep(1)
         locator = "//input[@placeholder='Password']"
         password = self.driver.find_element(By.XPATH, locator)
         password.send_keys(PASSWORD_HA)
@@ -44,7 +45,8 @@ class Hwa:
 
     def change_rfid_status(self):
         locator = "//span[text()='Disabled']"
-        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        element.click()
 
     def delete_rfid_hwa(self):
         locator = "//div[text()=' Delete ']//following::div[28]"

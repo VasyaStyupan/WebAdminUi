@@ -1,3 +1,5 @@
+import time
+
 import allure
 import pytest
 from pom.selenium_functions import Signin, Base, Units
@@ -18,9 +20,11 @@ def test_case(setup, username, password, code):
     Buildings(setup).select_any_building()
     for j in TAGS:
         tag = TAGS.index(j)
+        time.sleep(0.5)
         Buildings(setup, TAGS[tag]).select_tag()
         for i in SUB_TAGS[tag]:
             index = SUB_TAGS[tag].index(i)
+            time.sleep(0.5)
             if SUB_TAGS[tag][index] != "" and SUB_TAGS[tag][index] != "//span[text()=' GID ']":
                 items_list = Base(setup, FIRST_LINE[tag], SUB_TAGS[tag][index], index).sorting()
                 with allure.step("Step 1. Check if reverse sort working"):

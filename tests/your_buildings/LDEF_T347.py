@@ -20,6 +20,5 @@ def test_case(setup, username, password, code):
         tag = TAGS.index(j)
         Buildings(setup, TAGS[tag]).select_tag()
         Base(setup, FIRST_LINE[tag]).scrolling()
-        setup.refresh()
-    time.sleep(1)
+
 

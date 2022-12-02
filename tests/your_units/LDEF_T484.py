@@ -18,5 +18,5 @@ def test_case(setup, username, password, code):
     Units(setup).doorbell_button()
     Units(setup).doorbell_item()
     Base2(setup).doorbell_layouts()
-    time.sleep(1)
+    time.sleep(3)
 

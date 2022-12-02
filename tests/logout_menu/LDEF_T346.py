@@ -7,7 +7,7 @@ from pom.pages.logout_menu import ACCESS, START_LOGOUT_MENU, Logout
 from pom.pages.mainscreen_page import MainScreen
 
 
-@allure.title("View the list of Doors")
+@allure.title("Choose different language")
 @pytest.mark.parametrize('username, password, code', [
     (USERNAME_BA, PASSWORD_BA, CODE)])
 def test_case(setup, username, password, code):
@@ -27,8 +27,11 @@ def test_case(setup, username, password, code):
         assert "Velg språk" in setup.page_source, "Language selection error"
     Logout(setup).switch_to_swedish()
     time.sleep(1)
-    with allure.step("Step 2. Check switch to S"):
+    with allure.step("Step 2. Check switch to Svenska"):
         assert "Ändra språk" in setup.page_source, "Language selection error"
-
+    Logout(setup).switch_to_deutsch()
+    time.sleep(1)
+    with allure.step("Step 2. Check switch to Svenska"):
+        assert "German" in setup.page_source, "Language selection error"
 
 

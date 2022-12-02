@@ -1,14 +1,13 @@
 import time
-import re
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-from configuration import BASE_URL, USERNAME_UM, PASSWORD_UM, CODE, UNIT, UID, BUILDING, server
+from configuration import BASE_URL, USERNAME_UM, PASSWORD_UM, CODE, UNIT, UID, BUILDING, DOORBELL, server
 from pom.pages.code_page import CodePage
 from pom.pages.login_page import LoginPage, SELECT_SERVER_US, SELECT_SERVER_EU
-from pom.pages.logout_menu import Logout, START_LOGOUT_MENU, LOGOUT, ACCESS_CARDS
+from pom.pages.logout_menu import Logout, START_LOGOUT_MENU, LOGOUT
 from pom.pages.mainscreen_page import MainScreen
 from pom.pages.your_units import Units
 from pom.pages.your_building import Buildings
@@ -97,7 +96,9 @@ class Base(LoginPage):
 
     def delete_card(self):
         Logout(self.driver).delete()
-        Logout(self.driver).remove_button().click()
+        element = Logout(self.driver).remove_button()
+        time.sleep(1)
+        element.click()
 
     def edit_card(self):
         self.add_card()
@@ -106,7 +107,6 @@ class Base(LoginPage):
 
     def edit_personal_info(self):
         self.profile_menu()
-        time.sleep(1)
         Logout(self.driver).edit_personal_info()
 
     def enter_doorbell_um(self):
@@ -123,7 +123,9 @@ class Base(LoginPage):
 
     def logout_menu(self):  # switch item in logout menu
         locator = self.driver.find_element(By.XPATH, self.xpath)
-        ActionChains(self.driver).move_to_element(locator).click().perform()
+        element = ActionChains(self.driver).move_to_element(locator)
+        time.sleep(1)
+        element.click().perform()
 
     def link_unit(self):
         Hwa(self.driver).signin_hwa()
@@ -139,6 +141,7 @@ class Base(LoginPage):
             if i.get_attribute('ng-reflect-model') == UID:
                 locator = f"//p[@class='add_user']/following::p[{j}]"
                 self.driver.find_element(By.XPATH, locator).click()
+                time.sleep(1)
                 break
             j = j + 1
         Hwa(self.driver).add_existing_user()
@@ -211,6 +214,7 @@ class Base(LoginPage):
     def select_popup_lang(self):
         LoginPage(self.driver).search_lang().click()
         hidden_menu = self.driver.find_element(By.XPATH, self.xpath)
+        time.sleep(0.5)
         ActionChains(self.driver).move_to_element(hidden_menu).click(hidden_menu).perform()
         return self.driver.find_element(By.XPATH, self.xpath)
 
@@ -220,18 +224,21 @@ class Base(LoginPage):
     def scrolling(self):  # scrolling building addresses
         xpath_elements = self.xpath
         elements = self.driver.find_elements(By.XPATH, xpath_elements)
-        for i in range(len(elements)):
+        for i in range(len(elements) + 1):
             if i == 0:
                 xpath = xpath_elements
             else:
                 xpath = f"{xpath_elements}[{i}]"
             if i % 5 == 0 or i < len(elements):
                 xpath = self.driver.find_element(By.XPATH, xpath)
-                ActionChains(self.driver).move_to_element(xpath).perform()
+                if i < 10:
+                    ActionChains(self.driver).move_to_element(xpath).perform()    # hovering
+                else:
+                    self.driver.execute_script("return arguments[0].scrollIntoView();", xpath)  # scrolling
 
     def sorting(self):  # hovering and sorting
         sort_list = []
-        self.__wait.until(ec.presence_of_element_located((By.XPATH, self.xpath1[0]))).click()
+        element = self.__wait.until(ec.presence_of_element_located((By.XPATH, self.xpath1[0]))).click()
         time.sleep(1)
         sub_tag = self.xpath1[1] + 1
         xpath_elements = self.xpath
@@ -313,6 +320,7 @@ class Base2(LoginPage):
         Units(self.driver).select_building()
         time.sleep(1)
         Units(self.driver).select_unit()
+        time.sleep(1)
         Units(self.driver).settings()
 
     def change_unit_manager_role(self):
@@ -321,9 +329,8 @@ class Base2(LoginPage):
         Units(self.driver).change_unit_manager()
 
     def change_doorbell_name(self):
-        doorbell = self.enter_the_doorbell()
+        self.enter_the_doorbell()
         Buildings(self.driver, "My Doorbell Name").input_doorbell_name()
-        return doorbell
 
     def check_doorbell_display_conditions(self):
         self.enter_the_doorbell()
@@ -459,11 +466,10 @@ class Base2(LoginPage):
         Units(self.driver).select_user()
 
     def enter_the_doorbell(self):
-        doorbell, address = Base2(self.driver).find_doorbell()
-        Buildings(self.driver, address).select_building()
+        Base2(self.driver).find_doorbell()
+        Buildings(self.driver, BUILDING).select_building()
         Buildings(self.driver).doorbell_button()
-        Buildings(self.driver, doorbell).select_doorbell()
-        return doorbell
+        Buildings(self.driver, DOORBELL).select_doorbell()
 
     def enable_search_field(self):
         self.enter_the_doorbell()
@@ -471,17 +477,23 @@ class Base2(LoginPage):
 
     def enter_building_settings(self):
         Units(self.driver).select_building()
+        time.sleep(1)
         Buildings(self.driver).settings_tab()
 
     def find_doorbell(self):
         Buildings(self.driver).your_units_button()
-        address, unit = Buildings(self.driver).building_address()
-        self.driver.find_elements(By.XPATH, f"//div[contains(text(), '{address}')]")[0].click()
-        self.driver.find_elements(By.XPATH, f"//span[contains(text(), '{unit}')]")[0].click()
-        self.driver.find_elements(By.XPATH, "//div[contains(text(), ' Doorbell ')]")[0].click()
-        doorbell = self.driver.find_elements(By.XPATH, "//div[@class='table-list-item__coll']")[0].text
+        time.sleep(1)
+        element = self.driver.find_elements(By.XPATH, f"//div[contains(text(), '{BUILDING}')]")[0]
+        element.click()
+        time.sleep(1)
+        element = self.driver.find_elements(By.XPATH, f"//span[contains(text(), '{UNIT}')]")[0]
+        element.click()
+        time.sleep(1)
+        element = self.driver.find_elements(By.XPATH, "//div[contains(text(), ' Doorbell ')]")[0]
+        element.click()
+        time.sleep(1)
+        # doorbell = self.driver.find_elements(By.XPATH, "//div[@class='table-list-item__coll']")[0].text
         self.driver.get(f"{BASE_URL}/building/list")
-        return doorbell, address
 
     def forbid_unit_image(self):
         doorbell = self.enter_the_doorbell()

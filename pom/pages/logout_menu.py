@@ -84,6 +84,7 @@ class Logout:
         locator = '//input[@placeholder="Enter card name"]'
         input_field = self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator)))
         input_field.send_keys(Keys.COMMAND, "a")
+        input_field.send_keys(Keys.DELETE)
         input_field.send_keys("MyCard")
         locator = "button.form-button-save"
         return self.__wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, locator))).click()
@@ -117,14 +118,15 @@ class Logout:
         input_field = self.__wait.until(ec.presence_of_element_located((By.XPATH, locator)))
         input_field.send_keys("CardName")
         locator = "button.form-button-save"
-        return self.__wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, locator))).click()
+        element = self.__wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, locator)))
+        element.click()
 
     def mark_digital_key(self):
-        locator = "//label[@class='form-checkbox-holder']//following::i[3]"
-        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        locator = "//app-form-checkbox/following::label[2]"
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def mark_doorbell_button(self):
-        locator = "//label[@class='form-checkbox-holder']//following::i[2]"
+        locator = "//app-form-checkbox/following::label[1]"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def mark_unit_manager(self):
@@ -134,7 +136,10 @@ class Logout:
 
     def mark_status_card(self):
         locator = "i.icon-app-ok-1"
-        return self.__wait.until(ec.visibility_of_element_located((By.CSS_SELECTOR, locator))).click()
+        element = self.__wait.until(ec.visibility_of_element_located((By.CSS_SELECTOR, locator)))
+        time.sleep(1)
+        element.click()
+        time.sleep(1)
 
     def mark_unit(self):
         locator = "//div[@class='form-checkbox']"
@@ -156,6 +161,10 @@ class Logout:
 
     def switch_to_swedish(self):
         locator = "//div[@class='form-radio__label']/following::label[2]"
+        return self.__wait.until(ec.presence_of_element_located((By.XPATH, locator))).click()
+
+    def switch_to_deutsch(self):
+        locator = "//div[@class='form-radio__label']/following::label[3]"
         return self.__wait.until(ec.presence_of_element_located((By.XPATH, locator))).click()
 
     def tips_doorbell_button(self):

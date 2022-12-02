@@ -1,6 +1,8 @@
 #################################################
 # Select server (set 1, 2 or 3)
-server = 3  # 1 - DEV, 2 - STAGE EU, 3 - STAGE US
+server = 1  # 1 - DEV, 2 - STAGE EU, 3 - STAGE US
+#################################################
+BROWSER = 1  # 1 - CHROME, 2 - SAFARI
 #################################################
 if server == 1:
     BASE_URL = "https://dev-webadmin.defigo.no"
@@ -17,6 +19,7 @@ if server == 1:
     PASSWORD_UM = "Qwerty123"
     BUILDING = "300, 90"
     UNIT = "Dontdeletethisunit"
+    DOORBELL = "Vet Test Emak 1"
     UID = 'fortest'
 elif server == 2:
     BASE_URL = "https://stage-webadmin.defigo.no"
@@ -34,11 +37,12 @@ elif server == 2:
     BUILDING = "Europaplein, 24"
     UNIT = "Dontdeletethisunit"
     UID = 'fortest'
+    DOORBELL = "Vet Test Emak 1"
 else:
     BASE_URL = "https://stage-webadmin.defigoaccess.com"
     BASE_URL2 = "https://stage.defigoaccess.com"
     HYPER_ADMIN_URL = "https://stage-hwa.defigoaccess.com/"
-    LOGIN_URL_US = "https://stage-webadmin.defigo.no"
+    LOGIN_URL_US = "https://stage-webadmin.defigoaccess.com/login"
     USERNAME_HA = "ha@us.test"
     PASSWORD_HA = "Qwerty123"
     USERNAME_BA = "ba@with.build"
@@ -62,6 +66,7 @@ CONTACT_URL_EN = "https://www.getdefigo.com/contact-us"
 PRIVACY_URL_NOR = f"{BASE_URL2}/privacy-policy?lang=nb"
 TERMS_URL_NOR = f"{BASE_URL2}/terms?lang=nb"
 CONTACT_URL_NOR = "https://www.getdefigo.com/no/contact-us"
+CONTACT_URL_NOR2 = "https://getdefigo.com/no/contact-us/"
 ###########################################################
 SIMPLE_USER = "simple_user"
 SIMPLE_PASS = "Qwerty123"

@@ -1,3 +1,5 @@
+import time
+
 import allure
 from pom.pages.login_page import SELECT_SERVER_US, SELECT_SERVER_EU
 from pom.selenium_functions import Base
@@ -9,6 +11,7 @@ def test_case(setup):
     """
     Check if server can switch from No to Us
     """
-    Base(setup, SELECT_SERVER_EU).popup_server()
-    # with allure.step("Step 1. Change server to US"):
-    #     assert setup.current_url == LOGIN_URL_US, "Can`t change server to US"
+    Base(setup, SELECT_SERVER_US).popup_server()
+    time.sleep(1)
+    with allure.step("Step 1. Change server to US"):
+        assert setup.current_url == LOGIN_URL_US, "Can`t change server to US"
