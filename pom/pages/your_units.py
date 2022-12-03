@@ -81,28 +81,6 @@ class Units:
         locator = "//button[text()=' Change unit owner ']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
-    # def change_unit_owner(self):
-    #     username = self.word[0]
-    #     self.change_unit_owner_button()
-    #     locator = "//div[@class='table-list-item table-list-item--user-view table-list-item--not-clickable ng-star-inserted']"
-    #     owners = self.driver.find_elements(By.XPATH, locator)
-    #     j = 0
-    #     first_name = ''
-    #     last_name = ''
-    #     for i in owners:
-    #         owner = owners[j].text
-    #         print(owners[j].text)
-    #         if username == owner.split()[1]:
-    #             first_name = owner.split()[2]
-    #             last_name = owner.split()[3]
-    #             break
-    #         j += 1
-    #     locator = f"//label[@class='form-radio-holder ng-star-inserted']/following::label[{j}]"
-    #     self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()
-    #     locator = "//button[@class='save-btn']"
-    #     self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
-    #     return first_name, last_name
-
     def change_unit_owner(self):
         username = self.word[0]
         self.change_unit_owner_button()
