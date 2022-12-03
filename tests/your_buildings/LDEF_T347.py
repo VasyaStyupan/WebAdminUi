@@ -1,8 +1,8 @@
 import time
 import allure
 import pytest
-from pom.selenium_functions import Signin, Base, Units
-from pom.pages.your_building import Buildings, FIRST_LINE, TAGS, SUB_TAGS
+from pom.selenium_functions import Signin, Base
+from pom.pages.your_building import Buildings, FIRST_LINE, TAGS
 from configuration import USERNAME_BA, PASSWORD_BA, CODE
 
 

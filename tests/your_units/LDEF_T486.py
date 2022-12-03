@@ -1,6 +1,6 @@
 import allure
 import pytest
-from pom.selenium_functions import Signin, Base2
+from pom.selenium_functions import Signin, Base
 from configuration import USERNAME, PASSWORD, CODE
 import time
 
@@ -14,8 +14,8 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
-    Base2(setup).delete_image()
+    Base(setup).delete_image()
     time.sleep(2)
-    image_present = Base2(setup).is_image_present()
+    image_present = Base(setup).is_image_present()
     with allure.step("Step 1. Check for deleting image"):
         assert image_present is False, "Image not deleted"

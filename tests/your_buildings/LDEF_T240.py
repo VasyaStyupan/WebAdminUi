@@ -1,6 +1,6 @@
 import allure
 import pytest
-from pom.selenium_functions import Signin, Base2
+from pom.selenium_functions import Signin, Base
 from pom.pages.your_building import Buildings
 from configuration import USERNAME_BA, PASSWORD_BA, CODE
 import time
@@ -15,13 +15,13 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password, code).login_credentials()
     Signin(setup, username, password, code).login_code()
-    Base2(setup).enter_the_doorbell()
+    Base(setup).enter_the_doorbell()
     Buildings(setup).uncheck_show_unit_image()
     time.sleep(1)
     Buildings(setup).enter_doorbell_unit_level()
-    Is_disable = Base2(setup).check_unit_image_disabled()
+    Is_disable = Base(setup).check_unit_image_disabled()
     # Base2(setup).check_unit_image()
-    Base2(setup).checkbox_recovery()
+    Base(setup).checkbox_recovery()
     time.sleep(1)
     with allure.step("Step 1. Check changes doorbell while unchecked 'Show unit image'"):
         assert Is_disable is True, "Error while unchecked 'Show unit image'"

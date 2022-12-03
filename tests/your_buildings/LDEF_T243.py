@@ -1,6 +1,6 @@
 import allure
 import pytest
-from pom.selenium_functions import Signin, Base2, Units
+from pom.selenium_functions import Signin, Units
 from pom.pages.your_building import Buildings
 from configuration import USERNAME_BA, PASSWORD_BA, CODE
 import time

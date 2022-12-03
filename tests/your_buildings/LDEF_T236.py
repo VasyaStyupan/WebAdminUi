@@ -1,8 +1,8 @@
 import allure
 import pytest
-from pom.selenium_functions import Signin, Base2, Units, Base
+from pom.selenium_functions import Signin, Base
 from pom.pages.your_building import Buildings
-from configuration import USERNAME_BA, PASSWORD_BA, CODE, USERNAME_UO, BASE_URL, DOORBELL
+from configuration import USERNAME_BA, PASSWORD_BA, CODE, DOORBELL
 import time
 
 
@@ -15,7 +15,7 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
-    Base2(setup).change_doorbell_name()
+    Base(setup).change_doorbell_name()
     time.sleep(1)
     with allure.step("Step 1. Check if doorbell name is changed"):
         assert "My Doorbell Name" in setup.page_source, "Change Doorbell name error"

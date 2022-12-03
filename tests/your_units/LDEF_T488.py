@@ -1,6 +1,6 @@
 import allure
 import pytest
-from pom.selenium_functions import Signin, Base2, Units
+from pom.selenium_functions import Signin, Base, Units
 from configuration import USERNAME_UM, PASSWORD_UM, CODE, UNIT
 import time
 
@@ -14,7 +14,7 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
-    Base2(setup).change_unit_info()
+    Base(setup).change_unit_info()
     Units(setup, 'Myunit').change_unit_name()
     time.sleep(1)
     with allure.step("Step 1. Check for change Unit name"):

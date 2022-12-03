@@ -3,8 +3,7 @@ import allure
 import pytest
 from pom.selenium_functions import Signin, Base
 from configuration import USERNAME_BA, PASSWORD_BA, CODE
-from pom.pages.logout_menu import UNITS, START_LOGOUT_MENU, Logout
-from pom.pages.mainscreen_page import MainScreen
+from pom.pages.logout_menu import UNITS, START_LOGOUT_MENU
 
 
 @allure.title("Check tips for 'Doorbell button' and 'Digital Keys'")

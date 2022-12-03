@@ -44,19 +44,19 @@ class Units:
 
     def check_button_layouts(self):
         locator = "//div[text()=' Hidden ']"
-        element = self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator)))
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
         time.sleep(1)
         element.click()
         locator = "//div[text()=' Visible ']"
-        element = self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator)))
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
         time.sleep(1)
         element.click()
         locator = "//div[text()=' Hidden ']//following::div[6]"
-        element = self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator)))
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
         time.sleep(1)
         element.click()
         locator = "//div[text()=' Visible ']/following::div[6]"
-        element = self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator)))
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
         time.sleep(1)
         element.click()
 

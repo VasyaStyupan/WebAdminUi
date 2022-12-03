@@ -1,7 +1,7 @@
 import allure
 import pytest
 from pom.selenium_functions import Signin
-from pom.selenium_functions import Base2
+from pom.selenium_functions import Base
 from pom.pages.your_building import Buildings
 from pom.pages.your_units import Units
 from pom.pages.logout_menu import Logout
@@ -19,7 +19,7 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Buildings(setup).your_units_button()
-    Base2(setup).add_user()
+    Base(setup).add_user()
     Units(setup).save_button()
     time.sleep(1)
     if "email must be unique" not in setup.page_source:
@@ -31,6 +31,6 @@ def test_case(setup, username, password, code):
     Logout(setup).units_tag()
     Logout(setup).mark_unit_manager()
     time.sleep(1)
-    Base2(setup).delete_user()
+    Base(setup).delete_user()
     time.sleep(1)
 

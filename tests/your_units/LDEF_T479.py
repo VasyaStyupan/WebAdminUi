@@ -1,6 +1,6 @@
 import allure
 import pytest
-from pom.selenium_functions import Signin, Base2, Units
+from pom.selenium_functions import Signin, Base, Units
 from configuration import USERNAME_UM, PASSWORD_UM, CODE
 import time
 
@@ -14,7 +14,7 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
-    Base2(setup).add_user()
+    Base(setup).add_user()
     time.sleep(1)
     Units(setup).view_list_of_users()
     time.sleep(1)
@@ -23,4 +23,4 @@ def test_case(setup, username, password, code):
     time.sleep(1)
     with allure.step("Step 2. Check presence of created user"):
         assert "JohnDoe@mail.com" in setup.page_source, "User not created"
-    Base2(setup).delete_user()
+    Base(setup).delete_user()

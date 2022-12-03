@@ -1,6 +1,6 @@
 import allure
 import pytest
-from pom.selenium_functions import Signin, Base2
+from pom.selenium_functions import Signin, Base
 from configuration import USERNAME_BA, PASSWORD_BA, CODE
 import time
 
@@ -15,8 +15,8 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password, code).login_credentials()
     Signin(setup, username, password, code).login_code()
-    Base2(setup).enter_the_doorbell()
-    Base2(setup).check_volume()
+    Base(setup).enter_the_doorbell()
+    Base(setup).check_volume()
     time.sleep(1)
 
 

@@ -1,6 +1,6 @@
 import allure
 import pytest
-from pom.selenium_functions import Signin, Base2
+from pom.selenium_functions import Signin, Base
 from pom.pages.your_building import Buildings
 from configuration import USERNAME_BA, PASSWORD_BA, CODE
 import time
@@ -15,7 +15,7 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
-    Base2(setup).enter_building_settings()
+    Base(setup).enter_building_settings()
     time.sleep(1)
     Buildings(setup, "5").change_list_of_floors()
     time.sleep(1)

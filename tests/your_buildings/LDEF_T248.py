@@ -1,6 +1,6 @@
 import allure
 import pytest
-from pom.selenium_functions import Signin, Base2, Buildings
+from pom.selenium_functions import Signin, Base, Buildings
 from configuration import USERNAME_BA, PASSWORD_BA, CODE
 import time
 
@@ -17,5 +17,5 @@ def test_case(setup, username, password, code):
     Buildings(setup).your_units_button()
     Buildings(setup).doorbell_button()
     Buildings(setup).select_any_doorbell()
-    Base2(setup).configure_ao()
+    Base(setup).configure_ao()
     time.sleep(1)

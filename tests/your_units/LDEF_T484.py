@@ -1,6 +1,6 @@
 import allure
 import pytest
-from pom.selenium_functions import Signin, Base2
+from pom.selenium_functions import Signin, Base
 from pom.pages.your_units import Units
 from configuration import USERNAME_UM, PASSWORD_UM, CODE
 import time
@@ -17,6 +17,6 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password, code).login_code()
     Units(setup).doorbell_button()
     Units(setup).doorbell_item()
-    Base2(setup).doorbell_layouts()
-    time.sleep(3)
+    Base(setup).doorbell_layouts()
+
 
