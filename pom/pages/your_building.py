@@ -169,7 +169,9 @@ class Buildings:
 
     def enable_ao_for_all_users(self):
         locator = "//div[text()=' Enable automatic opening for all users ']"
-        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        time.sleep(1)
+        element.click()
 
     def enter_doorbell_unit_level(self):
         self.your_units_button()

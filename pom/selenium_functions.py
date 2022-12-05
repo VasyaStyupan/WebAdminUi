@@ -26,6 +26,7 @@ class Signin(LoginPage, CodePage):
 
     def login_credentials(self):
         self.search_login_field(self.username)
+        time.sleep(1)
         self.search_password_field(self.password)
         try:
             self.__wait.until(ec.url_to_be(f"{BASE_URL}/auth-code"))
