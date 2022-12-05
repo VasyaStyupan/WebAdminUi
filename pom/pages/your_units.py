@@ -180,14 +180,6 @@ class Units:
         time.sleep(1)
         element.click()
 
-    def select_user(self):
-        locator = f"//span[contains(text(), '{USERNAME_BA}')]"
-        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
-
-    def select_simple_user(self):
-        locator = f"//span[contains(text(), '{SIMPLE_USER}')]"
-        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
-
     def fill_user_data_first_part(self):
         locator = "//input[@placeholder='Email']"
         email_field = self.driver.find_element(By.XPATH, locator)

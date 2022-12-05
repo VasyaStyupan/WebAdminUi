@@ -1,8 +1,8 @@
 #################################################
 # Select server (set 1, 2 or 3)
-server = 1  # 1 - DEV, 2 - STAGE EU, 3 - STAGE US
+server = 2  # 1 - DEV, 2 - STAGE EU, 3 - STAGE US
 #################################################
-BROWSER = 2  # 1 - CHROME, 2 - SAFARI
+BROWSER = 1  # 1 - CHROME, 2 - SAFARI
 #################################################
 if server == 1:
     BASE_URL = "https://dev-webadmin.defigo.no"
@@ -54,6 +54,7 @@ else:
     BUILDING = "Deep, 00"
     UNIT = "Dontdeletethisunit"
     UID = 'fortest'
+    DOORBELL = "EMAK1 US"
 ########################################################
 LOGIN_URL = f"{BASE_URL}/login"
 CODE_URL = f"{BASE_URL}/auth-code"

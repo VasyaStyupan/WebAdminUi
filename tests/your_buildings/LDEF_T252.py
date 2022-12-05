@@ -1,9 +1,8 @@
 import time
 import allure
 import pytest
-from pom.selenium_functions import Signin, Base, Base
-from configuration import USERNAME_BA, PASSWORD_BA, CODE
-from pom.pages.your_units import Units
+from pom.selenium_functions import Signin, Base
+from configuration import USERNAME_BA, PASSWORD_BA, CODE, SIMPLE_USER
 from pom.pages.logout_menu import Logout, START_LOGOUT_MENU, UNITS
 
 
@@ -17,7 +16,7 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base(setup).enter_the_unit()
-    Units(setup).select_simple_user()
+    Base(setup, SIMPLE_USER).select_user()
     Logout(setup).units_tag()
     Base(setup, START_LOGOUT_MENU[0], UNITS).mark_unmark_doorbel_button()
     time.sleep(1)

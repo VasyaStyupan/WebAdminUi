@@ -264,7 +264,9 @@ class Buildings:
 
     def settings_tab(self):
         locator = "//div[text()=' Settings ']"
-        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        time.sleep(1)
+        element.click()
 
     def select_user(self):
         user = self.param[0]

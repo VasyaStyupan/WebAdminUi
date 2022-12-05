@@ -309,9 +309,9 @@ class Base(LoginPage):
         time.sleep(1)
         Units(self.driver).select_unit()
 
-    def enter_the_user(self):
-        self.enter_the_unit()
-        Units(self.driver).select_user()
+    # def enter_the_user(self):
+    #     self.enter_the_unit()
+    #     Units(self.driver).select_user()
 
     def find_doorbell(self):
         Buildings(self.driver).your_units_button()
@@ -325,7 +325,6 @@ class Base(LoginPage):
         element = self.driver.find_elements(By.XPATH, "//div[contains(text(), ' Doorbell ')]")[0]
         element.click()
         time.sleep(1)
-        # doorbell = self.driver.find_elements(By.XPATH, "//div[@class='table-list-item__coll']")[0].text
         self.driver.get(f"{BASE_URL}/building/list")
 
     def forbid_unit_image(self):
@@ -351,9 +350,7 @@ class Base(LoginPage):
     def link_unit(self):
         Hwa(self.driver).signin_hwa()
         Hwa(self.driver, self.param[0]).search_hwa()
-        building_address = Hwa(self.driver).building_address_um()
-        # building = building_address.text
-        # uid = Hwa(self.driver).unit_uid().text
+        Hwa(self.driver).building_address_um()
         Hwa(self.driver).manage_customers()
         self.driver.find_element(By.XPATH, f"//span[contains(text(), '{BUILDING}')]").click()  # select building
         Hwa(self.driver).apartment_management()
@@ -471,6 +468,10 @@ class Base(LoginPage):
         time.sleep(1)
         return
 
+    def select_user(self):
+        locator = f"//span[contains(text(), '{self.param[0]}')]"
+        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+
     def select_your_units(self):
         Buildings(self.driver).your_units_button()
         if "Users" and "Access" and 'Doorbell' not in self.driver.page_source:
@@ -496,7 +497,7 @@ class Base(LoginPage):
 
     def sorting(self):  # hovering and sorting
         sort_list = []
-        element = self.__wait.until(ec.presence_of_element_located((By.XPATH, self.param[1]))).click()
+        self.__wait.until(ec.presence_of_element_located((By.XPATH, self.param[1]))).click()
         time.sleep(1)
         sub_tag = self.param[2] + 1
         xpath_elements = self.param[0]
@@ -507,9 +508,8 @@ class Base(LoginPage):
             # else:
             xpath = f"{xpath_elements}[{i}]"
             element = self.driver.find_element(By.XPATH, f"{xpath}/child::div/child::div[{sub_tag}]")
-            item = self.driver.find_element(By.XPATH, xpath)
+            self.driver.find_element(By.XPATH, xpath)
             if element.text != "":
-                # if self.xpath[1] == "//span[text()=' GID ']":
                 if 'GID' and 'Number of users' in self.param[1] is True:
                     sort_list.append(len(element.text))
                 elif self.param[0] == "//app-building-list-item":
