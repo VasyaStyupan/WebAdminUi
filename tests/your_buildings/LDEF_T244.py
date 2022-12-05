@@ -25,5 +25,6 @@ def test_case(setup, username, password, code):
         assert first_name and last_name in setup.page_source, "Change unit owner error"
     Units(setup, USERNAME_UO).change_unit_owner()
     setup.get(f"{BASE_URL}/building/profile")
+    setup.refresh()
     Base(setup, START_LOGOUT_MENU[0], UNITS).mark_unit_manager()
     time.sleep(1)
