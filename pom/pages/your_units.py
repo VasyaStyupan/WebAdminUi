@@ -85,13 +85,13 @@ class Units:
         username = self.word[0]
         self.change_unit_owner_button()
         locator = f"//span[text()='{username}']/parent::div/parent::div/child::div[1]"
-        self.driver.find_element(By.XPATH, locator).click()
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
         locator = f"//span[text()='{username}']/parent::div/parent::div/child::div[5]"
         first_name = self.driver.find_element(By.XPATH, locator).text
         locator = f"//span[text()='{username}']/parent::div/parent::div/child::div[6]"
         last_name = self.driver.find_element(By.XPATH, locator).text
         locator = "//button[@class='save-btn']"
-        self.driver.find_element(By.XPATH, locator).click()
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
         return first_name, last_name
 
     def change_unit_manager(self):
