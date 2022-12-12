@@ -62,7 +62,7 @@ class Units:
 
     def choose_delete(self):
         locator = "//div[@class='image-label__image'] "
-        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        return self.__wait.until(ec.presence_of_element_located((By.XPATH, locator)))
 
     def change_unit_name(self):
         unit = self.word
@@ -157,6 +157,7 @@ class Units:
     def save_button(self):
         locator = "//button[@class='add-user-save-btn']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        time.sleep(1)
 
     def save_image(self):
         locator = "//button[text()='Save']"
@@ -176,9 +177,7 @@ class Units:
 
     def settings(self):
         locator = "//div[@routerlink='settings']"
-        element =  self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
-        time.sleep(1)
-        element.click()
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def fill_user_data_first_part(self):
         locator = "//input[@placeholder='Email']"

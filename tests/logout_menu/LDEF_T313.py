@@ -18,6 +18,6 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password, code).login_code()
     MainScreen(setup).find_popup()
     Base(setup, START_LOGOUT_MENU[1], NORWEGIAN).switch_to_lang()
-    time.sleep(1)
+    time.sleep(2)
     with allure.step("Step 1. Check UX translation with Norsk loc"):
         assert "Velg språk" and "Søk etter brukere og enheter" in setup.page_source, "Switch to Norsk does not work"

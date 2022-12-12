@@ -5,7 +5,7 @@ from configuration import USERNAME_BA, PASSWORD_BA, CODE
 import time
 
 
-@allure.title("CCheck Access settings with RFID. Choose block adding RFID")
+@allure.title("Check Access settings with RFID. Choose block adding RFID")
 @pytest.mark.parametrize('username, password, code', [
     (USERNAME_BA, PASSWORD_BA, CODE)])
 def test_case(setup, username, password, code):

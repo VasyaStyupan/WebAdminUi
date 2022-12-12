@@ -17,17 +17,14 @@ class Hwa:
         locator = "//span[text()=' Add an existing user here ']"
         self.driver.find_elements(By.XPATH, locator)[0].click()
         locator = "//div[@class='existing-user-container visible']"
-        select_user = self.driver.find_element(By.XPATH, locator)
-        select_user.click()
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
         locator = "//div[@class='ng-input']/following::input[11]"
         search = self.driver.find_element(By.XPATH, locator)
         search.send_keys(USERNAME_BA)
         time.sleep(1)
         search.send_keys(Keys.RETURN)
         locator = "//button[text()=' Add ']"
-        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
-        time.sleep(1)
-        element.click()
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def apartment_management(self):
         locator = "//div[text()=' Apartment management ']"
@@ -84,7 +81,7 @@ class Hwa:
         locator = "//button[text()='Sign in']"
         self.driver.find_element(By.XPATH, locator).click()
         locator = "//input[@placeholder='Enter your code']"
-        code = self.driver.find_element(By.XPATH, locator)
+        code = self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator)))
         code.send_keys("1111")
         locator = "//button[@class='btn form-btn']"
         self.driver.find_element(By.XPATH, locator).click()

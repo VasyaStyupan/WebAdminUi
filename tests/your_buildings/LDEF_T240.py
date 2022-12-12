@@ -20,7 +20,6 @@ def test_case(setup, username, password, code):
     time.sleep(1)
     Buildings(setup).enter_doorbell_unit_level()
     Is_disable = Base(setup).check_unit_image_disabled()
-    # Base2(setup).check_unit_image()
     Base(setup).checkbox_recovery()
     time.sleep(1)
     with allure.step("Step 1. Check changes doorbell while unchecked 'Show unit image'"):

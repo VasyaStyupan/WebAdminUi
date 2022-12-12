@@ -59,7 +59,7 @@ class Logout:
 
     def check_unit_manager_active(self):
         locator = "//i[@class='icon-app-ok-1 ng-star-inserted']"
-        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        element = self.__wait.until(ec.presence_of_element_located((By.XPATH, locator)))
         if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
             element.click()
 
@@ -78,7 +78,7 @@ class Logout:
 
     def edit(self):
         locator = "//*[text()=' Edit ']"
-        return self.driver.find_element(By.XPATH, locator).click()
+        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def edit_card_name(self):
         locator = '//input[@placeholder="Enter card name"]'
@@ -127,7 +127,9 @@ class Logout:
 
     def mark_doorbell_button(self):
         locator = "//app-form-checkbox/following::label[1]"
-        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        element = self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator)))
+        time.sleep(1)
+        element.click()
 
     def mark_unit_manager(self):
         locator = "//label[@class='form-checkbox-holder']//following::i[1]"
@@ -178,3 +180,5 @@ class Logout:
     def units_tag(self):
         locator = "//div[text()=' Units ']"
         return self.driver.find_element(By.XPATH, locator).click()
+
+

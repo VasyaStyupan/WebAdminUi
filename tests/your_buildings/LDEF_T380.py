@@ -31,4 +31,4 @@ def test_case(setup, username, password, code):
             assert "Email" and "Username" and "First Name" and "Last Name" and "Phone" in setup.page_source, "Required tags  are missing"
             assert "Add user" in setup.page_source, "Button is missing"
     Base(setup).delete_user()
-    time.sleep(1)
+

@@ -1,6 +1,7 @@
 import allure
 import pytest
 from pom.selenium_functions import Signin, Base
+from pom.pages.your_building import Buildings
 from configuration import USERNAME_BA, PASSWORD_BA, CODE
 import time
 
@@ -15,9 +16,10 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base(setup).enable_search_field()
-    time.sleep(1)
-    Base(setup).checkbox_recovery()
-    time.sleep(1)
+    setup.refresh()
+    Buildings(setup).enable_search()
+
+
 
 
 

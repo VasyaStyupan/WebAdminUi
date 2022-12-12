@@ -16,9 +16,9 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Buildings(setup).select_any_building()
-    for j in TAGS:
-        tag = TAGS.index(j)
-        Buildings(setup, TAGS[tag]).select_tag()
-        Base(setup, FIRST_LINE[tag]).scrolling()
+    # for j in TAGS:
+    #     tag = TAGS.index(j)
+    #     Buildings(setup, TAGS[tag]).select_tag()
+    #     Base(setup, FIRST_LINE[tag]).scrolling()
 
 

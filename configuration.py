@@ -1,6 +1,6 @@
 #################################################
 # Select server (set 1, 2 or 3)
-server = 2  # 1 - DEV, 2 - STAGE EU, 3 - STAGE US
+server = 3  # 1 - DEV, 2 - STAGE EU, 3 - STAGE US
 #################################################
 BROWSER = 1  # 1 - CHROME, 2 - SAFARI
 #################################################
@@ -8,7 +8,7 @@ if server == 1:
     BASE_URL = "https://dev-webadmin.defigo.no"
     BASE_URL2 = "https://webrtc.defigohome.com"
     HYPER_ADMIN_URL = "https://dev-hwa.defigo.no/"
-    LOGIN_URL_US = "https://webadmin.getdefigo.com/login"
+    LOGIN_URL_US = "webadmin.getdefigo.com/login"
     USERNAME_HA = "test@ha.dev"
     PASSWORD_HA = "Qwerty1"
     USERNAME_BA = "building@ma.nager"
@@ -63,7 +63,7 @@ MAIN_URL = f"{BASE_URL}/building/list"
 #########################################################
 PRIVACY_URL_EN = f"{BASE_URL2}/privacy-policy?lang=en"
 TERMS_URL_EN = f"{BASE_URL2}/terms?lang=en"
-CONTACT_URL_EN = "https://www.getdefigo.com/contact-us"
+CONTACT_URL_EN = "getdefigo.com/contact-us"
 PRIVACY_URL_NOR = f"{BASE_URL2}/privacy-policy?lang=nb"
 TERMS_URL_NOR = f"{BASE_URL2}/terms?lang=nb"
 CONTACT_URL_NOR = "https://www.getdefigo.com/no/contact-us"

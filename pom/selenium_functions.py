@@ -4,10 +4,10 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-from configuration import BASE_URL, USERNAME_UM, PASSWORD_UM, CODE, UNIT, UID, BUILDING, DOORBELL, server
+from configuration import BASE_URL, USERNAME_UM, PASSWORD_UM, CODE, UNIT, UID, BUILDING, DOORBELL, server, USERNAME_UO
 from pom.pages.code_page import CodePage
 from pom.pages.login_page import LoginPage, SELECT_SERVER_US, SELECT_SERVER_EU
-from pom.pages.logout_menu import Logout, START_LOGOUT_MENU, LOGOUT
+from pom.pages.logout_menu import Logout, START_LOGOUT_MENU, LOGOUT, UNITS
 from pom.pages.mainscreen_page import MainScreen
 from pom.pages.your_units import Units
 from pom.pages.your_building import Buildings
@@ -26,7 +26,6 @@ class Signin(LoginPage, CodePage):
 
     def login_credentials(self):
         self.search_login_field(self.username)
-        time.sleep(1)
         self.search_password_field(self.password)
         try:
             self.__wait.until(ec.url_to_be(f"{BASE_URL}/auth-code"))
@@ -39,7 +38,6 @@ class Signin(LoginPage, CodePage):
         try:
             self.__wait.until(ec.url_changes(f"{BASE_URL}/auth-code"))
             MainScreen(self.driver).check_load_main_page()
-            time.sleep(1)
         except Exception:
             pass
         return self.driver.current_url
@@ -68,9 +66,11 @@ class Base(LoginPage):
 
     def add_units(self):
         Logout(self.driver).add_card_button()
-        Logout(self.driver).add_units_button()
-        Logout(self.driver).mark_unit()
-        Logout(self.driver).save_unit_button()
+        if "Add unit" in self.driver.page_source:
+            Logout(self.driver).add_units_button()
+            Logout(self.driver).mark_unit()
+            Logout(self.driver).save_unit_button()
+            return True
 
     def add_user(self):
         Units(self.driver).add_user()
@@ -182,6 +182,10 @@ class Base(LoginPage):
         xpath = Logout(self.driver).tips_digital_keys()
         ActionChains(self.driver).move_to_element(xpath).perform()
 
+    def check_your_units(self):
+        if "Your units" not in self.driver.page_source:
+            self.fix_your_units()
+
     def check_user_image(self):
         self.enter_the_doorbell()
         Buildings(self.driver).uncheck_show_user_image()
@@ -214,6 +218,7 @@ class Base(LoginPage):
 
     def checkbox_recovery(self):
         self.enter_the_doorbell()
+        self.driver.refresh()
         time.sleep(1)
         Buildings(self.driver).checkbox_recovery_after_selection()
 
@@ -300,7 +305,8 @@ class Base(LoginPage):
         Buildings(self.driver).settings_tab()
 
     def enter_the_doorbell(self):
-        self.find_doorbell()
+        # self.find_doorbell()
+        Buildings(self.driver).your_buildings_button()
         Buildings(self.driver, BUILDING).select_building()
         Buildings(self.driver).doorbell_button()
         Buildings(self.driver, DOORBELL).select_doorbell()
@@ -310,23 +316,24 @@ class Base(LoginPage):
         time.sleep(1)
         Units(self.driver).select_unit()
 
-    # def enter_the_user(self):
-    #     self.enter_the_unit()
-    #     Units(self.driver).select_user()
-
-    def find_doorbell(self):
-        Buildings(self.driver).your_units_button()
-        time.sleep(1)
-        element = self.driver.find_elements(By.XPATH, f"//div[contains(text(), '{BUILDING}')]")[0]
-        element.click()
-        time.sleep(1)
-        element = self.driver.find_elements(By.XPATH, f"//span[contains(text(), '{UNIT}')]")[0]
-        element.click()
-        time.sleep(1)
-        element = self.driver.find_elements(By.XPATH, "//div[contains(text(), ' Doorbell ')]")[0]
-        element.click()
-        time.sleep(1)
-        self.driver.get(f"{BASE_URL}/building/list")
+    def fix_your_units(self):
+        if "Your units" not in self.driver.page_source:
+            Base(self.driver, START_LOGOUT_MENU[0], UNITS).profile_menu()
+            if UNIT or "Myunit" in self.driver.page_source:
+                Logout(self.driver).mark_unit_manager()
+                Logout(self.driver).check_unit_manager_active()
+                if "Myunit" in self.driver.page_source:
+                    self.driver.refresh()
+                    Buildings(self.driver).your_units_button()
+                    Units(self.driver).settings()
+                    Buildings(self.driver, UNIT).change_unit_name()
+            else:
+                Base(self.driver, USERNAME_UM).link_unit()
+                self.driver.get(BASE_URL)
+                Base(self.driver, START_LOGOUT_MENU[0], UNITS).profile_menu()
+                Logout(self.driver).mark_unit_manager()
+                Logout(self.driver).check_unit_manager_active()
+        self.driver.refresh()
 
     def forbid_unit_image(self):
         self.enter_the_doorbell()
@@ -353,7 +360,8 @@ class Base(LoginPage):
         Hwa(self.driver, self.param[0]).search_hwa()
         Hwa(self.driver).building_address_um()
         Hwa(self.driver).manage_customers()
-        self.driver.find_element(By.XPATH, f"//span[contains(text(), '{BUILDING}')]").click()  # select building
+        self.__wait.until(ec.element_to_be_clickable(
+            (By.XPATH, f"//span[contains(text(), '{BUILDING}')]"))).click()  # select building
         Hwa(self.driver).apartment_management()
         j = 0  # Select Unit
         for i in Hwa(self.driver).find_by_uid():
@@ -424,7 +432,7 @@ class Base(LoginPage):
     def profile_menu(self):
         MainScreen(self.driver).find_popup()
         self.logout_menu()
-        self.driver.find_element(By.XPATH, self.param[1]).click()
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, self.param[1]))).click()
 
     def remove_user(self):
         self.profile_menu()
@@ -435,6 +443,13 @@ class Base(LoginPage):
         Hwa(self.driver).signin_hwa()
         Hwa(self.driver, self.param).search_hwa()
         Hwa(self.driver).delete_rfid_hwa()
+
+    def restore_unit_owner(self):
+        Buildings(self.driver).your_units_button()
+        Buildings(self.driver).building_address()
+        Units(self.driver).settings()
+        Units(self.driver, USERNAME_UO).change_unit_owner()
+        time.sleep(1)
 
     def remove_user_hwa(self):
         Hwa(self.driver).signin_hwa()
@@ -490,15 +505,17 @@ class Base(LoginPage):
             else:
                 xpath = f"{xpath_elements}[{i}]"
             if i % 5 == 0 or i < len(elements):
-                xpath = self.driver.find_element(By.XPATH, xpath)
+                xpath = self.__wait.until(ec.presence_of_element_located((By.XPATH, xpath)))
                 if i < 10:
-                    ActionChains(self.driver).move_to_element(xpath).perform()    # hovering
+                    ActionChains(self.driver).move_to_element(xpath).perform()  # hovering
                 else:
                     self.driver.execute_script("return arguments[0].scrollIntoView();", xpath)  # scrolling
 
     def sorting(self):  # hovering and sorting
         sort_list = []
-        self.__wait.until(ec.presence_of_element_located((By.XPATH, self.param[1]))).click()
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, self.param[1])))
+        time.sleep(0.5)
+        element.click()
         time.sleep(1)
         sub_tag = self.param[2] + 1
         xpath_elements = self.param[0]
@@ -559,25 +576,3 @@ class Base(LoginPage):
         time.sleep(1)
         Units(self.driver).save_image()
         time.sleep(1)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

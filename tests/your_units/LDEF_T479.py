@@ -15,11 +15,10 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base(setup).add_user()
-    time.sleep(1)
     Units(setup).view_list_of_users()
     time.sleep(1)
     with allure.step("Step 1. Check presence of necessary tags"):
-        assert "Users" and "Access" and "Doorbell" and "Settings" in setup.page_source, "Required tags  are missing"
+        assert "Users" and "Access" and "Doorbell" in setup.page_source, "Required tags  are missing"
     time.sleep(1)
     with allure.step("Step 2. Check presence of created user"):
         assert "JohnDoe@mail.com" in setup.page_source, "User not created"

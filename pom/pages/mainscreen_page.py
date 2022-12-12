@@ -23,26 +23,28 @@ class MainScreen:
         return search.send_keys(Keys.RETURN)
 
     def search_user(self):
-        return self.driver.find_element(By.XPATH,
-                                        "//div[@class='search-result-item']")
+        return self.__wait.until(ec.visibility_of_element_located((By.XPATH,
+                                                                   "//div[@class='search-result-item']")))
 
     def find_popup(self):
         xpath = LOGOUT_MENU
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, xpath))).click()
+        time.sleep(1)
 
     def press_sorting_button(self):
         locator = "//span[text()=' Building address ']"
-        self.__wait.until(ec.presence_of_element_located((By.XPATH, locator))).click()
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def map_plus(self):
         locator = ".icon-app-plus"
-        self.__wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, locator))).click()
+        element = self.__wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, locator)))
+        time.sleep(1)
+        element.click()
 
     def map_minus(self):
         locator = ".icon-app-minus"
-        self.__wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, locator))).click()
+        self.__wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, locator))).click()
 
     def check_load_main_page(self):
         locator = "//div[@class='user-info-dropdown-mobile-button']"
         self.__wait.until(ec.presence_of_element_located((By.XPATH, locator)))
-

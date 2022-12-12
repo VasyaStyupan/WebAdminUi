@@ -1,5 +1,4 @@
 import time
-
 import allure
 import pytest
 from pom.selenium_functions import Signin, Base
@@ -17,7 +16,7 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
-    Buildings(setup).select_any_building()
+    Buildings(setup).select_building()
     for j in TAGS:
         tag = TAGS.index(j)
         time.sleep(0.5)

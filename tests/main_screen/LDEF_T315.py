@@ -1,3 +1,5 @@
+import time
+
 import pytest
 import allure
 from pom.selenium_functions import Signin, Base
@@ -13,6 +15,7 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
+    time.sleep(1)
     with allure.step("Step 1. Check if user can see 'Building manager', 'Your buildings', 'Building address','Units',"
                      " 'Doors', 'Users' "):
         assert "Building manager" and 'Your buildings' and 'Building address' and 'Units' and 'Doors' and 'Users' in \

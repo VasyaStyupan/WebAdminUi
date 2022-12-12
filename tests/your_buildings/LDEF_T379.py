@@ -27,13 +27,9 @@ def test_case(setup, username, password, code):
             assert "JohnDoe" in setup.page_source, "Error adding user"
     Buildings(setup).users_tag()
     Buildings(setup, 'JohnDoe@mail.com').select_user()
-    time.sleep(1)
     Logout(setup).units_tag()
-    time.sleep(1)
     Logout(setup).mark_doorbell_button()
-    time.sleep(1)
     Logout(setup).mark_digital_key()
-    time.sleep(1)
     Base(setup).delete_user()
-    time.sleep(1)
+
 

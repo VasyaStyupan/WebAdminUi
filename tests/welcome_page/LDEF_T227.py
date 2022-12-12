@@ -14,4 +14,4 @@ def test_case(setup):
     Base(setup, SELECT_SERVER_US).popup_server()
     time.sleep(1)
     with allure.step("Step 1. Change server to US"):
-        assert setup.current_url == LOGIN_URL_US, "Can`t change server to US"
+        assert LOGIN_URL_US in setup.current_url, "Can`t change server to US"

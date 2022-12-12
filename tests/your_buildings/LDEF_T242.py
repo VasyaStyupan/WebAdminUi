@@ -15,8 +15,8 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password, code).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base(setup).check_doorbell_display_conditions()
-    setup.get(f"{BASE_URL}/building/list")
-    Base(setup).check_doorbell_display_conditions()
-    time.sleep(1)
+    Base(setup).checkbox_recovery()
+
+
 
 

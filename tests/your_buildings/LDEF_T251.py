@@ -20,10 +20,11 @@ def test_case(setup, username, password, code):
     Base(setup).add_user()
     Units(setup).save_button()
     Buildings(setup).users_tag()
-    time.sleep(1)
-    with allure.step("Step 1. Check adding user"):
-        assert "JohnDoe@mail.com" in setup.page_source, "User not created"
     Buildings(setup).delete_user_from_unit()
+    time.sleep(1)
+    with allure.step("Step 1. Check deleting user"):
+        assert "JohnDoe@mail.com" not in setup.page_source, "User is not deleted"
     Base(setup).delete_user()
+
 
 

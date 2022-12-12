@@ -18,13 +18,13 @@ def test_step1(setup):
     save_url = setup.current_url
     LoginPage(setup).search_privacy_nor().click()
     current_url = setup.current_url
-    time.sleep(1)
+    time.sleep(2)
     with allure.step("Step 2. Check Privacy page"):
         assert PRIVACY_URL_NOR == current_url, "Error reading Privacy page"
     setup.get(save_url)
     LoginPage(setup).search_terms_nor().click()
     current_url = setup.current_url
-    time.sleep(1)
+    time.sleep(2)
     with allure.step("Step 3. Check Terms of use page"):
         assert TERMS_URL_NOR == current_url, "Error reading Terms of use page"
     setup.get(save_url)

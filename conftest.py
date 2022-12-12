@@ -33,7 +33,6 @@ def setup(request, get_webdriver):
     url = f"{BASE_URL}/login"
     if request.cls is not None:
         request.cls.driver = driver
-    driver.implicitly_wait(5)
     driver.get(url)
     yield driver
     driver.quit()

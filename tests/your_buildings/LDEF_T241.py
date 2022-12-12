@@ -1,6 +1,6 @@
 import allure
 import pytest
-from pom.selenium_functions import Signin, Base, Base
+from pom.selenium_functions import Signin, Base
 from configuration import USERNAME_BA, PASSWORD_BA, CODE, USERNAME_UM, PASSWORD_UM
 import time
 
@@ -27,7 +27,6 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base(setup).forbid_unit_image()
-    time.sleep(3)
     Base(setup).checkbox_recovery()
 
 

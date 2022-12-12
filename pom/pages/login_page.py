@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
 SELECT_SERVER_US = "//div[text()='US']"
@@ -17,38 +18,38 @@ class LoginPage:
         self.__wait = WebDriverWait(driver, 15, 0.3)
 
     def search_contact(self):
-        return self.driver.find_element(By.XPATH, "//*[text()='Contact us']")
+        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, "//*[text()='Contact us']")))
 
     def search_contact_nor(self):
-        return self.driver.find_element(By.XPATH, "//*[text()='Kontakt oss']")
+        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, "//*[text()='Kontakt oss']")))
 
     def change_server_No_Us(self):
-        return self.driver.find_element(By.XPATH, "//span[text()='Europe']")
+        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, "//span[text()='Europe']")))
 
     def change_server_Us_No(self):
-        return self.driver.find_element(By.XPATH, "//span[text()='US']")
+        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, "//span[text()='US']")))
 
     def search_login_field(self, username):
         locator = "//*[@placeholder='Username']"
-        return self.driver.find_element(By.XPATH, locator).send_keys(username)
+        self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).send_keys(username)
 
     def search_password_field(self, password):
         locator = "//*[@placeholder='Password']"
-        search_field = self.driver.find_element(By.XPATH, locator)
+        search_field = self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator)))
         search_field.send_keys(password)
         return search_field.send_keys(Keys.RETURN)
 
     def search_privacy(self):
-        return self.driver.find_element(By.XPATH, "//*[text()=' Privacy, ']")
+        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, "//*[text()=' Privacy, ']")))
 
     def search_privacy_nor(self):
-        return self.driver.find_element(By.XPATH, "//*[text()=' Personvern, ']")
+        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, "//*[text()=' Personvern, ']")))
 
     def search_terms(self):
-        return self.driver.find_element(By.XPATH, "//*[text()=' Terms of use ']")
+        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, "//*[text()=' Terms of use ']")))
 
     def search_terms_nor(self):
-        return self.driver.find_element(By.XPATH, "//*[text()=' Vilkår ']")
+        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, "//*[text()=' Vilkår ']")))
 
     def search_lang(self):
-        return self.driver.find_element(By.XPATH, "//i[@class='icon-app-down-open']")
+        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, "//i[@class='icon-app-down-open']")))
