@@ -23,7 +23,7 @@ def test_case(setup, username, password, code):
     with allure.step("Step 1. Check if unit owner is changed"):
         assert first_name and last_name in setup.page_source, "Change unit owner error"
     Units(setup, USERNAME_UO).change_unit_owner()
-    time.sleep(3)
+    time.sleep(4)
     Base(setup, START_LOGOUT_MENU[0], UNITS).mark_unit_manager()
 
 

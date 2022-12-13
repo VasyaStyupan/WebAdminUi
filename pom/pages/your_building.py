@@ -47,15 +47,17 @@ class Buildings:
         if element.value_of_css_property('background-color') == 'rgba(196, 196, 196, 1)':
             element.click()
 
-    def assign_ao_to_specific_users(self):
-        locator = "//div[text()=' Assign automatic opening to specific users ']"
-        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
-
     def ao_on_unit_level(self):
         locator = "//div[text()=' On ']"
         element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
         if element.value_of_css_property('background-color') == 'rgba(196, 196, 196, 1)':
             element.click()
+
+    def assign_ao_to_specific_users(self):
+        locator = "//div[text()=' Assign automatic opening to specific users ']"
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        time.sleep(1)
+        element.click()
 
     def building_address(self):
         locator = "//div[@class='breadcrumbs__btn']"
@@ -175,7 +177,9 @@ class Buildings:
 
     def enable_ao_for_all_users(self):
         locator = "//div[text()=' Enable automatic opening for all users ']"
-        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        time.sleep(1)
+        element.click()
 
     def enter_doorbell_unit_level(self):
         self.your_units_button()

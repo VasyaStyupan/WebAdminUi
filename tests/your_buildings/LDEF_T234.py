@@ -74,6 +74,6 @@ def test_case3(setup, username, password, code):
     Signin(setup, username, password, code).login_code()
     Base(setup).enter_building_settings()
     Base(setup).check_add_role_unit_manager__function()
-    time.sleep(2)
+    time.sleep(3)
     Base(setup).logout()
     Base(setup).delete_user()

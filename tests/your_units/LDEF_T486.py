@@ -15,8 +15,7 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base(setup).delete_image()
-    time.sleep(1)
+    time.sleep(2)
     image_present = Base(setup).is_image_present()
-    time.sleep(1)
     with allure.step("Step 1. Check for deleting image"):
         assert image_present is False, "Image not deleted"

@@ -16,7 +16,6 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base(setup).enable_search_field()
-    setup.refresh()
     Buildings(setup).enable_search()
 
 

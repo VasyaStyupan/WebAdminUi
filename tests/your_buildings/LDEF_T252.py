@@ -19,10 +19,9 @@ def test_case(setup, username, password, code):
     Base(setup, SIMPLE_USER).select_user()
     Logout(setup).units_tag()
     Base(setup, START_LOGOUT_MENU[0], UNITS).mark_unmark_doorbel_button()
-    time.sleep(1)
     Logout(setup).units_tag()
     Logout(setup).mark_doorbell_button()
-    time.sleep(1)
+
 
 
 
