@@ -6,7 +6,7 @@ from configuration import USERNAME_BA, PASSWORD_BA, CODE, USERNAME_UM, BASE_URL
 from pom.pages.logout_menu import UNITS, START_LOGOUT_MENU, Logout
 from pom.selenium_functions import Base
 
-@pytest.mark.skip
+
 @allure.title("Remove user")
 @pytest.mark.parametrize('username, password, code', [
     (USERNAME_BA, PASSWORD_BA, CODE)])

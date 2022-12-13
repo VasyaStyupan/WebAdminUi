@@ -5,7 +5,6 @@ from configuration import USERNAME_BA, PASSWORD_BA, CODE
 import time
 
 
-@pytest.mark.skip
 @allure.title("Doorbell settings. Check Screen settings (volume)")
 @pytest.mark.parametrize('username, password, code', [
     (USERNAME_BA, PASSWORD_BA, CODE)])

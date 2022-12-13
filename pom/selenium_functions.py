@@ -305,7 +305,6 @@ class Base(LoginPage):
         Buildings(self.driver).settings_tab()
 
     def enter_the_doorbell(self):
-        # self.find_doorbell()
         Buildings(self.driver).your_buildings_button()
         Buildings(self.driver, BUILDING).select_building()
         Buildings(self.driver).doorbell_button()
@@ -319,14 +318,16 @@ class Base(LoginPage):
     def fix_your_units(self):
         if "Your units" not in self.driver.page_source:
             Base(self.driver, START_LOGOUT_MENU[0], UNITS).profile_menu()
-            if UNIT or "Myunit" in self.driver.page_source:
+            if UNIT in self.driver.page_source:
                 Logout(self.driver).mark_unit_manager()
                 Logout(self.driver).check_unit_manager_active()
-                if "Myunit" in self.driver.page_source:
-                    self.driver.refresh()
-                    Buildings(self.driver).your_units_button()
-                    Units(self.driver).settings()
-                    Buildings(self.driver, UNIT).change_unit_name()
+            elif "Myunit" in self.driver.page_source:
+                Logout(self.driver).mark_unit_manager()
+                Logout(self.driver).check_unit_manager_active()
+                self.driver.refresh()
+                Buildings(self.driver).your_units_button()
+                Units(self.driver).settings()
+                Buildings(self.driver, UNIT).change_unit_name()
             else:
                 Base(self.driver, USERNAME_UM).link_unit()
                 self.driver.get(BASE_URL)
@@ -352,7 +353,7 @@ class Base(LoginPage):
         try:
             Units(self.driver).check_image_visibility()
             return True
-        except NoSuchElementException:
+        except Exception:
             return False
 
     def link_unit(self):
@@ -363,14 +364,8 @@ class Base(LoginPage):
         self.__wait.until(ec.element_to_be_clickable(
             (By.XPATH, f"//span[contains(text(), '{BUILDING}')]"))).click()  # select building
         Hwa(self.driver).apartment_management()
-        j = 0  # Select Unit
-        for i in Hwa(self.driver).find_by_uid():
-            if i.get_attribute('ng-reflect-model') == UID:
-                locator = f"//p[@class='add_user']/following::p[{j}]"
-                self.driver.find_element(By.XPATH, locator).click()
-                time.sleep(1)
-                break
-            j = j + 1
+        # Select Unit
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, "//input[@ng-reflect-model='fortest']/following::p[1]"))).click()
         Hwa(self.driver).add_existing_user()
 
     def logout(self):
@@ -378,9 +373,8 @@ class Base(LoginPage):
         Base(self.driver, START_LOGOUT_MENU[2], LOGOUT).logout_menu()
 
     def logout_menu(self):  # switch item in logout menu
-        locator = self.driver.find_element(By.XPATH, self.param[0])
+        locator = self.__wait.until(ec.element_to_be_clickable((By.XPATH, self.param[0])))
         element = ActionChains(self.driver).move_to_element(locator)
-        time.sleep(1)
         element.click().perform()
 
     def mark_unmark_unit_manager(self):

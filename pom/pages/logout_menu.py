@@ -107,7 +107,7 @@ class Logout:
 
     def find_popup(self):
         xpath = LOGOUT_MENU
-        return self.driver.find_element(By.XPATH, xpath)
+        return self.__wait.until(ec.visibility_of_element_located((By.XPATH, xpath)))
 
     def input_card_number(self):
         locator = '//input[@placeholder="Enter card number"]'

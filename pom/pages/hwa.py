@@ -15,7 +15,7 @@ class Hwa:
 
     def add_existing_user(self):
         locator = "//span[text()=' Add an existing user here ']"
-        self.driver.find_elements(By.XPATH, locator)[0].click()
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
         locator = "//div[@class='existing-user-container visible']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
         locator = "//div[@class='ng-input']/following::input[11]"

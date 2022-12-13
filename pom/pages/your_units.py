@@ -40,7 +40,7 @@ class Units:
 
     def check_image_visibility(self):
         locator = "//div[@class='image-label__image']"
-        return self.driver.find_element(By.XPATH, locator)
+        self.__wait.until(ec.visibility_of_element_located((By.TAG_NAME, "img")))
 
     def check_button_layouts(self):
         locator = "//div[text()=' Hidden ']"

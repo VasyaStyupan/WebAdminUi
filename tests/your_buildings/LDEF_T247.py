@@ -18,7 +18,7 @@ def test_case(setup, username, password, code):
     Base(setup).check_your_units()
     Buildings(setup).your_units_button()
     Base(setup).upload_image()
-    time.sleep(1)
     image_present = Base(setup).is_image_present()
+    time.sleep(1)
     with allure.step("Step 1. Check for uploaded image"):
         assert image_present is True, "Image did not load"
