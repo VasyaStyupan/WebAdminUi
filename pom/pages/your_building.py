@@ -153,6 +153,28 @@ class Buildings:
             element.click()
             time.sleep(1)
 
+    def checkbox_recovery_settings(self):
+        locator = "//i[@class='icon-app-ok-1']"  # Add a user
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
+            time.sleep(1)
+            element.click()
+        locator = "//i[@class='icon-app-ok-1']/following::i[1]"  # Change unit name
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
+            time.sleep(1)
+            element.click()
+        locator = "//i[@class='icon-app-ok-1']/following::i[2]"  # Add the role of unit manager to another user
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
+            time.sleep(1)
+            element.click()
+        locator = "//i[@class='icon-app-ok-1']/following::i[3]"  # Administrate users RFID cards
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
+            time.sleep(1)
+            element.click()
+
     def close_custom_days(self):
         locator = "span[text()='Close']"
         return self.driver.find_element(By.XPATH, locator)
@@ -196,9 +218,11 @@ class Buildings:
         xpath = "//app-unit-users-list-item"
         item_list = self.__wait.until(ec.visibility_of_all_elements_located((By.XPATH, xpath)))
         for i in range(1, len(item_list)):
-            element = self.__wait.until(ec.visibility_of_element_located((By.XPATH, f"{xpath}[{i}]/child::div/child::div[2]")))
+            element = self.__wait.until(
+                ec.visibility_of_element_located((By.XPATH, f"{xpath}[{i}]/child::div/child::div[2]")))
             if element.text == "JohnDoe@mail.com":
-                self.__wait.until(ec.element_to_be_clickable((By.XPATH, f"{xpath}[{i}]/child::div/child::div[10]"))).click()
+                self.__wait.until(
+                    ec.element_to_be_clickable((By.XPATH, f"{xpath}[{i}]/child::div/child::div[10]"))).click()
                 self.__wait.until(ec.element_to_be_clickable((By.XPATH, "//button[text()='Yes, remove']"))).click()
 
     def get_doorbell_name(self):
@@ -341,4 +365,3 @@ class Buildings:
     def users_tag(self):
         locator = "//div[text()=' Users ']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
-

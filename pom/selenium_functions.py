@@ -1,13 +1,12 @@
 import time
-from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-from configuration import BASE_URL, USERNAME_UM, PASSWORD_UM, CODE, UNIT, UID, BUILDING, DOORBELL, server, USERNAME_UO
+from configuration import BASE_URL, USERNAME_UM, PASSWORD_UM, CODE, UNIT, UID, BUILDING, DOORBELL, server, USERNAME_UO, SIMPLE_USER
 from pom.pages.code_page import CodePage
 from pom.pages.login_page import LoginPage, SELECT_SERVER_US, SELECT_SERVER_EU
-from pom.pages.logout_menu import Logout, START_LOGOUT_MENU, LOGOUT, UNITS
+from pom.pages.logout_menu import Logout, START_LOGOUT_MENU, LOGOUT, UNITS, ACCESS_CARDS
 from pom.pages.mainscreen_page import MainScreen
 from pom.pages.your_units import Units
 from pom.pages.your_building import Buildings
@@ -147,6 +146,18 @@ class Base(LoginPage):
         Signin(self.driver, USERNAME_UM, PASSWORD_UM, CODE).login_credentials()
         Signin(self.driver, USERNAME_UM, PASSWORD_UM, CODE).login_code()
 
+    def checkbox_recovery(self):
+        self.enter_the_doorbell()
+        self.driver.refresh()
+        time.sleep(1)
+        Buildings(self.driver).checkbox_recovery_after_selection()
+
+    def checkbox_settings(self):
+        Buildings(self.driver).select_building()
+        Buildings(self.driver).settings_tab()
+        time.sleep(1)
+        Buildings(self.driver).checkbox_recovery_settings()
+
     def check_doorbell_display_conditions(self):
         self.enter_the_doorbell()
         time.sleep(1)
@@ -215,12 +226,6 @@ class Base(LoginPage):
             return False
         except Exception:
             return True
-
-    def checkbox_recovery(self):
-        self.enter_the_doorbell()
-        self.driver.refresh()
-        time.sleep(1)
-        Buildings(self.driver).checkbox_recovery_after_selection()
 
     def check_volume(self):
         move = ActionChains(self.driver)
@@ -335,6 +340,16 @@ class Base(LoginPage):
                 Logout(self.driver).mark_unit_manager()
                 Logout(self.driver).check_unit_manager_active()
         self.driver.refresh()
+
+    def fix_access_card(self):
+        self.driver.refresh()
+        Buildings(self.driver).your_buildings_button()
+        Base(self.driver).enter_the_unit()
+        Base(self.driver, SIMPLE_USER).select_user()
+        Buildings(self.driver).access_cards()
+        time.sleep(1)
+        if "CardName" in self.driver.page_source:
+            Base(self.driver, START_LOGOUT_MENU[0], ACCESS_CARDS).delete_card()
 
     def forbid_unit_image(self):
         self.enter_the_doorbell()
