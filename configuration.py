@@ -1,6 +1,6 @@
 #################################################
 # Select server (set 1, 2 or 3)
-server = 1  # 1 - DEV, 2 - STAGE EU, 3 - STAGE US
+server = 3  # 1 - DEV, 2 - STAGE EU, 3 - STAGE US
 #################################################
 
 if server == 1:

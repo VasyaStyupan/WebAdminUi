@@ -315,6 +315,7 @@ class Buildings:
 
     def select_tag(self):
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, self.param[0]))).click()
+        time.sleep(1)
 
     def settings_tab(self):
         locator = "//div[text()=' Settings ']"

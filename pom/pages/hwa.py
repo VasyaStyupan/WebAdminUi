@@ -24,6 +24,7 @@ class Hwa:
         search.send_keys(Keys.RETURN)
         locator = "//button[text()=' Add ']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        time.sleep(1)
 
     def apartment_management(self):
         locator = "//div[text()=' Apartment management ']"
