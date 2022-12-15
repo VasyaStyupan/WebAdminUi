@@ -1,7 +1,7 @@
 import allure
 import pytest
 from pom.selenium_functions import Signin
-from configuration import SIMPLE_USER, SIMPLE_PASS, CODE
+from configuration import SIMPLE_USER, SIMPLE_PASS
 
 
 @allure.title("Try to login with credentials of the simple User")

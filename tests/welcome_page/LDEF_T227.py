@@ -1,7 +1,6 @@
 import time
-
 import allure
-from pom.pages.login_page import SELECT_SERVER_US, SELECT_SERVER_EU
+from pom.pages.login_page import SELECT_SERVER_US
 from pom.selenium_functions import Base
 from configuration import LOGIN_URL_US
 

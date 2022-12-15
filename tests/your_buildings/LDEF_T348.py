@@ -21,6 +21,6 @@ def test_case(setup, username, password, code):
         Buildings(setup).check_family_mode()
         time.sleep(1)
         i += 1
-    setup.refresh()
+    # setup.refresh()
     Buildings(setup).checkbox_recovery_after_selection()
-    time.sleep(1)
+    # time.sleep(1)

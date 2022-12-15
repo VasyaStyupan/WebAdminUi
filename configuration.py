@@ -2,8 +2,7 @@
 # Select server (set 1, 2 or 3)
 server = 1  # 1 - DEV, 2 - STAGE EU, 3 - STAGE US
 #################################################
-BROWSER = 2  # 1 - CHROME, 2 - SAFARI
-#################################################
+
 if server == 1:
     BASE_URL = "https://dev-webadmin.defigo.no"
     BASE_URL2 = "https://webrtc.defigohome.com"

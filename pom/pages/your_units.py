@@ -4,7 +4,7 @@ import string
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-from configuration import USERNAME_BA, SIMPLE_USER, UID, BUILDING, server
+from configuration import  UID, BUILDING, server
 
 
 class Units:

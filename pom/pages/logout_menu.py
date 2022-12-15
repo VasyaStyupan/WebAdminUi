@@ -58,8 +58,8 @@ class Logout:
         return self.__wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, locator))).click()
 
     def check_unit_manager_active(self):
-        locator = "//i[@class='icon-app-ok-1 ng-star-inserted']"
-        element = self.__wait.until(ec.presence_of_element_located((By.XPATH, locator)))
+        locator = "//div[@class='form-checkbox__label']/child::i"
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
         if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
             element.click()
 
@@ -132,7 +132,7 @@ class Logout:
         element.click()
 
     def mark_unit_manager(self):
-        locator = "//label[@class='form-checkbox-holder']//following::i[1]"
+        locator = "//div[@class='form-checkbox__label']"
         element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
         element.click()
 

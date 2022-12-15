@@ -102,9 +102,9 @@ class Base(LoginPage):
             i += 1
         Buildings(self.driver).pin_code_is_mandatory()
 
-    def change_doorbell_name(self):
+    def change_doorbell_name(self, browser):
         self.enter_the_doorbell()
-        Buildings(self.driver, "My Doorbell Name").input_doorbell_name()
+        Buildings(self.driver, "My Doorbell Name").input_doorbell_name(browser)
 
     def change_unit_info(self):
         Units(self.driver).settings()
@@ -155,7 +155,6 @@ class Base(LoginPage):
     def checkbox_settings(self):
         Buildings(self.driver).select_building()
         Buildings(self.driver).settings_tab()
-        time.sleep(1)
         Buildings(self.driver).checkbox_recovery_settings()
 
     def check_doorbell_display_conditions(self):
@@ -430,6 +429,7 @@ class Base(LoginPage):
             LoginPage(self.driver).change_server_No_Us().click()
         hidden_menu = self.driver.find_element(By.XPATH, self.param[0])
         ActionChains(self.driver).move_to_element(hidden_menu).click(hidden_menu).perform()
+        time.sleep(1)
         if server == 3:
             self.driver.find_element(By.XPATH, SELECT_SERVER_EU)
         else:

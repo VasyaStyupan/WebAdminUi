@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-from configuration import BUILDING, BROWSER, DOORBELL
+from configuration import BUILDING, DOORBELL
 
 FIRST_LINE = ["//app-units-list-item", "//app-users-list-item", "//app-access-list-item", "//app-doorbells-list-item"]
 TAGS = ("//div[text()=' Units ']", "//div[text()=' Users ']", "//div[text()=' Access ']", "//div[text()=' Doorbell ']")
@@ -110,70 +110,100 @@ class Buildings:
         locator = "//div[text()=' Off ']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
+    # def checkbox_recovery_after_selection(self):
+    #     locator = "//i[@class='icon-app-ok-1']"  # remove all buttons from doorbell
+    #     element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+    #     if element.value_of_css_property('color') == 'rgba(255, 255, 255, 1)':
+    #         element.click()
+    #         time.sleep(1)
+    #     locator = "//i[@class='icon-app-ok-1']/following::i[1]"  # enable search field
+    #     element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+    #     if element.value_of_css_property('color') == 'rgba(255, 255, 255, 1)':
+    #         element.click()
+    #         time.sleep(1)
+    #     locator = "//i[@class='icon-app-ok-1']/following::i[2]"  # show user image
+    #     element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+    #     if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
+    #         element.click()
+    #         time.sleep(1)
+    #     locator = "//i[@class='icon-app-ok-1']/following::i[3]"  # show unit image
+    #     element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+    #     if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
+    #         element.click()
+    #         time.sleep(1)
+    #     locator = "//i[@class='icon-app-ok-1']/following::i[6]"  # upload unit image
+    #     element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+    #     if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
+    #         element.click()
+    #         time.sleep(1)
+    #     locator = "//i[@class='icon-app-ok-1']/following::i[7]"  # mark unit image visible
+    #     element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+    #     if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
+    #         element.click()
+    #         time.sleep(1)
+    #     locator = "//i[@class='icon-app-ok-1']/following::i[8]"  # make user image visible
+    #     element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+    #     if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
+    #         element.click()
+    #         time.sleep(1)
+    #     locator = "//i[@class='icon-app-ok-1']/following::i[9]"  # allow um ao
+    #     element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+    #     if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
+    #         element.click()
+    #         time.sleep(1)
+
     def checkbox_recovery_after_selection(self):
-        locator = "//i[@class='icon-app-ok-1']"  # remove all buttons from doorbell
-        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        start_locator = "//div[@class='form-checkbox__label']"
+        elements = self.driver.find_elements(By.XPATH, start_locator)
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, f"{start_locator}/child::i")))
         if element.value_of_css_property('color') == 'rgba(255, 255, 255, 1)':
-            time.sleep(1)
-            element.click()
-        locator = "//i[@class='icon-app-ok-1']/following::i[1]"  # enable search field
-        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
-        if element.value_of_css_property('color') == 'rgba(255, 255, 255, 1)':
-            time.sleep(1)
-            element.click()
-        locator = "//i[@class='icon-app-ok-1']/following::i[2]"  # show user image
-        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
-        if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
-            time.sleep(1)
-            element.click()
-        locator = "//i[@class='icon-app-ok-1']/following::i[3]"  # show unit image
-        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
-        if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
-            time.sleep(1)
-            element.click()
-        locator = "//i[@class='icon-app-ok-1']/following::i[6]"  # upload unit image
-        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
-        if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
-            time.sleep(1)
-            element.click()
-        locator = "//i[@class='icon-app-ok-1']/following::i[7]"  # mark unit image visible
-        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
-        if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
-            time.sleep(1)
-            element.click()
-        locator = "//i[@class='icon-app-ok-1']/following::i[8]"  # make user image visible
-        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
-        if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
-            time.sleep(1)
-            element.click()
-        locator = "//i[@class='icon-app-ok-1']/following::i[9]"  # allow um ao
-        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
-        if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
-            time.sleep(1)
             element.click()
             time.sleep(1)
+        for i in range(1, len(elements)):
+            locator = f"{start_locator}/following::i[{i}]"
+            element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+            if i != 1 and element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
+                element.click()
+                time.sleep(1)
+            if i == 1 and element.value_of_css_property('color') == 'rgba(255, 255, 255, 1)':
+                element.click()
+                time.sleep(1)
 
     def checkbox_recovery_settings(self):
-        locator = "//i[@class='icon-app-ok-1']"  # Add a user
-        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        start_locator = "//div[@class='form-checkbox__label']"
+        elements = self.driver.find_elements(By.XPATH, start_locator)
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, f"{start_locator}/child::i")))
         if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
-            time.sleep(1)
             element.click()
-        locator = "//i[@class='icon-app-ok-1']/following::i[1]"  # Change unit name
-        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
-        if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
             time.sleep(1)
-            element.click()
-        locator = "//i[@class='icon-app-ok-1']/following::i[2]"  # Add the role of unit manager to another user
-        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
-        if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
-            time.sleep(1)
-            element.click()
-        locator = "//i[@class='icon-app-ok-1']/following::i[3]"  # Administrate users RFID cards
-        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
-        if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
-            time.sleep(1)
-            element.click()
+        for i in range(1, len(elements)):
+            locator = f"{start_locator}/following::i[{i}]"
+            element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+            if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
+                element.click()
+                time.sleep(1)
+
+    # def checkbox_recovery_settings(self):
+    #     locator = "//i[@class='icon-app-ok-1']"  # Add a user
+    #     element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+    #     if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
+    #         element.click()
+    #         time.sleep(1)
+    #     locator = "//i[@class='icon-app-ok-1']/following::i[1]"  # Change unit name
+    #     element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+    #     if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
+    #         element.click()
+    #         time.sleep(1)
+    #     locator = "//i[@class='icon-app-ok-1']/following::i[2]"  # Add the role of unit manager to another user
+    #     element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+    #     if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
+    #         element.click()
+    #         time.sleep(1)
+    #     locator = "//i[@class='icon-app-ok-1']/following::i[3]"  # Administrate users RFID cards
+    #     element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+    #     if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
+    #         element.click()
+    #         time.sleep(1)
 
     def close_custom_days(self):
         locator = "span[text()='Close']"
@@ -235,11 +265,11 @@ class Buildings:
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
         return doorbell_name
 
-    def input_doorbell_name(self):
+    def input_doorbell_name(self, browser):
         locator = "//input[@placeholder='Doorbell name']"
         doorbell = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
         doorbell.click()
-        if BROWSER == 1:
+        if browser == 'chrome':
             doorbell.send_keys(Keys.HOME)
             time.sleep(1)
             doorbell.send_keys(Keys.COMMAND, "a")
