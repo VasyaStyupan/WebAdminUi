@@ -19,7 +19,6 @@ def test_case(setup, username, password, code):
     Base(setup).enter_the_unit()
     Base(setup, SIMPLE_USER).select_user()
     Buildings(setup).access_cards()
-    time.sleep(1)
     Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS).add_card()
     time.sleep(1)
     if "This access card is already registered" not in setup.page_source:

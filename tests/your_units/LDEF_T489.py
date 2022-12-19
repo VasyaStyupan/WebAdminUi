@@ -23,4 +23,5 @@ def test_case(setup, username, password, code):
     Units(setup, USERNAME_UO).change_unit_owner()
     setup.refresh()
     Base(setup, START_LOGOUT_MENU[0], UNITS).mark_unit_manager()
-    time.sleep(1)
+    Base(setup).restore_unit_owner()
+

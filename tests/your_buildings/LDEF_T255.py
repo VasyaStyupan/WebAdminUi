@@ -19,7 +19,7 @@ def test_case(setup, username, password, code):
     Base(setup).enter_the_unit()
     Base(setup, SIMPLE_USER).select_user()
     Buildings(setup).access_cards()
-    time.sleep(2)
+    time.sleep(1)
     if "CardName" and "MyCard" not in setup.page_source:
         Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS).edit_card()
         time.sleep(1)

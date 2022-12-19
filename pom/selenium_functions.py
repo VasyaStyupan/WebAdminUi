@@ -24,8 +24,8 @@ class Signin(LoginPage, CodePage):
         self.code = code
 
     def login_credentials(self):
-        self.search_login_field(self.username)
-        self.search_password_field(self.password)
+        LoginPage(self.driver).search_login_field(self.username)
+        LoginPage(self.driver).search_password_field(self.password)
         try:
             self.__wait.until(ec.url_to_be(f"{BASE_URL}/auth-code"))
         except Exception:
@@ -33,7 +33,7 @@ class Signin(LoginPage, CodePage):
         return self.driver.current_url
 
     def login_code(self):
-        self.search_code_field(self.code)
+        CodePage(self.driver).search_code_field(self.code)
         try:
             self.__wait.until(ec.url_changes(f"{BASE_URL}/auth-code"))
             MainScreen(self.driver).check_load_main_page()
@@ -56,7 +56,10 @@ class Base(LoginPage):
         Logout(self.driver).add_card()
         self.check_if_units_more_then_one()
         Logout(self.driver).input_card_number()
-        Logout(self.driver).input_card_name()
+        try:
+           Logout(self.driver).input_card_name()
+        except Exception:
+            return
 
     def add_pin_code(self):
         self.add_card()

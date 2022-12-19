@@ -178,6 +178,7 @@ class Units:
     def settings(self):
         locator = "//div[@routerlink='settings']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        time.sleep(1)
 
     def fill_user_data_first_part(self):
         locator = "//input[@placeholder='Email']"

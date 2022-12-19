@@ -19,7 +19,7 @@ def test_case(setup, username, password, code):
     Buildings(setup).select_building()
     for j in TAGS:
         tag = TAGS.index(j)
-        time.sleep(0.5)
+        time.sleep(1)
         Buildings(setup, TAGS[tag]).select_tag()
         for i in SUB_TAGS[tag]:
             index = SUB_TAGS[tag].index(i)

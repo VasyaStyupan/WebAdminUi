@@ -118,18 +118,17 @@ class Logout:
         input_field = self.__wait.until(ec.presence_of_element_located((By.XPATH, locator)))
         input_field.send_keys("CardName")
         locator = "button.form-button-save"
-        element = self.__wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, locator)))
-        element.click()
+        self.__wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, locator))).click()
+        time.sleep(1)
 
     def mark_digital_key(self):
         locator = "//app-form-checkbox/following::label[2]"
-        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def mark_doorbell_button(self):
-        locator = "//app-form-checkbox/following::label[1]"
-        element = self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator)))
+        locator = "//div[@class='form-checkbox']/following::i"
+        self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()
         time.sleep(1)
-        element.click()
 
     def mark_unit_manager(self):
         locator = "//div[@class='form-checkbox__label']"

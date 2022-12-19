@@ -20,6 +20,12 @@ def test_case(setup, username, password, code):
     Base(setup, SIMPLE_USER).select_user()
     Buildings(setup).access_cards()
     Base(setup, START_LOGOUT_MENU[0]).add_card()
+    time.sleep(1)
+    if "This access card is already registered" not in setup.page_source:
+        with allure.step("Step 1. Check if it possible to add card"):
+            assert "CardName" in setup.page_source, "Can`t add card"
+    else:
+        Buildings(setup).cancel()
     Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS).delete_card()
     time.sleep(3)
     with allure.step("Step 1. Delete the card"):
