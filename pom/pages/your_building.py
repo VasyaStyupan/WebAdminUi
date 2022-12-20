@@ -183,28 +183,6 @@ class Buildings:
                 element.click()
                 time.sleep(1)
 
-    # def checkbox_recovery_settings(self):
-    #     locator = "//i[@class='icon-app-ok-1']"  # Add a user
-    #     element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
-    #     if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
-    #         element.click()
-    #         time.sleep(1)
-    #     locator = "//i[@class='icon-app-ok-1']/following::i[1]"  # Change unit name
-    #     element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
-    #     if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
-    #         element.click()
-    #         time.sleep(1)
-    #     locator = "//i[@class='icon-app-ok-1']/following::i[2]"  # Add the role of unit manager to another user
-    #     element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
-    #     if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
-    #         element.click()
-    #         time.sleep(1)
-    #     locator = "//i[@class='icon-app-ok-1']/following::i[3]"  # Administrate users RFID cards
-    #     element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
-    #     if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
-    #         element.click()
-    #         time.sleep(1)
-
     def close_custom_days(self):
         locator = "span[text()='Close']"
         return self.driver.find_element(By.XPATH, locator)

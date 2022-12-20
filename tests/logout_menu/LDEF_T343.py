@@ -23,7 +23,7 @@ def test_case(setup, username, password, code):
     Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS).update_pin_code()
     with allure.step("Step 1. Check if PIN code is entered"):
         assert "Add or change card PIN code" in setup.page_source, "Can`t update PIN code"
-    Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS).delete_card()
+    Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS, "CardName").delete_card()
     time.sleep(1)
 
 

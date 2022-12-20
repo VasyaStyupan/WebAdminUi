@@ -33,5 +33,5 @@ def test_case(setup, username, password, code):
     time.sleep(1)
     with allure.step("Step 2. Check if card is Active"):
         assert "Active" in setup.page_source, "Can`t change card status"
-    Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS).delete_card()
+    Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS, "CardName").delete_card()
     time.sleep(1)

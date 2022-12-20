@@ -64,8 +64,10 @@ class Logout:
             element.click()
 
     def delete(self):
-        locator = "//*[text()=' Delete ']"
-        return self.__wait.until(ec.visibility_of_element_located((By.XPATH, locator))).click()
+        self.__wait.until(ec.visibility_of_element_located(
+            (By.XPATH, f"//div[contains(text(), {self.word[0]})]")))
+        locator = "//div[@class='profile-cards-coll__rfid-name__text']/parent::div/following::div[15]"
+        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def enter_pin_code(self):
         pin_code = self.word

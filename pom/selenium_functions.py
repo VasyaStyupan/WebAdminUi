@@ -3,7 +3,8 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-from configuration import BASE_URL, USERNAME_UM, PASSWORD_UM, CODE, UNIT, UID, BUILDING, DOORBELL, server, USERNAME_UO, SIMPLE_USER
+from configuration import BASE_URL, USERNAME_UM, PASSWORD_UM, CODE, UNIT, UID, BUILDING, DOORBELL, server, USERNAME_UO, \
+    SIMPLE_USER
 from pom.pages.code_page import CodePage
 from pom.pages.login_page import LoginPage, SELECT_SERVER_US, SELECT_SERVER_EU
 from pom.pages.logout_menu import Logout, START_LOGOUT_MENU, LOGOUT, UNITS, ACCESS_CARDS
@@ -57,7 +58,7 @@ class Base(LoginPage):
         self.check_if_units_more_then_one()
         Logout(self.driver).input_card_number()
         try:
-           Logout(self.driver).input_card_name()
+            Logout(self.driver).input_card_name()
         except Exception:
             return
 
@@ -247,10 +248,9 @@ class Base(LoginPage):
             i += 1
 
     def delete_card(self):
-        Logout(self.driver).delete()
-        element = Logout(self.driver).remove_button()
+        Logout(self.driver, self.param[2]).delete()
+        Logout(self.driver).remove_button().click()
         time.sleep(1)
-        element.click()
 
     def delete_image(self):
         Units(self.driver).doorbell_tab()
@@ -344,6 +344,20 @@ class Base(LoginPage):
         self.driver.refresh()
 
     def fix_access_card(self):
+        # Check and delete access card in profile menu
+        self.driver.refresh()
+        Base(self.driver, START_LOGOUT_MENU[0], ACCESS_CARDS).profile_menu()
+        time.sleep(1)
+        if "CardName" in self.driver.page_source:
+            self.__wait.until(ec.visibility_of_element_located(
+            (By.XPATH, "//div[contains(text(), 'CardName')]")))
+            locator = "//div[@class='profile-cards-coll__rfid-name__text']/parent::div/following::i"
+            element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+            if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
+                element.click()
+                time.sleep(1)
+            Base(self.driver, START_LOGOUT_MENU[0], ACCESS_CARDS, "CardName").delete_card()
+        # Check and delete SIMPLE USER access card
         self.driver.refresh()
         Buildings(self.driver).your_buildings_button()
         Base(self.driver).enter_the_unit()
@@ -351,7 +365,7 @@ class Base(LoginPage):
         Buildings(self.driver).access_cards()
         time.sleep(1)
         if "CardName" in self.driver.page_source:
-            Base(self.driver, START_LOGOUT_MENU[0], ACCESS_CARDS).delete_card()
+            Base(self.driver, START_LOGOUT_MENU[0], ACCESS_CARDS, "CardName").delete_card()
 
     def forbid_unit_image(self):
         self.enter_the_doorbell()
@@ -382,7 +396,8 @@ class Base(LoginPage):
             (By.XPATH, f"//span[contains(text(), '{BUILDING}')]"))).click()  # select building
         Hwa(self.driver).apartment_management()
         # Select Unit
-        self.__wait.until(ec.element_to_be_clickable((By.XPATH, "//input[@ng-reflect-model='fortest']/following::p[1]"))).click()
+        self.__wait.until(
+            ec.element_to_be_clickable((By.XPATH, "//input[@ng-reflect-model='fortest']/following::p[1]"))).click()
         Hwa(self.driver).add_existing_user()
 
     def logout(self):

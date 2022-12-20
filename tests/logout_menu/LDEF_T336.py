@@ -25,6 +25,6 @@ def test_case(setup, username, password, code):
     else:
         Buildings(setup).cancel()
     time.sleep(1)
-    Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS).delete_card()
+    Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS, "CardName").delete_card()
     time.sleep(1)
 

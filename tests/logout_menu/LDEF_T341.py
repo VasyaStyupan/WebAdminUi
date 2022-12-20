@@ -17,7 +17,7 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password, code).login_code()
     Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS).profile_menu()
     Base(setup, START_LOGOUT_MENU[0]).add_card()
-    Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS).delete_card()
+    Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS, "CardName").delete_card()
     time.sleep(2)
     with allure.step("Step 1. Delete the card"):
         assert "Add or change card PIN code" not in setup.page_source, "Can`t delete the card"

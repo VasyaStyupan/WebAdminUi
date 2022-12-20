@@ -22,6 +22,6 @@ def test_case(setup, username, password, code):
     with allure.step("Step 1. Check if card is disabled"):
         assert "disabled" in setup.page_source, "Can`t disable card"
     Logout(setup).mark_status_card()
-    Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS).delete_card()
+    Base(setup, START_LOGOUT_MENU[0], ACCESS_CARDS,"CardName").delete_card()
     time.sleep(1)
 
