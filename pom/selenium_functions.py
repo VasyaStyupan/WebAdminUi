@@ -345,7 +345,6 @@ class Base(LoginPage):
 
     def fix_access_card(self):
         # Check and delete access card in profile menu
-        # self.driver.refresh()
         Base(self.driver, START_LOGOUT_MENU[0], ACCESS_CARDS).profile_menu()
         time.sleep(1)
         if "CardName" in self.driver.page_source:
@@ -358,7 +357,6 @@ class Base(LoginPage):
                 time.sleep(1)
             Base(self.driver, START_LOGOUT_MENU[0], ACCESS_CARDS, "CardName").delete_card()
         # Check and delete SIMPLE USER access card
-        # self.driver.refresh()
         Buildings(self.driver).your_buildings_button()
         Base(self.driver).enter_the_unit()
         Base(self.driver, SIMPLE_USER).select_user()
