@@ -14,7 +14,7 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
-    Units(setup).doorbell_button()
+    Units(setup).doorbell_tag()
     Units(setup).doorbell_item()
     Base(setup).doorbell_visibility()
     time.sleep(1)

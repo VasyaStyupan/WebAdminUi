@@ -1,7 +1,7 @@
 import allure
 import pytest
 from pom.selenium_functions import Signin, Base
-from pom.selenium_functions import Buildings, Units
+from pom.selenium_functions import Buildings
 from configuration import USERNAME_BA, PASSWORD_BA, CODE
 import time
 
@@ -23,6 +23,6 @@ def test_case(setup, username, password, code):
     with allure.step("Step 1. Check for uploaded image"):
         assert image_present is True, "Image did not load"
     Buildings(setup).your_units_button()
-    # Base(setup).delete_image()
-    # time.sleep(1)
+
+
 

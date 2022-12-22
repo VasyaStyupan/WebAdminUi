@@ -27,9 +27,9 @@ class Units:
 
     def add_user(self):
         locator = "//button[@routerlink='user/create']"
-        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
         time.sleep(1)
-        element.click()
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        time.sleep(1)
 
     def check_button_visibility(self):
         locator = "//div[text()=' Enable ']"
@@ -98,11 +98,10 @@ class Units:
         locator = "//div[text()=' Add the role of unit manager to another user ']"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
-    def doorbell_tab(self):
-        locator = "//div[@routerlink='doorbells']"
-        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+    def doorbell_tag(self):
+        locator = "//div[text()=' Doorbell ']"
         time.sleep(1)
-        element.click()
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def doorbell(self):
         locator = "//div[@class='table-list-item__coll']"
@@ -111,12 +110,6 @@ class Units:
     def delete_img(self):
         locator = "//button[@class='image-preview__remove-btn']"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
-
-    def doorbell_button(self):
-        locator = "//div[text()=' Doorbell ']"
-        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
-        time.sleep(1)
-        element.click()
 
     def doorbell_item(self):
         locator = "//div[@class='table-list-item']"
@@ -173,10 +166,10 @@ class Units:
 
     def select_unit(self):
         locator = f"//span[contains(text(), '{UID}')]"
-        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def settings(self):
-        locator = "//div[@routerlink='settings']"
+        locator = "//div[text()=' Settings ']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
         time.sleep(1)
 

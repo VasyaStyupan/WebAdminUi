@@ -195,11 +195,21 @@ class Buildings:
         locator = "//div[@class='calendar-day doorbell-disabled-day ng-star-inserted']"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
+    def delete_user_from_unit(self):
+        xpath = "//app-unit-users-list-item"
+        item_list = self.__wait.until(ec.visibility_of_all_elements_located((By.XPATH, xpath)))
+        for i in range(1, len(item_list)):
+            element = self.__wait.until(
+                ec.visibility_of_element_located((By.XPATH, f"{xpath}[{i}]/child::div/child::div[2]")))
+            if element.text == "JohnDoe@mail.com":
+                self.__wait.until(
+                    ec.element_to_be_clickable((By.XPATH, f"{xpath}[{i}]/child::div/child::div[10]"))).click()
+                self.__wait.until(ec.element_to_be_clickable((By.XPATH, "//button[text()='Yes, remove']"))).click()
+
     def doorbell_button(self):
         locator = "//div[text()=' Doorbell ']"
-        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
         time.sleep(1)
-        element.click()
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def enable_search(self):
         locator = "//div[text()=' Enable search field ']"
@@ -221,17 +231,6 @@ class Buildings:
         element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
         time.sleep(1)
         element.click()
-
-    def delete_user_from_unit(self):
-        xpath = "//app-unit-users-list-item"
-        item_list = self.__wait.until(ec.visibility_of_all_elements_located((By.XPATH, xpath)))
-        for i in range(1, len(item_list)):
-            element = self.__wait.until(
-                ec.visibility_of_element_located((By.XPATH, f"{xpath}[{i}]/child::div/child::div[2]")))
-            if element.text == "JohnDoe@mail.com":
-                self.__wait.until(
-                    ec.element_to_be_clickable((By.XPATH, f"{xpath}[{i}]/child::div/child::div[10]"))).click()
-                self.__wait.until(ec.element_to_be_clickable((By.XPATH, "//button[text()='Yes, remove']"))).click()
 
     def get_doorbell_name(self):
         locator = "//div[text()=' Doorbell ']"
@@ -298,6 +297,7 @@ class Buildings:
     def settings_tab(self):
         locator = "//div[text()=' Settings ']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        time.sleep(1)
 
     def select_user(self):
         user = self.param[0]
@@ -338,6 +338,7 @@ class Buildings:
     def your_buildings_button(self):
         locator = "//button[text()=' Your buildings ']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        time.sleep(1)
 
     def volume_thumb(self):
         locator = "//div[@class='mat-slider-thumb']/following::mat-slider"

@@ -253,7 +253,7 @@ class Base(LoginPage):
         time.sleep(1)
 
     def delete_image(self):
-        Units(self.driver).doorbell_tab()
+        Units(self.driver).doorbell_tag()
         Units(self.driver).doorbell()
         time.sleep(1)
         xpath = Units(self.driver).choose_delete()
@@ -273,7 +273,7 @@ class Base(LoginPage):
         Units(self.driver).select_building()
         time.sleep(1)
         Units(self.driver).select_unit()
-        Units(self.driver).doorbell_button()
+        Units(self.driver).doorbell_tag()
         Units(self.driver).doorbell_item()
 
     def doorbell_tab(self):
@@ -345,7 +345,7 @@ class Base(LoginPage):
 
     def fix_access_card(self):
         # Check and delete access card in profile menu
-        self.driver.refresh()
+        # self.driver.refresh()
         Base(self.driver, START_LOGOUT_MENU[0], ACCESS_CARDS).profile_menu()
         time.sleep(1)
         if "CardName" in self.driver.page_source:
@@ -358,7 +358,7 @@ class Base(LoginPage):
                 time.sleep(1)
             Base(self.driver, START_LOGOUT_MENU[0], ACCESS_CARDS, "CardName").delete_card()
         # Check and delete SIMPLE USER access card
-        self.driver.refresh()
+        # self.driver.refresh()
         Buildings(self.driver).your_buildings_button()
         Base(self.driver).enter_the_unit()
         Base(self.driver, SIMPLE_USER).select_user()
@@ -594,7 +594,7 @@ class Base(LoginPage):
         Buildings(self.driver).uncheck_show_unit_image()
 
     def upload_image(self):
-        Units(self.driver).doorbell_tab()
+        Units(self.driver).doorbell_tag()
         Units(self.driver).doorbell()
         Units(self.driver).press_icon()
         mypath = Path("picture")
