@@ -1,10 +1,8 @@
 import time
-import random
-import string
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-from configuration import  UID, BUILDING, server
+from configuration import UID, BUILDING, server
 
 
 class Units:
@@ -22,8 +20,9 @@ class Units:
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def always_allow(self):
-        locator = "//div[@class='form-radio__label']/following::label[1]"
-        return self.driver.find_element(By.XPATH, locator).click()
+        locator = "//div[@class='form-radio__label']/following::div[2]"
+        self.driver.find_element(By.XPATH, locator).click()
+        time.sleep(1)
 
     def add_user(self):
         locator = "//button[@routerlink='user/create']"
@@ -60,10 +59,6 @@ class Units:
         time.sleep(1)
         element.click()
 
-    def choose_delete(self):
-        locator = "//div[@class='image-label__image'] "
-        return self.__wait.until(ec.presence_of_element_located((By.XPATH, locator)))
-
     def change_unit_name(self):
         unit = self.word
         locator = "//button[text()=' Edit Info ']"
@@ -81,22 +76,31 @@ class Units:
         locator = "//button[text()=' Change unit owner ']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
+    def change_unit_manager(self):
+        locator = "//div[text()=' Add the role of unit manager to another user ']"
+        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+
     def change_unit_owner(self):
         username = self.word[0]
         self.change_unit_owner_button()
-        locator = f"//span[text()='{username}']/parent::div/parent::div/child::div[1]"
-        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        time.sleep(1)
+        locator = "//div[@class='search-field']/following::input[5]"
+        search = self.driver.find_element(By.XPATH, locator)
+        search.send_keys(username)
+        time.sleep(1)
         locator = f"//span[text()='{username}']/parent::div/parent::div/child::div[5]"
         first_name = self.driver.find_element(By.XPATH, locator).text
         locator = f"//span[text()='{username}']/parent::div/parent::div/child::div[6]"
         last_name = self.driver.find_element(By.XPATH, locator).text
+        locator = "//div[@class='form-radio__label']"
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
         locator = "//button[@class='save-btn']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
         return first_name, last_name
 
-    def change_unit_manager(self):
-        locator = "//div[text()=' Add the role of unit manager to another user ']"
-        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+    def choose_delete(self):
+        locator = "//div[@class='image-label__image'] "
+        return self.__wait.until(ec.presence_of_element_located((By.XPATH, locator)))
 
     def doorbell_tag(self):
         locator = "//div[text()=' Doorbell ']"
@@ -130,18 +134,16 @@ class Units:
         self.save_button()
 
     def mark_doorbell_digital_keys(self):
-        i = 0
-        while i < 2:
-            locator = "//div[text()=' Doorbell button ']"
-            self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
-            locator = "//div[text()=' Digital keys ']"
-            self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
-            i = i + 1
+        locator = "//div[text()=' Doorbell button ']"
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        locator = "//div[text()=' Digital keys ']"
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
         self.save_button()
 
     def never_allow(self):
         locator = "//div[text()=' Never allow ']"
-        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        self.__wait.until(ec.presence_of_element_located((By.XPATH, locator))).click()
+        time.sleep(1)
 
     def press_icon(self):
         locator = "//div[@class='image-label']"
@@ -157,8 +159,9 @@ class Units:
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def schedule(self):
-        locator = "//div[@class='form-radio__label']/following::label[2]"
-        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        locator = "//div[@class='form-radio__label']/following::div[5]"
+        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+        time.sleep(1)
 
     def select_building(self):
         locator = f"//span[contains(text(), '{BUILDING}')]"
@@ -178,6 +181,11 @@ class Units:
         email_field = self.driver.find_element(By.XPATH, locator)
         email_field.send_keys("JohnDoe@mail.com")
 
+    def fill_user_data_first_part_new(self):
+        locator = "//input[@placeholder='Email']"
+        email_field = self.driver.find_element(By.XPATH, locator)
+        email_field.send_keys("OliverSmith@mail.com")
+
     def fill_user_data_phone(self):
         locator = "//div[@class='form-select-input-holder main-color']"
         self.driver.find_element(By.XPATH, locator).click()
@@ -188,7 +196,8 @@ class Units:
         self.driver.find_element(By.XPATH, locator).click()
         locator = "//input[@placeholder='Phone']"
         phone_field = self.driver.find_element(By.XPATH, locator)
-        phone_number = ''.join(random.sample(string.digits, 10))
+        # phone_number = ''.join(random.sample(string.digits, 10))
+        phone_number = "0950345778"
         phone_field.send_keys(phone_number)
 
     def fill_user_data_phone_with_spaces(self):
@@ -212,6 +221,23 @@ class Units:
         lastname_field = self.driver.find_element(By.XPATH, locator)
         lastname_field.send_keys("Doe")
 
+    def fill_user_data_second_part_new(self):
+        locator = "//div[text()=' Language ']/following::input[8]"
+        self.driver.find_element(By.XPATH, locator).click()
+        locator = "//span[text()='English']"
+        self.driver.find_element(By.XPATH, locator).click()
+        time.sleep(1)
+        # locator = "//input[@placeholder='User name']"
+        # username_field = self.driver.find_element(By.XPATH, locator)
+        # username_field.send_keys(Keys.SHIFT + Keys.HOME + Keys.DELETE)
+        # username_field.send_keys("OliverSmith")
+        locator = "//input[@placeholder='First name']"
+        firstname_field = self.driver.find_element(By.XPATH, locator)
+        firstname_field.send_keys("Oliver")
+        locator = "//input[@placeholder='Last name']"
+        lastname_field = self.driver.find_element(By.XPATH, locator)
+        lastname_field.send_keys("Smith")
+
     def fill_email_data(self):
         locator = "//input[@placeholder='Email']"
         email_field = self.driver.find_element(By.XPATH, locator)
@@ -233,3 +259,19 @@ class Units:
     def use_schedule(self):
         locator = "//div[text()=' Use the schedule defined for this building ']"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
+
+    def user_image_visible(self):
+        try:
+            locator = "//div[@class='radio-checkbox-input radio-checkbox-input--disabled']"
+            self.driver.find_element(By.XPATH, locator)
+            return False
+        except Exception:
+            return True
+
+    def unit_image_visible(self):
+        try:
+            locator = "//div[@class='radio-checkbox-input radio-checkbox-input--disabled']/following::div[1]"
+            self.driver.find_element(By.XPATH, locator)
+            return False
+        except Exception:
+            return True

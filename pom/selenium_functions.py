@@ -54,16 +54,17 @@ class Base(LoginPage):
         Units(self.driver).access()
 
     def add_card(self):
-        Logout(self.driver).add_card()
+        Logout(self.driver).add_card_button()
         self.check_if_units_more_then_one()
-        Logout(self.driver).input_card_number()
         try:
-            Logout(self.driver).input_card_name()
+            Logout(self.driver, self.param[0], self.param[1]).input_card_info()
+            Logout(self.driver).save_button().click()
+            return True
         except Exception:
-            return
+            Buildings(self.driver).cancel()
+            return False
 
     def add_pin_code(self):
-        self.add_card()
         Logout(self.driver).add_pin_code()
         return Logout(self.driver, "22222222").enter_pin_code()
 
@@ -95,8 +96,20 @@ class Base(LoginPage):
     def add_user_with_only_email(self):
         Units(self.driver).add_user()
         Units(self.driver).fill_email_data()
-        Units(self.driver).fill_user_data_phone()
         Units(self.driver).fill_lang()
+
+    def add_user_with_old_email_and_new_data(self):
+        Units(self.driver).add_user()
+        Units(self.driver).fill_user_data_first_part_new()
+        Units(self.driver).fill_user_data_phone()
+        Units(self.driver).fill_user_data_second_part_new()
+
+    def add_user_with_old_phone_and_new_data(self):
+        Units(self.driver).add_user()
+        Units(self.driver).fill_email_data()
+        Units(self.driver).fill_lang()
+        Units(self.driver).fill_user_data_phone()
+        Units(self.driver).fill_user_data_second_part_new()
 
     def block_RFID_cards(self):
         i = 0
@@ -105,10 +118,6 @@ class Base(LoginPage):
             time.sleep(1)
             i += 1
         Buildings(self.driver).pin_code_is_mandatory()
-
-    def change_doorbell_name(self, browser):
-        self.enter_the_doorbell()
-        Buildings(self.driver, "My Doorbell Name").input_doorbell_name(browser)
 
     def change_unit_info(self):
         Units(self.driver).settings()
@@ -231,24 +240,26 @@ class Base(LoginPage):
             return True
 
     def check_volume(self):
+        time.sleep(1)
         move = ActionChains(self.driver)
-        thumb = Buildings(self.driver).volume_thumb()
-        move.click_and_hold(thumb).move_by_offset(100, 0).release().perform()
-        move.click_and_hold(thumb).move_by_offset(10, 0).release().perform()
+        thumb1 = Buildings(self.driver).brightness_thumb()
+        move.click_and_hold(thumb1).move_by_offset(100, 0).release().perform()
+        time.sleep(1)
+        move.click_and_hold(thumb1).move_by_offset(-50, 0).release().perform()
+        move = ActionChains(self.driver)
+        thumb2 = Buildings(self.driver).volume_thumb()
+        move.click_and_hold(thumb2).move_by_offset(100, 0).release().perform()
+        time.sleep(1)
+        move.click_and_hold(thumb2).move_by_offset(-50, 0).release().perform()
+        time.sleep(1)
 
     def configure_ao(self):
-        i = 0
-        while i < 2:
-            Units(self.driver).never_allow()
-            time.sleep(1)
-            Units(self.driver).always_allow()
-            time.sleep(1)
-            Units(self.driver).schedule()
-            time.sleep(1)
-            i += 1
+        Units(self.driver).never_allow()
+        Units(self.driver).always_allow()
+        Units(self.driver).schedule()
 
     def delete_card(self):
-        Logout(self.driver, self.param[2]).delete()
+        Logout(self.driver, self.param[0]).delete()
         Logout(self.driver).remove_button().click()
         time.sleep(1)
 
@@ -289,7 +300,6 @@ class Base(LoginPage):
             i = i + 1
 
     def edit_card(self):
-        self.add_card()
         Logout(self.driver).edit()
         Logout(self.driver).edit_card_name()
 
@@ -334,7 +344,7 @@ class Base(LoginPage):
                 self.driver.refresh()
                 Buildings(self.driver).your_units_button()
                 Units(self.driver).settings()
-                Buildings(self.driver, UNIT).change_unit_name()
+                Buildings(self.driver, UID, UNIT).change_unit_information()
             else:
                 Base(self.driver, USERNAME_UM).link_unit()
                 self.driver.get(BASE_URL)
@@ -349,13 +359,13 @@ class Base(LoginPage):
         time.sleep(1)
         if "CardName" in self.driver.page_source:
             self.__wait.until(ec.visibility_of_element_located(
-            (By.XPATH, "//div[contains(text(), 'CardName')]")))
+                (By.XPATH, "//div[contains(text(), 'CardName')]")))
             locator = "//div[@class='profile-cards-coll__rfid-name__text']/parent::div/following::i"
             element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
             if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
                 element.click()
                 time.sleep(1)
-            Base(self.driver, START_LOGOUT_MENU[0], ACCESS_CARDS, "CardName").delete_card()
+            Base(self.driver, "CardName").delete_card()
         # Check and delete SIMPLE USER access card
         Buildings(self.driver).your_buildings_button()
         Base(self.driver).enter_the_unit()
@@ -363,7 +373,7 @@ class Base(LoginPage):
         Buildings(self.driver).access_cards()
         time.sleep(1)
         if "CardName" in self.driver.page_source:
-            Base(self.driver, START_LOGOUT_MENU[0], ACCESS_CARDS, "CardName").delete_card()
+            Base(self.driver,  "CardName").delete_card()
 
     def forbid_unit_image(self):
         self.enter_the_doorbell()
@@ -484,6 +494,22 @@ class Base(LoginPage):
         self.enter_the_doorbell()
         Buildings(self.driver).remove_buttons_from_doorbell()
 
+    def scrolling(self):  # scrolling building addresses
+        xpath_elements = self.param[0]
+        status = self.param[1]
+        elements = self.__wait.until(ec.presence_of_all_elements_located((By.XPATH, xpath_elements)))
+        for i in range(len(elements)):
+            if i == 0:
+                xpath = xpath_elements
+            else:
+                xpath = f"{xpath_elements}[{i}]"
+            if i < len(elements):
+                xpath = self.__wait.until(ec.presence_of_element_located((By.XPATH, xpath)))
+                if i < 10 and status == 1:
+                    ActionChains(self.driver).move_to_element(xpath).perform()  # hovering
+                else:
+                    self.driver.execute_script("return arguments[0].scrollIntoView();", xpath)  # scrolling
+
     def select_popup_lang(self):
         LoginPage(self.driver).search_lang().click()
         hidden_menu = self.driver.find_element(By.XPATH, self.param[0])
@@ -521,34 +547,16 @@ class Base(LoginPage):
     def select_unit(self):
         self.driver.find_element(By.XPATH, f"//span[contains(text(), '{self.param}')]").click()
 
-    def scrolling(self):  # scrolling building addresses
-        xpath_elements = self.param[0]
-        elements = self.driver.find_elements(By.XPATH, xpath_elements)
-        for i in range(len(elements) + 1):
-            if i == 0:
-                xpath = xpath_elements
-            else:
-                xpath = f"{xpath_elements}[{i}]"
-            if i % 5 == 0 or i < len(elements):
-                xpath = self.__wait.until(ec.presence_of_element_located((By.XPATH, xpath)))
-                if i < 10:
-                    ActionChains(self.driver).move_to_element(xpath).perform()  # hovering
-                else:
-                    self.driver.execute_script("return arguments[0].scrollIntoView();", xpath)  # scrolling
-
     def sorting(self):  # hovering and sorting
         sort_list = []
         element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, self.param[1])))
-        time.sleep(0.5)
+        # time.sleep(0.5)
         element.click()
         time.sleep(1)
         sub_tag = self.param[2] + 1
         xpath_elements = self.param[0]
-        elements = self.driver.find_elements(By.XPATH, xpath_elements)
+        elements = self.__wait.until(ec.presence_of_all_elements_located((By.XPATH, xpath_elements)))
         for i in range(1, len(elements)):
-            # if i > 8:
-            #     break
-            # else:
             xpath = f"{xpath_elements}[{i}]"
             element = self.driver.find_element(By.XPATH, f"{xpath}/child::div/child::div[{sub_tag}]")
             self.driver.find_element(By.XPATH, xpath)

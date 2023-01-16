@@ -18,10 +18,10 @@ PIN_SAVE_BUTTON = "//button[@class='form-button-save']"
 
 
 class Logout:
-    def __init__(self, driver, *search_word):
+    def __init__(self, driver, *param):
         self.driver = driver
-        self.word = search_word
-        self.__wait = WebDriverWait(driver, 15, 0.5)
+        self.param = param
+        self.__wait = WebDriverWait(driver, 5, 0.2)
 
     def access_cards(self):
         locator = '//div[text()=" Access Cards "]'
@@ -33,17 +33,13 @@ class Logout:
         time.sleep(1)
         element.click()
 
-    def add_card(self):
+    def add_card_button(self):
         locator = "//button[text()=' Add card ']"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def add_pin_code(self):
         locator = "//button[text()=' Add or change card PIN code ']"
         return self.__wait.until(ec.presence_of_element_located((By.XPATH, locator))).click()
-
-    def add_card_button(self):
-        locator = "//button[text()=' Add card ']"
-        return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def add_units_button(self):
         locator = "//button[text()=' Add units ']"
@@ -63,14 +59,35 @@ class Logout:
         if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
             element.click()
 
+    def check_if_unit_manager_active(self):
+        locator = "//div[@class='form-checkbox__label']/child::i"
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        return element.is_enabled()
+
+    def check_if_doorbell_button_inactive(self):
+        locator = "//div[@class='form-checkbox']/following::i"
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
+            return True
+        else:
+            return False
+
+    def check_if_digital_key_inactive(self):
+        locator = "//app-form-checkbox/following::i[2]"
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
+        if element.value_of_css_property('color') == 'rgba(0, 0, 0, 0)':
+            return True
+        else:
+            return False
+
     def delete(self):
         self.__wait.until(ec.visibility_of_element_located(
-            (By.XPATH, f"//div[contains(text(), {self.word[0]})]")))
+            (By.XPATH, f"//div[contains(text(), {self.param[0]})]")))
         locator = "//div[@class='profile-cards-coll__rfid-name__text']/parent::div/following::div[15]"
         return self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def enter_pin_code(self):
-        pin_code = self.word
+        pin_code = self.param
         locator = "//input[@type='password']"
         self.driver.find_element(By.XPATH, locator).send_keys(pin_code)
         locator = "//button[text()=' Save ']"
@@ -92,7 +109,7 @@ class Logout:
         return self.__wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, locator))).click()
 
     def edit_personal_info(self):
-        firstname = self.word
+        firstname = self.param
         locator = "//span[text()='Edit Info']"
         self.__wait.until(ec.presence_of_element_located((By.XPATH, locator))).click()
         time.sleep(1)
@@ -111,17 +128,21 @@ class Logout:
         xpath = LOGOUT_MENU
         return self.__wait.until(ec.visibility_of_element_located((By.XPATH, xpath)))
 
-    def input_card_number(self):
+    def input_card_info(self):
+        card_number = self.param[1]
+        card_name = self.param[0]
         locator = '//input[@placeholder="Enter card number"]'
-        return self.__wait.until(ec.presence_of_element_located((By.XPATH, locator))).send_keys("86987707097")
-
-    def input_card_name(self):
+        element = self.__wait.until(ec.presence_of_element_located((By.XPATH, locator)))
+        element.send_keys(Keys.SHIFT + Keys.HOME + Keys.DELETE)
+        element.send_keys(card_number)
         locator = '//input[@placeholder="Enter card name"]'
-        input_field = self.__wait.until(ec.presence_of_element_located((By.XPATH, locator)))
-        input_field.send_keys("CardName")
+        element = self.__wait.until(ec.presence_of_element_located((By.XPATH, locator)))
+        element.send_keys(Keys.SHIFT + Keys.HOME + Keys.DELETE)
+        element.send_keys(card_name)
+
+    def save_button(self):
         locator = "button.form-button-save"
-        self.__wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, locator))).click()
-        time.sleep(1)
+        return self.__wait.until(ec.visibility_of_element_located((By.CSS_SELECTOR, locator)))
 
     def mark_digital_key(self):
         locator = "//app-form-checkbox/following::label[2]"
@@ -181,5 +202,3 @@ class Logout:
     def units_tag(self):
         locator = "//div[text()=' Units ']"
         return self.driver.find_element(By.XPATH, locator).click()
-
-

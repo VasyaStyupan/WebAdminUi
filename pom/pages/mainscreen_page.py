@@ -13,7 +13,7 @@ BUILDING_ADDRESS_TAG = "//span[text()=' Building address ']"
 class MainScreen:
     def __init__(self, driver, *search_word):
         self.driver = driver
-        self.__wait = WebDriverWait(driver, 15, 0.5)
+        self.__wait = WebDriverWait(driver, 10, 0.3)
         self.word = search_word
 
     def search_bar(self):
@@ -28,7 +28,8 @@ class MainScreen:
 
     def find_popup(self):
         xpath = LOGOUT_MENU
-        self.__wait.until(ec.element_to_be_clickable((By.XPATH, xpath))).click()
+        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, xpath)))
+        element.click()
         time.sleep(1)
 
     def press_sorting_button(self):
