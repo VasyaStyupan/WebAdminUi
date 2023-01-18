@@ -19,14 +19,10 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password, code).login_code()
     Buildings(setup).your_units_button()
     Base(setup).add_user_with_only_email()
-    try:
-        Units(setup).save_button()
-        status = True
-    except Exception:
-        status = False
+    status = Units(setup).save_button().is_enabled()
     time.sleep(1)
-    with allure.step("Step 1. Check adding user"):
-        assert status is False, "Error adding user with only email"
+    with allure.step("Step 1. Check if Save button is active"):
+        assert status is False, "Save button is active"
 
 
 

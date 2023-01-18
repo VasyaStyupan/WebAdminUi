@@ -16,14 +16,8 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base(setup).add_user_with_only_email()
+    status = Units(setup).save_button().is_enabled()
     time.sleep(1)
-    try:
-        Units(setup).save_button()
-        time.sleep(1)
-        with allure.step("Step 1. Check adding user"):
-            assert "JohnDoe@mail.com" not in setup.page_source, "User was created"
-    except Exception:
-        pass
-    # Base(setup).delete_user()
-
+    with allure.step("Step 1. Check if Save button is active"):
+        assert status is False, "Save button is active"
 

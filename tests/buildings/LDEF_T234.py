@@ -1,6 +1,6 @@
 import allure
 import pytest
-from pom.selenium_functions import Signin, Base
+from pom.selenium_functions import Signin, Base, Units
 from configuration import USERNAME_BA, PASSWORD_BA, CODE
 import time
 
@@ -64,6 +64,7 @@ def test_case3(setup, username, password, code):
     Signin(setup, username, password, code).login_code()
     Base(setup).enter_building_settings()
     Base(setup).check_add_role_unit_manager__function()
+    Units(setup).save_button().click()
     time.sleep(1)
     with allure.step("Step 1. Check if massage 'You don`t have admin permissions' is present"):
         assert "You don't have admin permissions" in setup.page_source, "'Error while adding unit manager role to " \
@@ -74,6 +75,7 @@ def test_case3(setup, username, password, code):
     Signin(setup, username, password, code).login_code()
     Base(setup).enter_building_settings()
     Base(setup).check_add_role_unit_manager__function()
-    time.sleep(3)
+    Units(setup).save_button().click()
+    time.sleep(4)
     Base(setup).logout()
     Base(setup).delete_user()

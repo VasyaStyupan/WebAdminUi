@@ -20,7 +20,7 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password, code).login_code()
     Buildings(setup).your_units_button()
     Base(setup).add_user()
-    Units(setup).save_button()
+    Units(setup).save_button().click()
     time.sleep(1)
     if "email must be unique" not in setup.page_source:
         with allure.step("Step 1. Check adding user"):

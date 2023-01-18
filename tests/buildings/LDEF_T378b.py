@@ -20,6 +20,7 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password, code).login_code()
     Buildings(setup).your_units_button()
     Base(setup).add_user()
+    Units(setup).save_button().click()
     Units(setup).make_unit_manager()
     time.sleep(1)
     if "email must be unique" not in setup.page_source:

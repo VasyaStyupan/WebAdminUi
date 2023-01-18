@@ -151,8 +151,8 @@ class Units:
 
     def save_button(self):
         locator = "//button[@class='add-user-save-btn']"
-        self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
-        time.sleep(1)
+        element = self.__wait.until(ec.presence_of_element_located((By.XPATH, locator)))
+        return element
 
     def save_image(self):
         locator = "//button[text()='Save']"
@@ -197,7 +197,7 @@ class Units:
         locator = "//input[@placeholder='Phone']"
         phone_field = self.driver.find_element(By.XPATH, locator)
         # phone_number = ''.join(random.sample(string.digits, 10))
-        phone_number = "0950345778"
+        phone_number = "0969086595"
         phone_field.send_keys(phone_number)
 
     def fill_user_data_phone_with_spaces(self):
@@ -227,10 +227,6 @@ class Units:
         locator = "//span[text()='English']"
         self.driver.find_element(By.XPATH, locator).click()
         time.sleep(1)
-        # locator = "//input[@placeholder='User name']"
-        # username_field = self.driver.find_element(By.XPATH, locator)
-        # username_field.send_keys(Keys.SHIFT + Keys.HOME + Keys.DELETE)
-        # username_field.send_keys("OliverSmith")
         locator = "//input[@placeholder='First name']"
         firstname_field = self.driver.find_element(By.XPATH, locator)
         firstname_field.send_keys("Oliver")

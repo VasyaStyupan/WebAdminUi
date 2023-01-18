@@ -105,7 +105,7 @@ class Buildings:
         input_floors.send_keys(Keys.SHIFT + Keys.HOME + Keys.DELETE)
         input_floors.send_keys(abbreviation)
         self.save_changes_button()
-        time.sleep(3)
+        time.sleep(4)
         self.close_button()
         self.units_tag()
 
@@ -182,6 +182,7 @@ class Buildings:
         locator = "//span[text()='Close']"
         element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator)))
         element.click()
+        time.sleep(1)
 
     def choose_day(self):
         locator = "//div[@class='calendar-day__time-range']/following::div[1]"

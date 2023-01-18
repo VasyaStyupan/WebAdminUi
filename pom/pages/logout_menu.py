@@ -142,7 +142,7 @@ class Logout:
 
     def save_button(self):
         locator = "button.form-button-save"
-        return self.__wait.until(ec.visibility_of_element_located((By.CSS_SELECTOR, locator)))
+        return self.__wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, locator)))
 
     def mark_digital_key(self):
         locator = "//app-form-checkbox/following::label[2]"

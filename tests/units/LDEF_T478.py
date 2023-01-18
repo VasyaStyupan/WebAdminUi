@@ -15,6 +15,7 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base(setup).add_user()
+    Units(setup).save_button().click()
     Units(setup).mark_doorbell_digital_keys()
     time.sleep(1)
     Base(setup).delete_user()

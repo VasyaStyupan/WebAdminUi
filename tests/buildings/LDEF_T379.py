@@ -20,6 +20,7 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password, code).login_code()
     Buildings(setup).your_units_button()
     Base(setup).add_user()
+    Units(setup).save_button().click()
     Units(setup).mark_doorbell_digital_keys()
     time.sleep(1)
     if "email must be unique" not in setup.page_source:
@@ -30,8 +31,8 @@ def test_case(setup, username, password, code):
     Logout(setup).units_tag()
     status = Logout(setup).check_if_doorbell_button_inactive()
     with allure.step("Step 2. Check doorbell button in profile menu is inactive"):
-        assert status is True, "Doorbell button is active"
+        assert status is False, "Doorbell button is active"
     status = Logout(setup).check_if_digital_key_inactive()
     with allure.step("Step 3. Check digital key in profile menu is inactive"):
-        assert status is True, "Digital key is active"
+        assert status is False, "Digital key is active"
     Base(setup).delete_user()

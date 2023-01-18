@@ -19,6 +19,7 @@ def test_case(setup, username, password, code):
     Base(setup, SIMPLE_USER).select_user()
     Logout(setup).units_tag()
     Logout(setup).mark_unit_manager()
+    time.sleep(3)
     Base(setup).logout()
     Signin(setup, SIMPLE_USER, SIMPLE_PASS).login_credentials()
     with allure.step("Step 1. Check if simple user can log in as unit manager"):
