@@ -2,7 +2,7 @@ import allure
 import pytest
 from pom.selenium_functions import Signin, Base
 from pom.selenium_functions import Units
-from configuration import USERNAME_BA, PASSWORD_BA, CODE
+from configuration import USERNAME_BA, PASSWORD_BA, CODE, UID
 import time
 
 
@@ -15,7 +15,7 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
-    Base(setup).enter_the_unit()
+    Base(setup, UID).enter_the_unit()
     Base(setup).add_user_without_phone()
     current_url = setup.current_url
     try:

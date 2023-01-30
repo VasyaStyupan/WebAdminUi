@@ -16,8 +16,10 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
-    Buildings(setup).your_units_button()
-    Logout(setup).access_tag()
+    Buildings(setup).your_units_button().click()
+    time.sleep(1)
+    Logout(setup).access_tag().click()
+    time.sleep(1)
     with allure.step("Step 1. Check presence of necessary tags"):
         assert "Users" and "Access" and "Doorbell" and "Settings" in setup.page_source, "Required tags are missing"
         assert "Door Name" in setup.page_source, "'Door Name' tag is missing"

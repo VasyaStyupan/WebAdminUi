@@ -18,17 +18,17 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
-    Buildings(setup).your_units_button()
+    Buildings(setup).your_units_button().click()
     Base(setup).add_user()
     Units(setup).save_button().click()
     time.sleep(1)
     if "email must be unique" not in setup.page_source:
         with allure.step("Step 1. Check adding user"):
             assert "JohnDoe" in setup.page_source, "Error adding user"
-    Buildings(setup).users_tag()
+    Buildings(setup).users_tag().click()
     Buildings(setup, 'JohnDoe@mail.com').select_user()
-    Logout(setup).units_tag()
-    Logout(setup).mark_unit_manager()
+    Logout(setup).units_tag().click()
+    Logout(setup).checkbox_unit_manager().click()
     Base(setup).delete_user()
     time.sleep(1)
 

@@ -16,5 +16,5 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password, code).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base(setup).set_schedule_and_day()
-    Buildings(setup).never_allow()
+    Buildings(setup).never_allow().click()
     time.sleep(1)

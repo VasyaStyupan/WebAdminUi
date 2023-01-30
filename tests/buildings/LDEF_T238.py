@@ -15,8 +15,11 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
-    Base(setup).remove_buttons()
-    Buildings(setup).remove_buttons_from_doorbell()
+    Base(setup).enter_the_doorbell()
+    time.sleep(1)
+    Buildings(setup).remove_buttons_from_doorbell().click()
+    time.sleep(1)
+    Buildings(setup).remove_buttons_from_doorbell().click()
     time.sleep(1)
 
 

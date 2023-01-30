@@ -1,7 +1,7 @@
 import allure
 import pytest
 from pom.selenium_functions import Signin, Base
-from configuration import USERNAME_BA, PASSWORD_BA, CODE, USERNAME_UM, PASSWORD_UM
+from configuration import USERNAME_BA, PASSWORD_BA, CODE, USERNAME_UM, PASSWORD_UM, UNIT
 import time
 
 
@@ -15,10 +15,12 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     doorbell = Base(setup).forbid_unit_image()
-    time.sleep(3)
+    time.sleep(2)  # logout delay
     Base(setup).logout()
     Signin(setup, USERNAME_UM, PASSWORD_UM).login_credentials()
     Signin(setup, USERNAME_UM, PASSWORD_UM, code).login_code()
+    Base(setup, UNIT).select_unit()
+    time.sleep(1)
     Base(setup, doorbell).enter_doorbell_um()
     time.sleep(1)
     with allure.step("Step 1. Check forbidding for unit manager to upload unit image"):

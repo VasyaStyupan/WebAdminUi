@@ -14,10 +14,11 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
-    Base(setup).change_unit_info()
-    Units(setup, 'Myunit').change_unit_name()
+    Base(setup, UNIT).select_unit()
+    Units(setup).settings().click()
+    Base(setup, 'Myunit').change_unit_name()
     time.sleep(1)
     with allure.step("Step 1. Check for change Unit name"):
         assert 'Myunit' in setup.page_source, "Name change error"
-    Units(setup, f'{UNIT}').change_unit_name()
+    Base(setup, f'{UNIT}').change_unit_name()
     time.sleep(1)

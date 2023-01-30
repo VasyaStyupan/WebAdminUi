@@ -17,9 +17,9 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password, code).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base(setup).set_schedule_and_day()
-    Buildings(setup).make_your_schedule()
-    Buildings(setup).set_up_custom_days()
-    Buildings(setup).choose_another_day()
+    Buildings(setup).make_your_schedule().click()
+    Buildings(setup).set_up_custom_days().click()
+    Buildings(setup).choose_another_day().click()
     with allure.step("Step 1. Check on the Unit level message 'Automatic opening is not allowed on this day.'"):
         assert "Automatic opening is not allowed on this day." in setup.page_source, "Error choosing 'Schedule' option"
 

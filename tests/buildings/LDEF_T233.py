@@ -16,14 +16,15 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
-    Buildings(setup).select_building()
+    Buildings(setup).select_building().click()
     for j in TAGS:
         tag = TAGS.index(j)
-        # time.sleep(1)
-        Buildings(setup, TAGS[tag]).select_tag()
+        element = Buildings(setup, TAGS[tag]).select_tag()
+        time.sleep(1)   # safari
+        element.click()
         for i in SUB_TAGS[tag]:
             index = SUB_TAGS[tag].index(i)
-            # time.sleep(0.5)
+            time.sleep(0.5)
             if SUB_TAGS[tag][index] != "" and SUB_TAGS[tag][index] != "//span[text()=' GID ']":
                 items_list = Base(setup, FIRST_LINE[tag], SUB_TAGS[tag][index], index).sorting()
                 with allure.step("Step 1. Check if reverse sort working"):

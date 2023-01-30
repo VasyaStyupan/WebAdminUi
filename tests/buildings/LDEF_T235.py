@@ -1,7 +1,6 @@
 import allure
 import pytest
 from pom.selenium_functions import Signin, Base
-from pom.pages.your_building import Buildings
 from configuration import USERNAME_BA, PASSWORD_BA, CODE
 import time
 
@@ -17,20 +16,20 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password, code).login_code()
     Base(setup).enter_building_settings()
     # Change floors number
-    floors_number = Buildings(setup, "5").change_list_of_floors_part1()
+    floors_number = Base(setup, "5").change_list_of_floors_part1()
     time.sleep(1)
     with allure.step("Step 1. Check if floors number is changed"):
-        assert 5 is floors_number, "Floors number is not changed"
+        assert floors_number == 5, "Floors number is not changed"
     # Change abbreviation
-    Buildings(setup, "changed").change_list_of_floors_part2()
+    Base(setup, "changed").change_list_of_floors_part2()
     time.sleep(1)
-    with allure.step("Step 2. Check if floors number is changed"):
+    with allure.step("Step 2. Check if abbreviation is changed"):
         assert "changed" in setup.page_source, "Abbreviation is not changed"
     # Restore list of floors
-    setup.refresh()
     Base(setup).enter_building_settings()
-    Buildings(setup, "3").change_list_of_floors_part1()
-    Buildings(setup, "abbreviation 1").change_list_of_floors_part2()
+    Base(setup, "3").change_list_of_floors_part1()
+    Base(setup, "abbreviation 1").change_list_of_floors_part2()
+
 
 
 

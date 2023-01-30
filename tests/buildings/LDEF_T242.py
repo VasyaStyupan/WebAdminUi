@@ -1,7 +1,7 @@
 import allure
 import pytest
 from pom.selenium_functions import Signin, Base, Units
-from configuration import USERNAME_BA, PASSWORD_BA, CODE, USERNAME_UM, PASSWORD_UM
+from configuration import USERNAME_BA, PASSWORD_BA, CODE, USERNAME_UM, PASSWORD_UM, UNIT
 import time
 
 
@@ -19,8 +19,11 @@ def test_case(setup, username, password, code):
     Base(setup).logout()
     Signin(setup, USERNAME_UM, PASSWORD_UM, code).login_credentials()
     Signin(setup, USERNAME_UM, PASSWORD_UM, code).login_code()
-    Units(setup).doorbell_tag()
-    Units(setup).doorbell_item()
+    Base(setup, UNIT).select_unit()
+    time.sleep(1)
+    Units(setup).doorbell_tag().click()
+    Units(setup).doorbell_item().click()
+    time.sleep(1)
     enabled = Units(setup).user_image_visible()
     with allure.step("Step 1. Check if user image is disabled"):
         assert enabled is False, "Error. User image is enabled"

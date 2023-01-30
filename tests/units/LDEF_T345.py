@@ -1,7 +1,7 @@
 import allure
 import pytest
-from pom.selenium_functions import Signin
-from configuration import USERNAME, PASSWORD, CODE
+from pom.selenium_functions import Signin, Base
+from configuration import USERNAME, PASSWORD, CODE, UNIT
 import time
 
 
@@ -14,6 +14,7 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
+    Base(setup, UNIT).select_unit()
     time.sleep(1)
     with allure.step("Step 1. Check presence of necessary users and tags"):
         assert username  in setup.page_source, "Required users  are missing"

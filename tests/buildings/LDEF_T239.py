@@ -16,12 +16,15 @@ def test_case(setup, username, password, code):
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     doorbell = Base(setup).enter_the_doorbell()
-    Buildings(setup).uncheck_show_user_image()
     time.sleep(1)
-    Buildings(setup, doorbell).enter_doorbell_unit_level()
+    Buildings(setup).uncheck_show_user_image().click()
+    time.sleep(1)
+    Base(setup, doorbell).enter_doorbell_unit_level()
     Is_disable = Base(setup).check_user_image_disabled()
-    Base(setup).checkbox_recovery()
     time.sleep(1)
     with allure.step("Step 1. Check changes doorbell while unchecked 'Show user image'"):
         assert Is_disable is True, "Error while unchecked 'Show user image'"
+    Base(setup).checkbox_recovery()
+
+
 

@@ -4,7 +4,7 @@ from pom.selenium_functions import Signin
 from pom.selenium_functions import Base
 from pom.pages.your_building import Buildings
 from pom.pages.your_units import Units
-from configuration import USERNAME_BA, PASSWORD_BA, CODE, USERNAME_UM
+from configuration import USERNAME_BA, PASSWORD_BA, CODE
 import time
 
 
@@ -17,7 +17,7 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
-    Buildings(setup).your_units_button()
+    Buildings(setup).your_units_button().click()
     Base(setup).add_user()
     Units(setup).save_button().click()
     time.sleep(1)

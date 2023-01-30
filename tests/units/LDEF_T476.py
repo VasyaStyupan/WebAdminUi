@@ -2,7 +2,7 @@ import allure
 import pytest
 from pom.selenium_functions import Signin
 from pom.selenium_functions import Units, Base
-from configuration import USERNAME_UM, PASSWORD_UM, CODE
+from configuration import USERNAME_UM, PASSWORD_UM, CODE, UNIT
 import time
 
 
@@ -15,6 +15,7 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
+    Base(setup, UNIT).select_unit()
     Base(setup).add_user_with_only_email()
     status = Units(setup).save_button().is_enabled()
     time.sleep(1)

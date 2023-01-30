@@ -17,7 +17,7 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
-    Buildings(setup).your_units_button()
+    Buildings(setup).your_units_button().click()
     Base(setup).add_user_with_only_email()
     status = Units(setup).save_button().is_enabled()
     time.sleep(1)

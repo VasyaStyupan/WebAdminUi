@@ -23,4 +23,4 @@ def test_case(setup, username, password, code):
         with allure.step("Step 1. Check notification while switching family mode"):
             assert "Doorbell was updated successfully!", "Missing notification"
         i += 1
-    Buildings(setup).checkbox_recovery_after_selection()
+    Base(setup).checkbox_recovery_after_selection()

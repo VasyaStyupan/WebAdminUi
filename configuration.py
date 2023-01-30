@@ -35,8 +35,8 @@ elif server == 2:
     USERNAME_UM = "manager@te.st"
     PASSWORD_UM = "Qwerty123"
     BUILDING = "Europaplein, 24"
-    UNIT = "Dontdeletethisunit"
-    UID = 'fortest'
+    UNIT = "unit 1"
+    UID = 'testunit'
     DOORBELL = "Vet Test Emak 1"
 else:
     BASE_URL = "https://stage-webadmin.defigoaccess.com"

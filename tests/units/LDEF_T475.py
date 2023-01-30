@@ -3,7 +3,7 @@ import pytest
 from pom.selenium_functions import Signin, Base
 from pom.selenium_functions import Units
 from pom.pages.your_building import Buildings
-from configuration import USERNAME_UM, PASSWORD_UM, CODE
+from configuration import USERNAME_UM, PASSWORD_UM, CODE, UNIT
 import time
 
 
@@ -16,6 +16,7 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
+    Base(setup, UNIT).select_unit()
     Base(setup).add_user()
     Units(setup).save_button().click()
     time.sleep(1)

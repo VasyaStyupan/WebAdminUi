@@ -16,20 +16,20 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
-    MainScreen(setup).find_popup()
+    Base(setup).find_popup().click()
     Base(setup, START_LOGOUT_MENU[1], ACCESS).logout_menu()
     time.sleep(1)
     with allure.step("Step 1. Check switch to English"):
         assert "Choose language" in setup.page_source, "Language selection error"
-    Logout(setup).switch_to_norwegian()
+    Logout(setup).switch_to_norwegian().click()
     time.sleep(1)
     with allure.step("Step 2. Check switch to Norwegian"):
         assert "Velg språk" in setup.page_source, "Language selection error"
-    Logout(setup).switch_to_swedish()
+    Logout(setup).switch_to_swedish().click()
     time.sleep(1)
     with allure.step("Step 2. Check switch to Svenska"):
         assert "Ändra språk" in setup.page_source, "Language selection error"
-    Logout(setup).switch_to_deutsch()
+    Logout(setup).switch_to_deutsch().click()
     time.sleep(1)
     with allure.step("Step 2. Check switch to Svenska"):
         assert "German" in setup.page_source, "Language selection error"

@@ -16,9 +16,9 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
-    MainScreen(setup).find_popup()
+    Base(setup).find_popup().click()
     Base(setup, START_LOGOUT_MENU[0], ACCESS).logout_menu()
-    Logout(setup).access_tag()
+    Logout(setup).access_tag().click()
     time.sleep(1)
     with allure.step("Step 1. Check presence of necessary tags"):
         assert "Personal info" and "Units" and "Access Cards" and "Reset Password" in setup.page_source, "Required tags  are missing"

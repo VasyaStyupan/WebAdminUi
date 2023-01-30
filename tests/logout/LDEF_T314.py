@@ -17,7 +17,7 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
-    MainScreen(setup).find_popup()
+    Base(setup).find_popup().click()
     Base(setup, START_LOGOUT_MENU[1], SWEDISH).switch_to_lang()
     time.sleep(1)
     with allure.step("Step 1. Check UX translation with Svenska loc"):

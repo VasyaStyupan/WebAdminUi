@@ -1,7 +1,6 @@
-import time
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from pom.pages.logout_menu import LOGOUT_MENU
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -26,25 +25,17 @@ class MainScreen:
         return self.__wait.until(ec.visibility_of_element_located((By.XPATH,
                                                                    "//div[@class='search-result-item']")))
 
-    def find_popup(self):
-        xpath = LOGOUT_MENU
-        element = self.__wait.until(ec.element_to_be_clickable((By.XPATH, xpath)))
-        element.click()
-        time.sleep(1)
-
     def press_sorting_button(self):
         locator = "//span[text()=' Building address ']"
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
 
     def map_plus(self):
         locator = ".icon-app-plus"
-        element = self.__wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, locator)))
-        time.sleep(1)
-        element.click()
+        return self.__wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, locator)))
 
     def map_minus(self):
         locator = ".icon-app-minus"
-        self.__wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, locator))).click()
+        return self.__wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, locator)))
 
     def check_load_main_page(self):
         locator = "//div[@class='user-info-dropdown-mobile-button']"

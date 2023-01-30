@@ -20,9 +20,10 @@ def test_case(setup, username, password, code):
     time.sleep(1)
     with allure.step("Step 1. Check if user is deleted from unit"):
         assert "Remove user" not in setup.page_source, "Error user deleting"
-    Base(setup, USERNAME_UM).link_unit()
+    Base(setup, USERNAME_BA).link_unit()
     setup.get(BASE_URL)
     Base(setup, START_LOGOUT_MENU[0], UNITS).profile_menu()
-    Logout(setup).mark_unit_manager()
-    Logout(setup).check_unit_manager_active()
+    Logout(setup).checkbox_unit_manager().click()
+    time.sleep(1)  # safari
+    Base(setup).check_unit_manager_active()
     time.sleep(1)

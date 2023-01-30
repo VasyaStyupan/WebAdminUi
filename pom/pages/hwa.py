@@ -19,7 +19,7 @@ class Hwa:
         self.__wait.until(ec.element_to_be_clickable((By.XPATH, locator))).click()
         locator = "//div[@class='ng-input']/following::input[11]"
         search = self.driver.find_element(By.XPATH, locator)
-        search.send_keys(USERNAME_BA)
+        search.send_keys(self.username)
         time.sleep(1)
         search.send_keys(Keys.RETURN)
         locator = "//button[text()=' Add ']"

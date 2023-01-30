@@ -1,7 +1,7 @@
 import allure
 import pytest
-from pom.selenium_functions import Signin, Base
-from configuration import USERNAME, PASSWORD, CODE
+from pom.selenium_functions import Signin, Units, Base
+from configuration import USERNAME, PASSWORD, CODE, UNIT
 import time
 
 
@@ -14,8 +14,9 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
+    Base(setup, UNIT).select_unit()
     time.sleep(1)
-    Base(setup).access_tab()
+    Units(setup).access_tag().click()
     time.sleep(1)
     with allure.step("Step 1. Check presence of necessary tags"):
         assert "Users" and "Access" and "Doorbell" and "Door Name" in setup.page_source, "Required tags are missing"

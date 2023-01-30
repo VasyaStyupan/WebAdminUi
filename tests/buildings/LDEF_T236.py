@@ -16,23 +16,23 @@ def test_case(setup, browser, username, password, code):
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
     Base(setup).enter_the_doorbell()
-    save = Buildings(setup, " ").input_doorbell_name()
+    Base(setup, "  ").input_doorbell_name()
     with allure.step("Step 1. Check input empty field"):
-        assert save is False, "Error while input empty field"
-    save = Buildings(setup, "My").input_doorbell_name()
+        assert "must NOT have fewer than 1 characters" in setup.page_source, "Error while input empty field"
+    save = Base(setup, "My").input_doorbell_name()
     with allure.step("Step 2. Check input empty field"):
         assert save is True, "Error while input name with 2 characters"
     doorbell_name = Buildings(setup, 50).generate_random_string()
-    save = Buildings(setup, doorbell_name).input_doorbell_name()
+    save = Base(setup, doorbell_name).input_doorbell_name()
     with allure.step("Step 3. Check field length 50 characters"):
         assert save is True, "Error while input name with 50 characters"
     doorbell_name = Buildings(setup, 51).generate_random_string()
-    Buildings(setup, doorbell_name).input_doorbell_name()
+    Base(setup, doorbell_name).input_doorbell_name()
     with allure.step("Step 4. Check field length 50 characters"):
         assert "must NOT have more than 50 characters" in setup.page_source, "Error while input name with 51 characters"
-    Buildings(setup, "My Doorbell Name").input_doorbell_name()
+    Base(setup, "My Doorbell Name").input_doorbell_name()
     time.sleep(1)
     with allure.step("Step 5. Check if doorbell name is changed"):
         assert "Change doorbell name" in setup.page_source, "Change Doorbell name error"
-    Buildings(setup, DOORBELL).input_doorbell_name()
+    Base(setup, DOORBELL).input_doorbell_name()
 

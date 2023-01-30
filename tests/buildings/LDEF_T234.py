@@ -1,7 +1,7 @@
 import allure
 import pytest
 from pom.selenium_functions import Signin, Base, Units
-from configuration import USERNAME_BA, PASSWORD_BA, CODE
+from configuration import USERNAME_BA, PASSWORD_BA, CODE, UNIT
 import time
 
 

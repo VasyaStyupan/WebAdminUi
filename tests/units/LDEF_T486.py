@@ -1,7 +1,7 @@
 import allure
 import pytest
 from pom.selenium_functions import Signin, Base
-from configuration import USERNAME, PASSWORD, CODE
+from configuration import USERNAME, PASSWORD, CODE, UNIT
 import time
 
 
@@ -14,6 +14,8 @@ def test_case(setup, username, password, code):
     """
     Signin(setup, username, password).login_credentials()
     Signin(setup, username, password, code).login_code()
+    Base(setup, UNIT).select_unit()
+    time.sleep(1)
     Base(setup).delete_image()
     time.sleep(2)
     image_present = Base(setup).is_image_present()
